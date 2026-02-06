@@ -1,0 +1,303 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #FAFBFC;
+  --foreground: #0F1724;
+  --card: #FFFFFF;
+  --card-foreground: #0F1724;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F1724;
+  --primary: #0052CC;
+  --primary-foreground: #FFFFFF;
+  --secondary: #22C55E;
+  --secondary-foreground: #FFFFFF;
+  --muted: #F3F4F6;
+  --muted-foreground: #6B7280;
+  --accent: #FFD700;
+  --accent-foreground: #0F1724;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: #E6E9EE;
+  --input: #F8FAFC;
+  --ring: rgba(0,82,204,0.12);
+  --chart-1: #0052CC;
+  --chart-2: #FFD700;
+  --chart-3: #22C55E;
+  --chart-4: #D1FAE5;
+  --chart-5: #FDE68A;
+  --radius: 0.75rem;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #0F1724;
+  --sidebar-primary: #0052CC;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #FFD700;
+  --sidebar-accent-foreground: #0F1724;
+  --sidebar-border: #E6E9EE;
+  --sidebar-ring: rgba(0,82,204,0.12);
+  --glow-primary: rgba(0,82,204,0.2);
+  --glow-accent: rgba(255,215,0,0.15);
+}
+
+.dark {
+  --background: oklch(0.11 0.015 50);
+  --foreground: oklch(0.95 0.008 85);
+  --card: oklch(0.14 0.012 50);
+  --card-foreground: oklch(0.95 0.008 85);
+  --popover: oklch(0.14 0.012 50);
+  --popover-foreground: oklch(0.95 0.008 85);
+  --primary: #0052CC;
+  --primary-foreground: #ffffff;
+  --secondary: #22C55E;
+  --secondary-foreground: #ffffff;
+  --muted: oklch(0.2 0.01 50);
+  --muted-foreground: oklch(0.6 0.015 70);
+  --accent: #FFD700;
+  --accent-foreground: #0F1724;
+  --destructive: #E75454;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255,255,255,0.06);
+  --input: rgba(255,255,255,0.06);
+  --ring: rgba(0,82,204,0.35);
+  --chart-1: #0052CC;
+  --chart-2: #FFD700;
+  --chart-3: #22C55E;
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.14 0.012 50);
+  --sidebar-foreground: oklch(0.95 0.008 85);
+  --sidebar-primary: #0052CC;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #FFD700;
+  --sidebar-accent-foreground: #0F1724;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: oklch(0.24 0.012 50);
+  --sidebar-ring: rgba(0,82,204,0.35);
+}
+
+@theme inline {
+  --font-sans: "DM Sans", "DM Sans Fallback";
+  --font-serif: "Fraunces", "Fraunces Fallback";
+  --font-mono: "Geist Mono", "Geist Mono Fallback";
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom utilities for unique UX effects */
+@layer utilities {
+  /* Noise texture overlay */
+  .grain {
+    position: relative;
+  }
+
+  .glow-hover::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(31,58,95,0.08), rgba(84,196,48,0.06));
+    opacity: 0;
+    z-index: -1;
+    filter: blur(18px) saturate(1.05);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .glow-hover:hover::after {
+    opacity: 1;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card-tilt {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  .card-tilt:hover {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-4px);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom animations */
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float-medium {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: float-medium 5s ease-in-out infinite;
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px var(--glow-primary);
+  }
+  50% {
+    box-shadow: 0 0 40px var(--glow-primary), 0 0 60px var(--glow-accent);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Stagger animation delays */
+.stagger-1 {
+  animation-delay: 50ms;
+}
+.stagger-2 {
+  animation-delay: 100ms;
+}
+.stagger-3 {
+  animation-delay: 150ms;
+}
+.stagger-4 {
+  animation-delay: 200ms;
+}
+.stagger-5 {
+  animation-delay: 250ms;
+}
+.stagger-6 {
+  animation-delay: 300ms;
+}
+
+/* Magnetic button hover effect */
+.magnetic-btn {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reveal animations */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-left {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes reveal-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-reveal-up {
+  animation: reveal-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-reveal-left {
+  animation: reveal-left 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-reveal-scale {
+  animation: reveal-scale 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Line drawing animation */
+@keyframes draw-line {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw {
+  stroke-dasharray: 1000;
+  animation: draw-line 2s ease-out forwards;
+}
