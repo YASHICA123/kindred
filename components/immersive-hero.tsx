@@ -242,16 +242,19 @@ export function ImmersiveHero() {
                 <div className="absolute inset-0 rounded-2xl ring-1 ring-white/20 group-hover:ring-white/40 transition-all duration-300" />
               </Link>
 
-              {/* Enhanced Secondary CTA */}
-              <button className="group relative inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl text-base font-semibold text-foreground/80 hover:text-foreground transition-all duration-300 hover:bg-white/40 backdrop-blur-sm border border-white/20 hover:border-white/40">
+              {/* Enhanced Secondary CTA - Smart Recommender */}
+              <Link
+                href="/smart-recommender"
+                className="group relative inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl text-base font-semibold text-foreground/80 hover:text-foreground transition-all duration-300 hover:bg-white/40 backdrop-blur-sm border border-white/20 hover:border-white/40"
+              >
                 <span className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/5 group-hover:bg-primary/10 transition-all duration-300 group-hover:scale-110">
-                  <Play className="h-4 w-4 ml-0.5 text-primary" />
+                  <span className="text-lg">✨</span>
                 </span>
                 <span className="relative">
-                  Watch how it works
+                  Take AI Quiz
                   <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
                 </span>
-              </button>
+              </Link>
             </div>
           </div>
 

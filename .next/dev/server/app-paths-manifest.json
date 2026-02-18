@@ -2,5 +2,7 @@
   "/_not-found/page": "app/_not-found/page.js",
   "/discover/page": "app/discover/page.js",
   "/free-counselling/page": "app/free-counselling/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/schools/[slug]/page": "app/schools/[slug]/page.js",
+  "/smart-recommender/page": "app/smart-recommender/page.js"
 }

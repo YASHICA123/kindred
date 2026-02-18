@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { DM_Sans, Fraunces } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { AuthProvider } from "@/components/providers/auth-provider"
+import { SavedSchoolsProvider } from "@/hooks/use-saved-schools"
 import "./globals.css"
 
 const _dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" })
@@ -23,8 +24,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="font-sans antialiased">
         <AuthProvider>
-          {children}
-          <Analytics />
+          <SavedSchoolsProvider>
+            {children}
+            <Analytics />
+          </SavedSchoolsProvider>
         </AuthProvider>
       </body>
     </html>

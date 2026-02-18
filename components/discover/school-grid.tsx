@@ -1,14 +1,16 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import Link from "next/link"
 import { fetchSchools } from "@/lib/strapi"
+import { SchoolCard } from "@/components/school-card"
+
+type SortOption = "rating" | "fees-low-to-high" | "fees-high-to-low" | "name-asc" | "newest"
 
 type Props = {
   filters?: Record<string, string[]>
+  sortBy?: SortOption
 }
-
-export function SchoolGrid({ filters }: Props) {
+export function SchoolGrid({ filters, sortBy = "rating" }: Props) {
   const [schools, setSchools] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -69,48 +71,59 @@ export function SchoolGrid({ filters }: Props) {
     return true
   }
 
+  const sortSchools = (schoolsToSort: any[]) => {
+    const sorted = [...schoolsToSort]
+    
+    switch (sortBy) {
+      case "rating":
+        return sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0))
+      case "fees-low-to-high": {
+        return sorted.sort((a, b) => {
+          const aFee = extractFeeNumber(a.feeRange)
+          const bFee = extractFeeNumber(b.feeRange)
+          return aFee - bFee
+        })
+      }
+      case "fees-high-to-low": {
+        return sorted.sort((a, b) => {
+          const aFee = extractFeeNumber(a.feeRange)
+          const bFee = extractFeeNumber(b.feeRange)
+          return bFee - aFee
+        })
+      }
+      case "name-asc":
+        return sorted.sort((a, b) => a.name.localeCompare(b.name))
+      case "newest":
+        return sorted.sort((a, b) => (b.id || 0) - (a.id || 0))
+      default:
+        return sorted
+    }
+  }
+
+  const extractFeeNumber = (feeRange: string): number => {
+    if (!feeRange) return 0
+    const match = feeRange.match(/\d+/)
+    return match ? parseInt(match[0], 10) : 0
+  }
+
   const visible = schools.filter(matchesFilters)
+  const sorted = sortSchools(visible)
 
   if (loading) return <div className="h-96 bg-secondary animate-pulse rounded-2xl" />
   if (!schools.length) return <p className="text-center py-20">No schools found</p>
 
   return (
     <div>
-      <div className="mb-4 text-sm text-muted-foreground">
-        <div>Active filters: {Object.keys(filters || {}).length ? JSON.stringify(filters) : "(none)"}</div>
-      </div>
       <p className="text-muted-foreground mb-6">
-        Showing <span className="font-medium text-foreground">{visible.length}</span> schools
+        Showing <span className="font-medium text-foreground">{sorted.length}</span> schools
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {visible.map((s) => (
-          <Link
-            key={s.id}
-            href={`/schools/${s.slug || s.id}`}
-            className="group block bg-card rounded-2xl overflow-hidden border hover:shadow-lg transition"
-          >
-            <div className="aspect-video overflow-hidden relative">
-              <img src={s.image} alt={s.name} className="w-full h-full object-cover group-hover:scale-105 transition" />
-            </div>
-
-            <div className="p-5">
-              <h3 className="text-lg font-medium">{s.name}</h3>
-
-              <p className="text-sm text-muted-foreground mt-1">
-                {s.location}, {s.city}
-              </p>
-
-              <p className="text-xs text-muted-foreground mt-2">curriculum: {JSON.stringify(s.curriculum)}</p>
-
-              <div className="flex justify-between mt-4 pt-4 border-t">
-                <span className="text-sm">{s.students}</span>
-                <span className="text-sm font-medium text-primary">{s.feeRange}/yr</span>
-              </div>
-            </div>
-          </Link>
+        {sorted.map((s) => (
+          <SchoolCard key={s.id} school={s} />
         ))}
       </div>
     </div>
   )
+}
 }

@@ -984,3 +984,507 @@ Import trace:
 [03:02:38.082] Server  LOG      ✓ Compiled in 261ms
 [03:04:17.470] Server  LOG      ✓ Compiled in 407ms
 [03:04:41.225] Server  LOG      ✓ Compiled in 1234ms
+[05:54:59.607] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[05:55:00.861] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[05:55:00.861] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[05:55:00.861] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771427116622} /_vercel/insights/view
+[05:55:09.945] Server  LOG      ○ Compiling /smart-recommender ...
+[05:55:11.662] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[05:55:11.663] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/smart-recommender color: rgb(120, 120, 120) color: inherit {"dp":"/smart-recommender","o":"http://localhost:3000/smart-recommender","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771427127489} /_vercel/insights/view
+[05:55:38.018] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[05:55:38.441] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[05:55:38.441] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[05:55:38.441] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/discover","route":"/discover"}
+[05:55:38.441] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/discover?style=cbse&budget=mid-range&state=karnataka&board=cbse color: rgb(120, 120, 120) color: inherit {"dp":"/discover","o":"http://localhost:3000/discover?style=cbse&budget=mid-range&state=karnataka&board=cbse","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771427154258} /_vercel/insights/view
+[05:55:39.435] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[05:58:00.649] Server  LOG      ✓ Compiled in 1522ms
+[05:58:00.905] Browser ERROR   ./components/smart-recommendation-quiz.tsx:373:1
+Parsing ecmascript source code failed
+  371 |     </div>
+  372 |   )
+> 373 | }
+      | ^
+  374 |
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+Import trace:
+  Server Component:
+    ./components/smart-recommendation-quiz.tsx
+    ./app/smart-recommender/page.tsx
+[05:58:37.724] Browser ERROR   ./components/smart-recommendation-quiz.tsx:382:1
+Parsing ecmascript source code failed
+  380 |     </div>
+  381 |   )
+> 382 | }
+      | ^
+  383 |
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+Import trace:
+  Server Component:
+    ./components/smart-recommendation-quiz.tsx
+    ./app/smart-recommender/page.tsx
+[05:59:01.060] Browser ERROR   ./components/smart-recommendation-quiz.tsx:385:1
+Parsing ecmascript source code failed
+  383 |     </div>
+  384 |   )
+> 385 | }
+      | ^
+  386 |
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+Import trace:
+  Server Component:
+    ./components/smart-recommendation-quiz.tsx
+    ./app/smart-recommender/page.tsx
+[06:02:13.909] Browser ERROR   ./components/smart-recommendation-quiz.tsx:385:4
+Parsing ecmascript source code failed
+  383 |       </div>
+  384 |     </div>
+> 385 |   )
+      |    ^
+  386 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/smart-recommendation-quiz.tsx
+    ./app/smart-recommender/page.tsx
+[06:04:15.187] Server  LOG      ✓ Compiled in 419ms
+[06:05:24.351] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[06:05:24.351] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771427739843} /_vercel/insights/view
+[06:05:28.053] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/smart-recommender color: rgb(120, 120, 120) color: inherit {"dp":"/smart-recommender","o":"http://localhost:3000/smart-recommender","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771427743883} /_vercel/insights/view
+[06:05:48.812] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:05:49.590] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[06:05:49.590] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:05:49.590] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/discover","route":"/discover"}
+[06:05:49.590] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/discover?style=montessori&budget=affordable&state=tamil-nadu&board=icse color: rgb(120, 120, 120) color: inherit {"dp":"/discover","o":"http://localhost:3000/discover?style=montessori&budget=affordable&state=tamil-nadu&board=icse","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771427765262} /_vercel/insights/view
+[06:05:49.976] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[06:08:08.061] Server  LOG      ✓ Compiled in 1248ms
+[06:09:20.022] Server  LOG      ✓ Compiled in 914ms
+[06:10:56.566] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[06:10:56.566] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771428072279} /_vercel/insights/view
+[06:11:05.489] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[06:11:05.489] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[06:11:05.489] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/discover?board=ib%20world color: rgb(120, 120, 120) color: inherit {"dp":"/discover","o":"http://localhost:3000/discover?board=ib%20world","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771428081151} /_vercel/insights/view
+[06:11:06.057] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[06:11:06.057] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[06:11:10.918] Server  LOG      ○ Compiling /schools/[slug] ...
+[06:11:17.892] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:18.032] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:18.097] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:18.127] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:18.346] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:18.351] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:18.353] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:11:18.376] Server  LOG     Available schools: [{...},{...},{...}]
+[06:11:18.382] Server  LOG     Found school: {}
+[06:11:18.414] Server  WARN     ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+[06:11:18.831] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:19.001] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:19.164] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:19.165] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:19.166] Server  LOG     Looking for school. Original slug: "st-johns-academy", Cleaned: "st-johns-academy"
+[06:11:19.172] Server  LOG     Available schools: [{...},{...},{...}]
+[06:11:19.173] Server  LOG     Found school: {}
+[06:11:19.270] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:19.325] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:19.387] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:19.388] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:19.388] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:11:19.389] Server  LOG     Available schools: [{...},{...},{...}]
+[06:11:19.389] Server  LOG     Found school: {}
+[06:11:19.448] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:19.448] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:19.449] Server  LOG     Looking for school. Original slug: "st-johns-academy", Cleaned: "st-johns-academy"
+[06:11:19.453] Server  LOG     Available schools: [{...},{...},{...}]
+[06:11:19.453] Server  LOG     Found school: {}
+[06:11:19.593] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:19.654] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:19.783] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:19.869] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:19.921] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:19.921] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:19.922] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:11:19.925] Server  LOG     Available schools: [{...},{...},{...}]
+[06:11:19.926] Server  LOG     Found school: {}
+[06:11:20.353] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:20.360] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:20.361] Server  LOG     Looking for school. Original slug: "st-johns-academy", Cleaned: "st-johns-academy"
+[06:11:20.366] Server  LOG     Available schools: [{...},{...},{...}]
+[06:11:20.367] Server  LOG     Found school: {}
+[06:11:21.649] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:22.999] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:23.597] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:24.284] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:24.776] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:24.787] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:24.788] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:11:24.796] Server  LOG     Available schools: [{...},{...},{...}]
+[06:11:24.805] Server  LOG     Found school: {}
+[06:11:25.108] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:25.110] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:25.114] Server  LOG     Looking for school. Original slug: "st-johns-academy", Cleaned: "st-johns-academy"
+[06:11:25.135] Server  LOG     Available schools: [{...},{...},{...}]
+[06:11:25.142] Server  LOG     Found school: {}
+[06:11:25.971] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:26.197] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:11:26.438] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:26.453] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:11:26.454] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:11:26.455] Server  LOG     Available schools: [{...},{...},{...}]
+[06:11:26.472] Server  LOG     Found school: {}
+[06:11:27.799] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/schools/heritage-school color: rgb(120, 120, 120) color: inherit {"dp":"/schools/[slug]","o":"http://localhost:3000/schools/heritage-school","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771428103596} /_vercel/insights/view
+[06:18:44.161] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.190] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.277] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.293] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.311] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.312] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.313] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:44.313] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:44.314] Server  LOG     Found school: {}
+[06:18:44.319] Server  WARN     ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+[06:18:44.362] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.363] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.363] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:44.364] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:44.364] Server  LOG     Found school: {}
+[06:18:44.444] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.463] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.482] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.483] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.483] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:44.484] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:44.485] Server  LOG     Found school: {}
+[06:18:44.552] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.568] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.579] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.580] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.580] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:44.580] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:44.581] Server  LOG     Found school: {}
+[06:18:44.655] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.669] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.691] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.691] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.692] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:44.692] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:44.693] Server  LOG     Found school: {}
+[06:18:44.784] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.805] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:44.824] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.825] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:44.826] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:44.826] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:44.826] Server  LOG     Found school: {}
+[06:18:45.094] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.108] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.120] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.120] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.120] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:45.121] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:45.121] Server  LOG     Found school: {}
+[06:18:45.206] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.221] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.245] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.245] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.245] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:45.245] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:45.246] Server  LOG     Found school: {}
+[06:18:45.315] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.337] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.355] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.356] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.357] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:45.358] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:45.358] Server  LOG     Found school: {}
+[06:18:45.430] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.444] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.455] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.456] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.456] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:45.456] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:45.457] Server  LOG     Found school: {}
+[06:18:45.531] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.547] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.559] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.559] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.560] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:45.560] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:45.560] Server  LOG     Found school: {}
+[06:18:45.632] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.644] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.655] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.655] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.655] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:45.655] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:45.656] Server  LOG     Found school: {}
+[06:18:45.723] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.739] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.750] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.751] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.751] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:45.751] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:45.751] Server  LOG     Found school: {}
+[06:18:45.838] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.853] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.874] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.875] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.876] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:45.877] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:45.878] Server  LOG     Found school: {}
+[06:18:45.941] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.953] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:45.972] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.972] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:45.972] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:45.972] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:45.973] Server  LOG     Found school: {}
+[06:18:46.039] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.050] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.062] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.063] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.063] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:46.063] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:46.063] Server  LOG     Found school: {}
+[06:18:46.121] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.132] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.144] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.144] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.145] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:46.145] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:46.145] Server  LOG     Found school: {}
+[06:18:46.223] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.238] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.260] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.260] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.261] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:46.261] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:46.261] Server  LOG     Found school: {}
+[06:18:46.363] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.377] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.389] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.390] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.390] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:46.390] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:46.390] Server  LOG     Found school: {}
+[06:18:46.456] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.467] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.478] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.478] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.478] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:46.479] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:46.479] Server  LOG     Found school: {}
+[06:18:46.534] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.548] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.566] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.566] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.566] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:46.567] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:46.567] Server  LOG     Found school: {}
+[06:18:46.619] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.632] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.643] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.644] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.644] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:46.644] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:46.644] Server  LOG     Found school: {}
+[06:18:46.717] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.730] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.742] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.743] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.743] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:46.743] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:46.743] Server  LOG     Found school: {}
+[06:18:46.802] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.814] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.834] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.834] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.835] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:46.835] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:46.835] Server  LOG     Found school: {}
+[06:18:46.885] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.897] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.909] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.910] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.910] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:46.910] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:46.910] Server  LOG     Found school: {}
+[06:18:46.961] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.974] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:46.987] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.987] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:46.988] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:46.988] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:46.988] Server  LOG     Found school: {}
+[06:18:47.052] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.064] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.080] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.080] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.081] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:47.081] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:47.081] Server  LOG     Found school: {}
+[06:18:47.188] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.201] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.216] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.216] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.216] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:47.217] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:47.219] Server  LOG     Found school: {}
+[06:18:47.323] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.333] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.346] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.346] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.346] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:47.347] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:47.347] Server  LOG     Found school: {}
+[06:18:47.395] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.406] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.422] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.423] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.423] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:47.423] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:47.423] Server  LOG     Found school: {}
+[06:18:47.488] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.497] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.508] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.508] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.509] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:47.509] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:47.509] Server  LOG     Found school: {}
+[06:18:47.566] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.577] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.593] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.593] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.593] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:47.594] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:47.594] Server  LOG     Found school: {}
+[06:18:47.645] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.657] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.668] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.668] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.668] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:47.669] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:47.669] Server  LOG     Found school: {}
+[06:18:47.722] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.734] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.747] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.747] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.748] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:47.748] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:47.748] Server  LOG     Found school: {}
+[06:18:47.803] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.813] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.833] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.833] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.834] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:47.834] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:47.834] Server  LOG     Found school: {}
+[06:18:47.888] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.899] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.914] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.914] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.914] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:47.915] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:47.915] Server  LOG     Found school: {}
+[06:18:47.960] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.972] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:47.983] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.983] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:47.983] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:47.984] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:47.984] Server  LOG     Found school: {}
+[06:18:48.045] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:48.057] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:48.074] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:48.074] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:48.075] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:48.075] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:48.075] Server  LOG     Found school: {}
+[06:18:48.141] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:48.157] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:48.177] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:48.177] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:48.177] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:48.178] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:48.178] Server  LOG     Found school: {}
+[06:18:48.234] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:48.244] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:48.256] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:48.256] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:48.256] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:48.256] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:48.256] Server  LOG     Found school: {}
+[06:18:48.311] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:48.321] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:48.343] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:48.343] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:48.344] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:48.345] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:48.345] Server  LOG     Found school: {}
+[06:18:48.422] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:48.432] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:18:48.447] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:48.447] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:18:48.448] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:18:48.448] Server  LOG     Available schools: [{...},{...},{...}]
+[06:18:48.448] Server  LOG     Found school: {}
+[06:19:15.943] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:16.006] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:16.291] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:16.293] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:16.294] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:19:16.297] Server  LOG     Available schools: [{...},{...},{...}]
+[06:19:16.298] Server  LOG     Found school: {}
+[06:19:16.308] Server  WARN     ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+[06:19:17.110] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:17.227] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:18.893] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:18.894] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:18.895] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:19:18.896] Server  LOG     Available schools: [{...},{...},{...}]
+[06:19:18.897] Server  LOG     Found school: {}
+[06:19:20.006] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:20.050] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:20.201] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:20.239] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:20.277] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:20.277] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:20.278] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:19:20.279] Server  LOG     Available schools: [{...},{...},{...}]
+[06:19:20.280] Server  LOG     Found school: {}
+[06:19:20.633] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:20.634] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:20.636] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:19:20.638] Server  LOG     Available schools: [{...},{...},{...}]
+[06:19:20.639] Server  LOG     Found school: {}
+[06:19:21.935] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./components/providers/auth-provider.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[06:19:22.149] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:22.229] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:22.418] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:22.419] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:22.420] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:19:22.421] Server  LOG     Available schools: [{...},{...},{...}]
+[06:19:22.422] Server  LOG     Found school: {}
+[06:19:23.061] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:23.113] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:23.282] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:23.326] Server  LOG     Fetching schools from: "http://localhost:1337/api/schools?populate=image&publicationState=live,preview"
+[06:19:23.373] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:23.374] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:23.375] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:19:23.377] Server  LOG     Available schools: [{...},{...},{...}]
+[06:19:23.378] Server  LOG     Found school: {}
+[06:19:23.464] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:23.465] Server  ERROR   Strapi Error (403): "{\"data\":null,\"error\":{\"status\":403,\"name\":\"ForbiddenError\",\"message\":\"Forbidden\",\"details\":{}}}"
+[06:19:23.466] Server  LOG     Looking for school. Original slug: "heritage-school", Cleaned: "heritage-school"
+[06:19:23.467] Server  LOG     Available schools: [{...},{...},{...}]
+[06:19:23.468] Server  LOG     Found school: {}
+[06:20:08.015] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:22:44.256] Server  LOG      ✓ Compiled in 650ms
+[06:22:50.362] Server  LOG      ✓ Compiled in 1397ms

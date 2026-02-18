@@ -5,7 +5,7 @@
   "static/chunks/node_modules_tailwind-merge_dist_bundle-mjs_mjs_56b6fd65._.js",
   "static/chunks/node_modules_@firebase_auth_dist_esm_41d6d1e7._.js",
   "static/chunks/node_modules_@firebase_firestore_dist_5fba790c._.js",
-  "static/chunks/node_modules_c4e6c2da._.js"
+  "static/chunks/node_modules_3eec3c88._.js"
 ],
     source: "dynamic"
 });

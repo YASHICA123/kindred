@@ -4,11 +4,15 @@ import React, { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { DiscoverFilters, filterCategories } from "@/components/discover/discover-filters"
 import { SchoolGrid } from "@/components/discover/school-grid"
+import { SortOptions } from "@/components/discover/sort-options"
+
+type SortOption = "rating" | "fees-low-to-high" | "fees-high-to-low" | "name-asc" | "newest"
 
 export default function DiscoverClient() {
   const searchParams = useSearchParams()
 
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({})
+  const [sortBy, setSortBy] = useState<SortOption>("rating")
   const [cityOptions, setCityOptions] = useState<string[] | undefined>(undefined)
   const [stateOptions, setStateOptions] = useState<string[] | undefined>(undefined)
 
@@ -136,7 +140,13 @@ export default function DiscoverClient() {
       </aside>
 
       <div className="flex-1">
-        <SchoolGrid filters={filters} />
+        <div className="mb-6 flex justify-between items-center flex-wrap gap-4">
+          <p className="text-muted-foreground">
+            Showing schools
+          </p>
+          <SortOptions onSortChange={setSortBy} currentSort={sortBy} />
+        </div>
+        <SchoolGrid filters={filters} sortBy={sortBy} />
       </div>
     </div>
   )

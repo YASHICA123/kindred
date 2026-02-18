@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Loader2, LogOut, School, Calendar, Heart, Sparkles } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { SavedSchoolsList } from "@/components/profile/saved-schools-list"
 
 interface UserData {
   name: string
@@ -195,6 +196,21 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick Actions */}
+        {/* Saved Schools Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Heart className="h-5 w-5 text-red-500" />
+              Saved Schools
+            </CardTitle>
+            <CardDescription>Schools you've saved for later review</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SavedSchoolsList />
+          </CardContent>
+        </Card>
+
+        {/* Quick Actions Card */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
