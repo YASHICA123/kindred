@@ -1,0 +1,986 @@
+[00:00:02.296] Server  LOG      ✓ Ready in 1610ms
+[00:00:10.080] Server  LOG      ○ Compiling / ...
+[00:00:31.196] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:32.200] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:32.200] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:00:32.200] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771405848021} /_vercel/insights/view
+[00:00:41.218] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:00:41.218] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[00:00:41.218] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[00:00:41.218] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/discover color: rgb(120, 120, 120) color: inherit {"dp":"/discover","o":"http://localhost:3000/discover","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771405856888} /_vercel/insights/view
+[00:00:43.434] Browser ERROR   Error fetching from Strapi: {}
+[00:00:43.434] Browser ERROR   Error fetching from Strapi: {}
+[00:30:32.512] Server  LOG      ✓ Compiled in 223ms
+[00:30:57.396] Server  LOG      ✓ Compiled in 198ms
+[00:31:01.895] Server  LOG      ✓ Compiled in 185ms
+[00:31:11.144] Server  LOG      ✓ Compiled in 153ms
+[00:31:20.757] Server  LOG      ✓ Compiled in 141ms
+[00:31:29.977] Server  LOG      ✓ Compiled in 105ms
+[00:31:46.910] Server  LOG      ✓ Compiled in 137ms
+[00:31:50.539] Server  LOG      ✓ Compiled in 121ms
+[00:32:17.910] Server  LOG      ✓ Compiled in 217ms
+[00:32:36.068] Server  LOG      ✓ Compiled in 278ms
+[00:32:57.291] Server  LOG      ✓ Compiled in 224ms
+[00:33:12.878] Server  LOG      ✓ Compiled in 219ms
+[00:33:27.388] Server  LOG      ✓ Compiled in 195ms
+[00:33:45.999] Server  LOG      ✓ Compiled in 259ms
+[00:34:09.281] Server  LOG      ✓ Compiled in 227ms
+[00:34:19.239] Server  LOG      ✓ Compiled in 134ms
+[00:34:39.774] Server  LOG      ✓ Compiled in 114ms
+[00:35:06.111] Browser ERROR   ./components/immersive-hero.tsx:197:1
+Parsing ecmascript source code failed
+  195 |     </section>
+  196 |   )
+> 197 | }
+      | ^
+  198 |
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[00:35:11.257] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771407926917} /_vercel/insights/view
+[00:35:15.079] Server  LOG      ✓ Compiled in 1521ms
+[00:35:22.476] Server  LOG      ✓ Compiled in 1191ms
+[00:35:58.101] Server  LOG      ✓ Compiled in 262ms
+[00:36:17.684] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[00:36:17.684] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[00:36:17.684] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/discover color: rgb(120, 120, 120) color: inherit {"dp":"/discover","o":"http://localhost:3000/discover","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771407992116} /_vercel/insights/view
+[00:36:17.684] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[00:36:17.684] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[00:36:26.918] Server  LOG      ✓ Compiled in 670ms
+[00:37:17.538] Server  LOG      ✓ Compiled in 414ms
+[00:38:28.498] Server  LOG      ✓ Compiled in 245ms
+[00:40:32.928] Server  LOG      ✓ Compiled in 130ms
+[00:42:58.460] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771408393292} /_vercel/insights/view
+[01:28:42.954] Server  LOG      ✓ Compiled in 361ms
+[01:29:00.950] Server  LOG      ✓ Compiled in 396ms
+[01:29:30.556] Server  LOG      ✓ Compiled in 228ms
+[01:29:37.026] Server  LOG      ✓ Compiled in 711ms
+[01:29:40.833] Server  LOG      ✓ Compiled in 492ms
+[01:29:52.191] Server  LOG      ✓ Compiled in 681ms
+[01:32:37.161] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:32:37.982] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:32:37.982] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[01:32:37.982] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771411373811} /_vercel/insights/view
+[01:35:35.704] Server  LOG      ✓ Compiled in 329ms
+[01:35:36.692] Browser ERROR   ./components/immersive-hero.tsx:199:15
+Parsing ecmascript source code failed
+  197 |         </div>
+  198 |       </div>
+> 199 |     </section>
+      |               ^
+> 200 |     </>
+      | ^^^^^
+  201 |   )
+  202 | }
+  203 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:35:49.814] Server  LOG      ✓ Compiled in 311ms
+[01:35:50.680] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:36:03.680] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:36:15.932] Server  LOG      ✓ Compiled in 236ms
+[01:36:16.685] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:36:28.127] Server  LOG      ✓ Compiled in 218ms
+[01:36:28.691] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:36:34.389] Server  LOG      ✓ Compiled in 132ms
+[01:36:34.688] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:36:41.222] Server  LOG      ✓ Compiled in 106ms
+[01:36:41.689] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:36:45.847] Server  LOG      ✓ Compiled in 230ms
+[01:36:46.678] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:37:01.993] Server  LOG      ✓ Compiled in 195ms
+[01:37:02.690] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:37:16.995] Server  LOG      ✓ Compiled in 113ms
+[01:37:17.692] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:37:37.256] Server  LOG      ✓ Compiled in 126ms
+[01:37:37.693] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:37:42.958] Server  LOG      ✓ Compiled in 124ms
+[01:37:43.687] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:37:46.887] Server  LOG      ✓ Compiled in 114ms
+[01:37:47.693] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:37:51.025] Server  LOG      ✓ Compiled in 130ms
+[01:37:51.691] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:37:55.357] Server  LOG      ✓ Compiled in 114ms
+[01:37:59.970] Server  LOG      ✓ Compiled in 169ms
+[01:40:21.940] Server  LOG      ✓ Compiled in 178ms
+[01:43:00.879] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:43:00.879] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:43:00.879] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:43:00.879] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:43:00.879] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:43:00.879] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:43:21.197] Server  ERROR    ⨯ ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+
+
+[01:43:21.319] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:43:24.202] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:43:24.217] Server  LOG      ○ Compiling /_error ...
+[01:43:25.285] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:43:28.915] Browser ERROR   uncaughtError: Error: ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+
+
+[01:43:29.032] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:43:29.335] Browser ERROR   ./components/immersive-hero.tsx:202:15
+Parsing ecmascript source code failed
+  200 |         </div>
+  201 |       </div>
+> 202 |     </section>
+      |               ^
+> 203 |     </>
+      | ^^^^^
+  204 |   )
+  205 | }
+  206 |
+
+Expected '</', got 'jsx text (
+    )'
+
+Import trace:
+  Server Component:
+    ./components/immersive-hero.tsx
+    ./app/page.tsx
+[01:44:01.811] Server  LOG      ✓ Compiled in 122ms
+[01:44:02.950] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:44:03.664] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:44:03.664] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[01:44:03.665] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771412059491} /_vercel/insights/view
+[01:44:13.559] Server  LOG      ✓ Compiled in 919ms
+[01:44:21.711] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:44:22.671] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[01:44:22.671] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:44:22.671] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/discover","route":"/discover"}
+[01:44:22.671] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/discover color: rgb(120, 120, 120) color: inherit {"dp":"/discover","o":"http://localhost:3000/discover","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771412077915} /_vercel/insights/view
+[01:44:24.276] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[01:44:25.056] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:44:25.056] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771412080726} /_vercel/insights/view
+[01:44:31.120] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:44:31.591] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[01:44:31.591] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:44:31.591] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/discover","route":"/discover"}
+[01:44:31.591] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/discover color: rgb(120, 120, 120) color: inherit {"dp":"/discover","o":"http://localhost:3000/discover","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771412087199} /_vercel/insights/view
+[01:44:31.591] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[01:44:39.245] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:44:39.703] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:44:39.703] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[01:44:39.703] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771412095533} /_vercel/insights/view
+[01:44:53.742] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:44:53.742] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[01:44:53.742] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[01:44:53.742] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/discover color: rgb(120, 120, 120) color: inherit {"dp":"/discover","o":"http://localhost:3000/discover","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771412109390} /_vercel/insights/view
+[01:44:54.061] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[01:44:54.061] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[01:50:19.987] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771412435546} /_vercel/insights/view
+[01:57:38.524] Server  LOG      ✓ Compiled in 3.7s
+[01:57:46.414] Server  LOG      ○ Compiling /free-counselling ...
+[01:57:51.399] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/free-counselling color: rgb(120, 120, 120) color: inherit {"dp":"/free-counselling","o":"http://localhost:3000/free-counselling","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771412887212} /_vercel/insights/view
+[01:58:37.375] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771412932913} /_vercel/insights/view
+[01:59:36.225] Server  LOG      ✓ Compiled in 2.1s
+[01:59:36.458] Browser ERROR   uncaughtError: ReferenceError: ArrowRight is not defined
+[01:59:41.631] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[01:59:41.657] Server  LOG      ✓ Compiled in 953ms
+[01:59:45.796] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771412997734} /_vercel/insights/view
+[01:59:46.747] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:59:47.600] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:59:47.600] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[01:59:47.600] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771413003431} /_vercel/insights/view
+[02:00:29.847] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:00:30.311] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[02:00:30.312] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:00:30.312] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/discover","route":"/discover"}
+[02:00:30.312] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/discover color: rgb(120, 120, 120) color: inherit {"dp":"/discover","o":"http://localhost:3000/discover","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771413046014} /_vercel/insights/view
+[02:00:30.780] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[02:00:33.694] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:00:34.196] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:00:34.196] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:00:34.196] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771413050016} /_vercel/insights/view
+[02:00:58.658] Server  LOG      ✓ Compiled in 2s
+[02:01:31.775] Server  LOG      ✓ Compiled in 2.6s
+[02:02:16.901] Server  LOG      ✓ Compiled in 1924ms
+[02:02:17.015] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:03:03.684] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:03:06.685] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:04:03.130] Server  ERROR    ⨯ ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+
+
+[02:04:03.388] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:04:03.388] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:04:04.219] Browser ERROR   uncaughtError: Error: ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+
+
+[02:04:04.613] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:04:04.613] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:04:10.686] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:04:11.683] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:04:43.687] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:04:45.686] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:05:26.687] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:05:28.704] Browser ERROR   ./components/featured-schools.tsx:165:4
+Parsing ecmascript source code failed
+  163 |       </div>
+  164 |     </section>
+> 165 |   )
+      |    ^
+  166 |
+
+Expected '}', got '<eof>'
+
+Import trace:
+  Server Component:
+    ./components/featured-schools.tsx
+    ./app/page.tsx
+[02:05:57.270] Server  LOG      ✓ Compiled in 1762ms
+[02:06:13.371] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:06:19.683] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:06:19.683] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:06:19.683] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771413394685} /_vercel/insights/view
+[02:12:12.480] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:12:13.450] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:12:13.450] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:12:13.450] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771413749280} /_vercel/insights/view
+[02:13:01.378] Server  LOG      ✓ Compiled in 220ms
+[02:13:09.546] Server  LOG      ✓ Compiled in 207ms
+[02:13:30.882] Server  LOG      ✓ Compiled in 1889ms
+[02:15:11.493] Server  LOG      ✓ Compiled in 1295ms
+[02:15:37.194] Server  LOG      ✓ Compiled in 166ms
+[02:16:15.713] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:16:16.577] Browser LOG     Fetching schools from: http://localhost:1337/api/schools?populate=image&publicationState=live,preview
+[02:16:16.578] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:16:16.578] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/discover","route":"/discover"}
+[02:16:16.578] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/discover?city=Jaipur&class=9-10&board=IGCSE&fees=1000000%2B color: rgb(120, 120, 120) color: inherit {"dp":"/discover","o":"http://localhost:3000/discover?city=Jaipur&class=9-10&board=IGCSE&fees=1000000%2B","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771413992097} /_vercel/insights/view
+[02:16:17.177] Browser ERROR   Strapi Error (403): {"data":null,"error":{"status":403,"name":"ForbiddenError","message":"Forbidden","details":{}}}
+[02:16:26.196] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:16:27.055] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:16:27.055] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:16:27.055] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771414002879} /_vercel/insights/view
+[02:18:19.144] Server  LOG      ✓ Compiled in 1762ms
+[02:18:57.879] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:18:58.469] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:18:58.469] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:18:58.469] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771414154294} /_vercel/insights/view
+[02:20:12.566] Server  LOG      ✓ Compiled in 1593ms
+[02:20:24.003] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:20:24.879] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:20:24.879] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:20:24.879] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771414240515} /_vercel/insights/view
+[02:20:38.229] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:20:38.997] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:20:38.997] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:20:38.997] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771414254818} /_vercel/insights/view
+[02:22:28.484] Server  LOG      ✓ Compiled in 444ms
+[02:23:36.126] Server  LOG      ✓ Compiled in 1310ms
+[02:24:49.996] Server  LOG      ✓ Compiled in 685ms
+[02:26:51.088] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:26:52.237] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:26:52.237] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:26:52.237] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771414628018} /_vercel/insights/view
+[02:27:36.186] Server  LOG      ✓ Compiled in 499ms
+[02:27:57.556] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:27:58.045] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:27:58.045] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:27:58.045] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771414693857} /_vercel/insights/view
+[02:29:49.904] Server  ERROR   C:\Users\yashi\Downloads\kindred-1\.next\dev\server\chunks\ssr\[root-of-the-server]__cedcd5b5._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[02:29:49.909] Server  ERROR    ⨯ ReferenceError: DiscoveryPills is not defined
+[02:29:49.916] Server  LOG      ✓ Compiled in 256ms
+[02:29:50.691] Browser ERROR   uncaughtError: ReferenceError: DiscoveryPills is not defined
+[02:29:54.149] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:29:55.731] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:29:55.731] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:29:55.731] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771414811462} /_vercel/insights/view
+[02:30:51.653] Server  ERROR   C:\Users\yashi\Downloads\kindred-1\.next\dev\server\chunks\ssr\[root-of-the-server]__ff07c7bc._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[02:30:51.653] Server  ERROR    ⨯ ReferenceError: StoriesSection is not defined
+[02:30:52.693] Browser ERROR   uncaughtError: ReferenceError: StoriesSection is not defined
+[02:30:56.934] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:30:58.699] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:30:58.699] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:30:58.699] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771414873905} /_vercel/insights/view
+[02:32:36.699] Server  LOG      ✓ Compiled in 287ms
+[02:32:44.499] Server  LOG      ✓ Compiled in 470ms
+[02:32:55.165] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:32:55.530] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:32:55.530] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:32:55.530] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771414991322} /_vercel/insights/view
+[02:33:53.872] Server  LOG      ✓ Compiled in 815ms
+[02:34:05.366] Server  LOG      ✓ Compiled in 398ms
+[02:34:16.438] Server  LOG      ✓ Compiled in 328ms
+[02:34:25.002] Server  LOG      ✓ Compiled in 540ms
+[02:34:40.122] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:34:40.519] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:34:40.519] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:34:40.519] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771415096339} /_vercel/insights/view
+[02:35:43.201] Server  LOG      ✓ Compiled in 820ms
+[02:36:02.264] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:36:02.586] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:36:02.586] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:36:02.586] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771415178414} /_vercel/insights/view
+[02:36:55.828] Server  LOG      ✓ Compiled in 677ms
+[02:40:02.768] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:40:03.105] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:40:03.105] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:40:03.105] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771415418922} /_vercel/insights/view
+[02:40:57.020] Server  LOG      ✓ Compiled in 1038ms
+[02:40:57.740] Server  ERROR   C:\Users\yashi\Downloads\kindred-1\.next\dev\server\chunks\ssr\[root-of-the-server]__8c790e00._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[02:40:57.748] Server  ERROR    ⨯ ReferenceError: TestimonialsSection is not defined
+[02:40:58.686] Browser ERROR   uncaughtError: ReferenceError: TestimonialsSection is not defined
+[02:41:01.068] Server  LOG      ✓ Compiled in 636ms
+[02:41:10.068] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:41:16.684] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:41:16.684] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:41:16.684] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771415491914} /_vercel/insights/view
+[02:52:46.184] Server  LOG      ✓ Compiled in 959ms
+[02:52:51.913] Server  LOG      ✓ Compiled in 352ms
+[02:53:06.316] Server  LOG      ✓ Compiled in 881ms
+[02:53:30.863] Server  LOG      ✓ Compiled in 639ms
+[02:54:04.326] Server  LOG      ✓ Compiled in 2.3s
+[02:55:57.792] Server  LOG      ✓ Compiled in 125ms
+[02:56:53.047] Server  LOG      ✓ Compiled in 473ms
+[02:57:31.862] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:57:32.490] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:57:32.491] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[02:57:32.491] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1771416468321} /_vercel/insights/view
+[02:59:32.021] Server  LOG      ✓ Compiled in 111ms
+[03:01:27.069] Server  LOG      ✓ Compiled in 684ms
+[03:02:38.082] Server  LOG      ✓ Compiled in 261ms
+[03:04:17.470] Server  LOG      ✓ Compiled in 407ms
+[03:04:41.225] Server  LOG      ✓ Compiled in 1234ms

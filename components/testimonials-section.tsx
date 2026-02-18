@@ -45,7 +45,7 @@ export function TestimonialsSection() {
   }
 
   return (
-    <section className="py-20 lg:py-32 bg-primary/5">
+    <section className="py-16 lg:py-24 bg-white border-b border-border/20">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           {/* Left side - heading */}

@@ -13,7 +13,7 @@ type Props = {
 
 export const filterCategories = [
   {
-    name: "Curriculum",
+    name: "Board",
     options: ["CBSE", "ICSE", "IB", "Cambridge", "State Board", "Montessori"],
   },
   {
@@ -26,7 +26,11 @@ export const filterCategories = [
   },
   {
     name: "Facilities",
-    options: ["Sports Complex", "Swimming Pool", "Science Labs", "Library", "Arts Studio", "Music Room"],
+    options: ["Sports Complex", "Swimming Pool", "Science Labs", "Library", "Arts Studio", "Music Room", "Counselling Cell"],
+  },
+  {
+    name: "Distance",
+    options: ["Within 1 km", "1-3 km", "3-5 km", "5-10 km", "10+ km"],
   },
   {
     name: "State",
@@ -43,7 +47,7 @@ export const filterCategories = [
 ]
 
 export function DiscoverFilters({ selectedFilters, onToggle, onClear, cityOptions, stateOptions }: Props) {
-  const [expandedCategories, setExpandedCategories] = useState<string[]>(["Curriculum", "Grade Level"])
+  const [expandedCategories, setExpandedCategories] = useState<string[]>(["Board", "Grade Level", "Fee Range", "City"])
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [cityQuery, setCityQuery] = useState("")
   const [stateQuery, setStateQuery] = useState("")

@@ -6,21 +6,25 @@ import { Instagram, Linkedin, Twitter, Sparkles, ArrowUpRight } from "lucide-rea
 const footerLinks = {
   discover: [
     { name: "All Schools", href: "/discover" },
-    { name: "By City", href: "/discover?view=cities" },
+    { name: "By City", href: "/cities" },
     { name: "By Philosophy", href: "/discover?view=curriculum" },
     { name: "Compare Schools", href: "/compare" },
   ],
   resources: [
     { name: "Parent Guides", href: "#guides" },
-    { name: "Admission Help", href: "#admission" },
-    { name: "School Visits", href: "#visits" },
+    { name: "Admission Help", href: "/journey" },
+    { name: "Free Counselling", href: "/free-counselling" },
     { name: "FAQs", href: "#faqs" },
   ],
   company: [
-    { name: "About Us", href: "#about" },
-    { name: "Partner with Us", href: "#partner" },
-    { name: "Careers", href: "#careers" },
-    { name: "Contact", href: "#contact" },
+    { name: "About Us", href: "/about" },
+    { name: "Partner with Us", href: "/partner" },
+    { name: "Careers", href: "/careers" },
+    { name: "Contact", href: "/contact" },
+  ],
+  legal: [
+    { name: "Privacy Policy", href: "/privacy" },
+    { name: "Terms & Conditions", href: "/terms" },
   ],
 }
 
@@ -88,7 +92,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 link-underline"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
                   >
                     {link.name}
                   </Link>
@@ -104,7 +108,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 link-underline"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
                   >
                     {link.name}
                   </Link>
@@ -120,7 +124,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 link-underline"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
                   >
                     {link.name}
                   </Link>
@@ -132,12 +136,12 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-border/30 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <p className="text-xs text-muted-foreground">2026 Kindred. All rights reserved.</p>
+          <p className="text-xs text-muted-foreground">© 2026 Kindred. All rights reserved.</p>
           <div className="flex items-center gap-6 text-xs text-muted-foreground">
-            <Link href="#privacy" className="hover:text-foreground transition-colors link-underline">
+            <Link href="/privacy" className="hover:text-foreground transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#terms" className="hover:text-foreground transition-colors link-underline">
+            <Link href="/terms" className="hover:text-foreground transition-colors">
               Terms of Service
             </Link>
           </div>

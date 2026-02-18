@@ -69,7 +69,7 @@ export function StoriesSection() {
   const prevStory = () => changeStory((activeIndex - 1 + stories.length) % stories.length)
 
   return (
-    <section id="stories" ref={sectionRef} className="py-16 lg:py-20 relative overflow-hidden bg-gradient-to-b from-transparent via-secondary/3 to-transparent">
+    <section id="stories" ref={sectionRef} className="py-16 lg:py-24 relative overflow-hidden bg-white border-b border-border/20">
       {/* Background glow */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-secondary/8 blur-3xl pointer-events-none" />
 

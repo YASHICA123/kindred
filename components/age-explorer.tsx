@@ -35,7 +35,7 @@ export function AgeExplorer() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-16 lg:py-20 bg-gradient-to-br from-primary/8 via-transparent to-accent/5 relative overflow-hidden">
+    <section ref={sectionRef} className="py-16 lg:py-24 bg-gradient-to-b from-secondary/5 to-white border-b border-border/20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className={`text-left mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>

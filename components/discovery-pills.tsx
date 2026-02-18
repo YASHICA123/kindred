@@ -66,9 +66,9 @@ export function DiscoveryPills() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-16 lg:py-20 relative overflow-hidden bg-gradient-to-b from-transparent via-primary/3 to-transparent">
+    <section ref={sectionRef} className="py-16 lg:py-20 bg-white relative overflow-hidden border-b border-border/20">
       {/* Background decoration */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/8 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
         {/* Section header */}

@@ -62,7 +62,7 @@ export function TrustSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-20 lg:py-32 bg-white">
+    <section ref={sectionRef} className="py-16 lg:py-24 bg-gradient-to-b from-white to-secondary/5 border-b border-border/20">
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center mb-16">

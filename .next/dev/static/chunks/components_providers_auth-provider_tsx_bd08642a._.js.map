@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/yashi/Downloads/kindred-1/components/providers/auth-provider.tsx"],"sourcesContent":["\"use client\"\r\n\r\nimport type { ReactNode } from \"react\"\r\n\r\nexport function AuthProvider({ children }: { children: ReactNode }) {\r\n  return <>{children}</>\r\n}\r\n"],"names":[],"mappings":";;;;;AAAA;;AAIO,SAAS,aAAa,EAAE,QAAQ,EAA2B;IAChE,qBAAO;kBAAG;;AACZ;KAFgB"}}]
+}

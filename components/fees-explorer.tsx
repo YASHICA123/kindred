@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, IndianRupee } from "lucide-react"
 
 const feeRanges = [
-  { name: "Budget Friendly", range: "₹1-3 Lakhs/year", schools: 680, color: "from-green-400 to-emerald-500", icon: "💚" },
-  { name: "Affordable", range: "₹3-6 Lakhs/year", schools: 1420, color: "from-blue-400 to-sky-500", icon: "💙" },
-  { name: "Mid-Range", range: "₹6-12 Lakhs/year", schools: 2150, color: "from-purple-400 to-violet-500", icon: "💜" },
-  { name: "Premium", range: "₹12-20 Lakhs/year", schools: 980, color: "from-amber-400 to-yellow-500", icon: "💛" },
-  { name: "Luxury", range: "₹20+ Lakhs/year", schools: 520, color: "from-rose-400 to-pink-500", icon: "🌹" },
+  { name: "Budget Friendly", range: "₹1-3 Lakhs/year", schools: 680, color: "from-green-400 to-emerald-500" },
+  { name: "Affordable", range: "₹3-6 Lakhs/year", schools: 1420, color: "from-blue-400 to-sky-500" },
+  { name: "Mid-Range", range: "₹6-12 Lakhs/year", schools: 2150, color: "from-purple-400 to-violet-500" },
+  { name: "Premium", range: "₹12-20 Lakhs/year", schools: 980, color: "from-amber-400 to-yellow-500" },
+  { name: "Luxury", range: "₹20+ Lakhs/year", schools: 520, color: "from-rose-400 to-pink-500" },
 ]
 
 export function FeesExplorer() {
@@ -35,7 +35,7 @@ export function FeesExplorer() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-16 lg:py-20 bg-gradient-to-br from-accent/8 via-transparent to-secondary/5 relative overflow-hidden">
+    <section ref={sectionRef} className="py-16 lg:py-24 bg-white border-b border-border/20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className={`text-left mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
@@ -76,7 +76,9 @@ export function FeesExplorer() {
               
               {/* Content */}
               <div className="relative z-10">
-                <div className="text-3xl mb-4">{fee.icon}</div>
+                <div className="mb-4">
+                  <IndianRupee className="h-8 w-8 text-primary" />
+                </div>
                 <h3 className="font-serif text-xl lg:text-2xl text-foreground mb-1">{fee.name}</h3>
                 <p className="text-sm text-muted-foreground mb-4">{fee.range}</p>
                 <div className="flex items-end justify-between">

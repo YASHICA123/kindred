@@ -6,23 +6,16 @@ import { ArrowRight, BookOpen, MessageCircle, Users } from "lucide-react"
 
 const guidanceOptions = [
   {
-    icon: MessageCircle,
-    title: "Counselor Connect",
-    description: "Speak with our education counselors who understand each school's unique culture.",
-    cta: "Book a session",
-    href: "/counselor-connect",
-  },
-  {
     icon: BookOpen,
     title: "School Readiness Guide",
-    description: "Comprehensive resources to help you understand different curricula and philosophies.",
+    description: "Comprehensive resources to help you understand different curricula and philosophies. Learn about admission processes, fee structures, and what to expect.",
     cta: "Explore guides",
     href: "#guides",
   },
   {
     icon: Users,
     title: "Parent Community",
-    description: "Connect with other parents and get honest insights from families who've been through the process.",
+    description: "Connect with other parents and get honest insights from families who've been through the process. Share experiences and learn from others.",
     cta: "Join community",
     href: "#community",
   },
@@ -51,7 +44,7 @@ export function GuidanceSection() {
   }, [])
 
   return (
-    <section id="guidance" ref={sectionRef} className="py-16 lg:py-20 bg-gradient-to-r from-secondary/10 via-primary/5 to-accent/10">
+    <section id="guidance" ref={sectionRef} className="py-16 lg:py-24 bg-white border-t border-border/20">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div
           className={`text-center mb-14 transition-all duration-700 ${
@@ -66,7 +59,7 @@ export function GuidanceSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-5 lg:gap-6">
+        <div className="grid md:grid-cols-2 gap-5 lg:gap-6">
           {guidanceOptions.map((option, index) => (
             <div
               key={option.title}

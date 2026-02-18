@@ -1,13 +1,13 @@
 import { Header } from "@/components/header"
 import { ImmersiveHero } from "@/components/immersive-hero"
-import { DiscoveryPills } from "@/components/discovery-pills"
 import { FeaturedSchools } from "@/components/featured-schools"
 import { TrustSection } from "@/components/trust-section"
-import { TestimonialsSection } from "@/components/testimonials-section"
+import { BrandsExplorer } from "@/components/brands-explorer"
+import { StatesExplorer } from "@/components/states-explorer"
 import { CitiesExplorer } from "@/components/cities-explorer"
+import { CounsellorsSection } from "@/components/counsellors-section"
 import { AgeExplorer } from "@/components/age-explorer"
 import { FeesExplorer } from "@/components/fees-explorer"
-import { StoriesSection } from "@/components/stories-section"
 import { GuidanceSection } from "@/components/guidance-section"
 import { Footer } from "@/components/footer"
 
@@ -16,14 +16,14 @@ export default function HomePage() {
     <main className="min-h-screen overflow-hidden">
       <Header />
       <ImmersiveHero />
-      <DiscoveryPills />
+      <BrandsExplorer />
       <FeaturedSchools />
-      <TestimonialsSection />
       <TrustSection />
+      <StatesExplorer />
       <CitiesExplorer />
+      <CounsellorsSection />
       <AgeExplorer />
       <FeesExplorer />
-      <StoriesSection />
       <GuidanceSection />
       <Footer />
     </main>

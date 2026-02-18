@@ -83,14 +83,14 @@ export function SchoolGrid({ filters }: Props) {
         Showing <span className="font-medium text-foreground">{visible.length}</span> schools
       </p>
 
-      <div className="grid sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {visible.map((s) => (
           <Link
             key={s.id}
             href={`/schools/${s.slug || s.id}`}
             className="group block bg-card rounded-2xl overflow-hidden border hover:shadow-lg transition"
           >
-            <div className="aspect-[16/10] overflow-hidden relative">
+            <div className="aspect-video overflow-hidden relative">
               <img src={s.image} alt={s.name} className="w-full h-full object-cover group-hover:scale-105 transition" />
             </div>
 

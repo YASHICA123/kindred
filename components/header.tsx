@@ -16,11 +16,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { SmartSearchDialog } from "@/components/smart-search-dialog"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [authDialogOpen, setAuthDialogOpen] = useState(false)
+  const [searchDialogOpen, setSearchDialogOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [displayName, setDisplayName] = useState<string | null>(null)
   const [userEmail, setUserEmail] = useState<string | null>(null)
@@ -88,11 +90,11 @@ export function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-white border-b border-border/50 shadow-sm"
-            : "bg-transparent"
+            ? "bg-white/95 border-b border-border/30 shadow-sm backdrop-blur-xl"
+            : "bg-white/80 backdrop-blur-sm border-b border-border/10"
         }`}
       >
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20 lg:h-24">
             <Link href="/" className="flex items-center gap-2 group">
               <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-lg">
@@ -239,15 +241,26 @@ export function Header() {
                 </button>
               </div>
             ) : (
-              <button
-                onClick={() => {
-                  setAuthDialogOpen(true)
-                  setIsMenuOpen(false)
-                }}
-                className="mt-4 text-center py-4 bg-primary text-primary-foreground rounded-2xl text-base font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
-              >
-                Begin your journey
-              </button>
+              <div className="mt-4 space-y-2">
+                <button
+                  onClick={() => {
+                    setSearchDialogOpen(true)
+                    setIsMenuOpen(false)
+                  }}
+                  className="w-full text-center py-4 bg-secondary text-foreground rounded-2xl text-base font-medium transition-all duration-300 hover:shadow-lg"
+                >
+                  Search Schools
+                </button>
+                <button
+                  onClick={() => {
+                    setAuthDialogOpen(true)
+                    setIsMenuOpen(false)
+                  }}
+                  className="w-full text-center py-4 bg-primary text-primary-foreground rounded-2xl text-base font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
+                >
+                  Begin your journey
+                </button>
+              </div>
             )}
 
             
@@ -256,6 +269,7 @@ export function Header() {
       </header>
       
       <AuthDialog open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
+      <SmartSearchDialog open={searchDialogOpen} onOpenChange={setSearchDialogOpen} />
     </>
   )
 }

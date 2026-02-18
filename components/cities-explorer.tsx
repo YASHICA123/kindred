@@ -6,10 +6,10 @@ import { ArrowUpRight } from "lucide-react"
 
 const cities = [
   { name: "Mumbai", schools: 280, image: "/mumbai-cityscape-gateway-of-india-sunset.jpg" },
-  { name: "Delhi NCR", schools: 420, image: "/delhi-india-gate-monuments-urban-landscape.jpg" },
+  { name: "Jaipur", schools: 310, image: "/school-building-eco-friendly-green-architecture.jpg" },
   { name: "Bangalore", schools: 340, image: "/bangalore-garden-city-tech-park-green-trees.jpg" },
-  { name: "Hyderabad", schools: 190, image: "/hyderabad-charminar-historical-architecture-evenin.jpg" },
-  { name: "Chennai", schools: 210, image: "/chennai-marina-beach-temple-architecture.jpg" },
+  { name: "Pune", schools: 190, image: "/hyderabad-charminar-historical-architecture-evenin.jpg" },
+  { name: "Hyderabad", schools: 210, image: "/chennai-marina-beach-temple-architecture.jpg" },
 ]
 
 export function CitiesExplorer() {
@@ -35,17 +35,17 @@ export function CitiesExplorer() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-16 lg:py-20 bg-gradient-to-b from-secondary/8 via-transparent to-secondary/5 relative overflow-hidden">
+    <section ref={sectionRef} className="py-16 lg:py-24 bg-white border-b border-border/20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className={`text-left mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
            <div className="max-w-2xl">
             <span className="inline-flex items-center gap-2 text-sm font-medium text-primary tracking-wide mb-4">
               <span className="w-8 h-px bg-primary" />
-              Explore by Location
+              Explore by City
             </span>
             <h2 className="font-serif text-3xl lg:text-5xl leading-[1.1]">
-              Discover schools in top State
+              Discover schools in top Cities
               <span className="text-muted-foreground"> find their spark</span>
             </h2>
           </div>
