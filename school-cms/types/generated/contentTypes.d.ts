@@ -479,12 +479,18 @@ export interface ApiSchoolSchool extends Struct.CollectionTypeSchema {
   };
   attributes: {
     city: Schema.Attribute.String;
+    contact_email: Schema.Attribute.String;
+    contact_phone: Schema.Attribute.String;
+    contact_website: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     curriculum: Schema.Attribute.String;
+    description: Schema.Attribute.Text;
     established: Schema.Attribute.Integer;
+    facilities: Schema.Attribute.JSON;
     fee_range: Schema.Attribute.String;
+    highlights: Schema.Attribute.JSON;
     image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<

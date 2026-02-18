@@ -53,6 +53,24 @@
         "videos",
         "audios"
       ]
+    },
+    "highlights": {
+      "type": "json"
+    },
+    "facilities": {
+      "type": "json"
+    },
+    "contact_website": {
+      "type": "string"
+    },
+    "contact_phone": {
+      "type": "string"
+    },
+    "contact_email": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
     }
   }
 }
