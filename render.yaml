@@ -1,42 +1,13 @@
-services:
-  - type: web
-    name: school-cms
-    runtime: node
-    rootDir: school-cms
-    buildCommand: npm ci; npm run build
-    startCommand: npm run start
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: NODE_VERSION
-        value: 20
-      - key: HOST
-        value: 0.0.0.0
-      - key: PORT
-        value: 1337
-      - key: DATABASE_CLIENT
-        value: postgres
-      - key: DATABASE_URL
-        fromDatabase:
-          name: school-cms-db
-          property: connectionString
-      - key: DATABASE_SSL
-        value: true
-      - key: DATABASE_SSL_REJECT_UNAUTHORIZED
-        value: false
-      - key: APP_KEYS
-        generateValue: true
-      - key: API_TOKEN_SALT
-        generateValue: true
-      - key: ADMIN_JWT_SECRET
-        generateValue: true
-      - key: TRANSFER_TOKEN_SALT
-        generateValue: true
-      - key: ENCRYPTION_KEY
-        generateValue: true
+# This configuration is deprecated
+# The school-cms (Strapi) has been replaced with Supabase
+# The main Next.js app is now deployed on Vercel
 
-databases:
-  - name: school-cms-db
-    plan: free
-    databaseName: school_cms
-    user: school_cms
+# For Vercel deployment, see DEPLOYMENT_GUIDE.md
+# For old CMS reference (removed):
+# services:
+#   - type: web
+#     name: school-cms
+#     runtime: node
+#     rootDir: school-cms
+#     buildCommand: npm ci; npm run build
+#     startCommand: npm run start
