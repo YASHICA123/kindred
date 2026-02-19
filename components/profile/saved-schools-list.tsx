@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Heart, MapPin, Star, Loader2 } from "lucide-react"
+import { Heart, MapPin, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { useAuth } from "@/hooks/use-auth"

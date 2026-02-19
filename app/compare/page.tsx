@@ -152,7 +152,6 @@ export default function ComparePage() {
                       <span className="text-xs bg-secondary/50 px-2 py-1 rounded">
                         {school.curriculum || school.type}
                       </span>
-                      <span className="text-sm font-medium">⭐ {school.rating}</span>
                     </div>
                     <p className="text-xs text-muted-foreground font-medium">
                       {selectedSchools.length < 2 || isSelected(school.id)
@@ -228,14 +227,6 @@ export default function ComparePage() {
                     {selectedSchools.map((school) => (
                       <td key={school.id} className="p-4 font-semibold text-primary">
                         {school.fees}
-                      </td>
-                    ))}
-                  </tr>
-                  <tr className="border-b hover:bg-secondary/30">
-                    <td className="p-4 font-medium">Rating</td>
-                    {selectedSchools.map((school) => (
-                      <td key={school.id} className="p-4">
-                        <span className="text-lg">⭐ {school.rating}</span>
                       </td>
                     ))}
                   </tr>

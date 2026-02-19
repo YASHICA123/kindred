@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ArrowUpRight, Heart, MapPin, Star, Users } from "lucide-react"
+import { ArrowUpRight, Heart, MapPin, Users } from "lucide-react"
 import Link from "next/link"
 
 export function DiscoverySection() {
@@ -88,10 +88,6 @@ export function DiscoverySection() {
                     {schools[0].location}
                   </span>
                   <span className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-accent text-accent" />
-                    {schools[0].rating}
-                  </span>
-                  <span className="flex items-center gap-1">
                     <Users className="h-4 w-4" />
                     {schools[0].students}
                   </span>
@@ -135,10 +131,6 @@ export function DiscoverySection() {
                       </p>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
-                      <span className="flex items-center gap-1">
-                        <Star className="h-4 w-4 fill-accent text-accent" />
-                        {school.rating}
-                      </span>
                       <span className="text-muted-foreground">{school.students} students</span>
                     </div>
                   </div>

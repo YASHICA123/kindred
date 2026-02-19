@@ -1,6 +1,6 @@
 "use client"
 
-import { Heart, MapPin, Star } from "lucide-react"
+import { Heart, MapPin } from "lucide-react"
 import Link from "next/link"
 import { useSavedSchools } from "@/hooks/use-saved-schools"
 import { useAuth } from "@/hooks/use-auth"
@@ -22,10 +22,19 @@ interface SchoolCardProps {
 }
 
 export function SchoolCard({ school }: SchoolCardProps) {
-  const { isSaved, toggleSave } = useSavedSchools()
+  const { isSaved, toggleSavedSchools } = useSavedSchools()
   const { user } = useAuth()
   const [savingState, setSavingState] = useState(false)
+  const [imageError, setImageError] = useState(false)
   const saved = isSaved(school.id)
+
+  // Use cover_image if available, fallback to image
+  const imageUrl = school.image || ''
+
+  const handleImageError = () => {
+    console.error(`Image failed to load for ${school.name}:`, imageUrl)
+    setImageError(true)
+  }
 
   const handleSave = async (e: React.MouseEvent) => {
     e.preventDefault()
@@ -38,10 +47,10 @@ export function SchoolCard({ school }: SchoolCardProps) {
 
     setSavingState(true)
     try {
-      await toggleSave({
+      await toggleSavedSchools({
         schoolId: school.id,
         schoolName: school.name,
-        schoolImage: school.image,
+        schoolImage: imageUrl,
         schoolLocation: school.location,
         savedAt: new Date().toISOString(),
       })
@@ -58,11 +67,18 @@ export function SchoolCard({ school }: SchoolCardProps) {
       className="group block bg-card rounded-2xl overflow-hidden border hover:shadow-lg hover:border-primary/30 transition-all duration-300"
     >
       <div className="aspect-video overflow-hidden relative bg-secondary">
-        <img
-          src={school.image}
-          alt={school.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-        />
+        {!imageError && imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={school.name}
+            onError={handleImageError}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-200 to-gray-300 text-gray-400">
+            <span className="text-sm">No image available</span>
+          </div>
+        )}
 
         {/* Save Button */}
         <button
@@ -85,15 +101,6 @@ export function SchoolCard({ school }: SchoolCardProps) {
           <MapPin className="h-4 w-4" />
           <span>{school.location}</span>
         </div>
-
-        {school.rating && (
-          <div className="flex items-center gap-2 mt-2">
-            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-medium">
-              {school.rating} ({school.reviews || 0})
-            </span>
-          </div>
-        )}
 
         {school.feeRange && (
           <p className="text-sm font-medium text-primary mt-3">{school.feeRange}/year</p>

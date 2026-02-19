@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Star, MapPin, Users, Award, Heart, ArrowRight } from "lucide-react"
+import { MapPin, Users, Award, Heart, ArrowRight } from "lucide-react"
 
 export function CompareCards({ schools }: { schools?: any[] }) {
   const [favorited, setFavorited] = useState<number[]>([])
@@ -61,14 +61,7 @@ export function CompareCards({ schools }: { schools?: any[] }) {
               {/* Card content */}
               <div className="p-6">
                 {/* Key metrics */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="text-center p-3 bg-secondary/50 rounded-xl">
-                    <div className="flex items-center justify-center gap-1">
-                      <Star className="h-4 w-4 fill-accent text-accent" />
-                      <span className="font-semibold">{school.rating || "—"}</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">{school.reviews || 0} reviews</p>
-                  </div>
+                <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="text-center p-3 bg-secondary/50 rounded-xl">
                     <div className="flex items-center justify-center gap-1">
                       <Users className="h-4 w-4 text-primary" />

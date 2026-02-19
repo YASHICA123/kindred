@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Sparkles, MapPin, Users, Star, Heart, ArrowRight, RefreshCw, Calendar, DollarSign, Award } from "lucide-react"
+import { Sparkles, MapPin, Users, Heart, ArrowRight, RefreshCw, Calendar, DollarSign, Award } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -211,10 +211,6 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
                     <span className="flex items-center gap-1.5">
                       <Users className="w-4 h-4" />
                       {school.students} students
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Star className="w-4 h-4 text-primary fill-primary" />
-                      {school.rating} ({school.reviews} reviews)
                     </span>
                   </div>
 

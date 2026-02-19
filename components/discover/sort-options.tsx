@@ -4,7 +4,7 @@ import { useState } from "react"
 import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-type SortOption = "rating" | "fees-low-to-high" | "fees-high-to-low" | "name-asc" | "newest"
+type SortOption = "fees-low-to-high" | "fees-high-to-low" | "name-asc" | "newest"
 
 interface SortOptionsProps {
   onSortChange: (sort: SortOption) => void
@@ -12,7 +12,6 @@ interface SortOptionsProps {
 }
 
 const sortOptions = [
-  { value: "rating" as const, label: "Rating (High to Low)" },
   { value: "fees-low-to-high" as const, label: "Fees (Low to High)" },
   { value: "fees-high-to-low" as const, label: "Fees (High to Low)" },
   { value: "name-asc" as const, label: "School Name (A-Z)" },

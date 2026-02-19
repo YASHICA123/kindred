@@ -92,15 +92,6 @@ export function CompareDetails({ schools }: { schools?: any[] }) {
                 </div>
 
                 <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 p-4 items-center border-b border-border">
-                  <span className="text-sm text-muted-foreground">Rating</span>
-                  {(schools || []).map((s) => (
-                    <div key={s.id} className="flex justify-center">
-                      <CompareValue value={s.rating?.toString()} />
-                    </div>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 p-4 items-center border-b border-border">
                   <span className="text-sm text-muted-foreground">Reviews</span>
                   {(schools || []).map((s) => (
                     <div key={s.id} className="flex justify-center">

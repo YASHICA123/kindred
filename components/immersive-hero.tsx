@@ -242,6 +242,19 @@ export function ImmersiveHero() {
                 <div className="absolute inset-0 rounded-2xl ring-1 ring-white/20 group-hover:ring-white/40 transition-all duration-300" />
               </Link>
 
+              {/* Apply for Schools CTA */}
+              <Link
+                href="/common-application"
+                className="group relative inline-flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-accent to-accent/90 text-accent-foreground rounded-2xl text-base font-semibold overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-accent/40 hover:scale-[1.02] active:scale-95"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  Apply for Schools
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                <div className="absolute inset-0 rounded-2xl ring-1 ring-white/20 group-hover:ring-white/40 transition-all duration-300" />
+              </Link>
+
               {/* Enhanced Secondary CTA - Smart Recommender */}
               <Link
                 href="/smart-recommender"

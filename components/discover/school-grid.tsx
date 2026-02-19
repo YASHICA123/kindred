@@ -1,25 +1,34 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { fetchSchools } from "@/lib/strapi"
 import { SchoolCard } from "@/components/school-card"
 
-type SortOption = "rating" | "fees-low-to-high" | "fees-high-to-low" | "name-asc" | "newest"
+type SortOption = "fees-low-to-high" | "fees-high-to-low" | "name-asc" | "newest"
 
 type Props = {
   filters?: Record<string, string[]>
   sortBy?: SortOption
 }
-export function SchoolGrid({ filters, sortBy = "rating" }: Props) {
+export function SchoolGrid({ filters, sortBy = "newest" }: Props) {
   const [schools, setSchools] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let mounted = true
     setLoading(true)
-    fetchSchools()
+    
+    // Use the API endpoint instead of lib directly to ensure consistent field mapping
+    fetch('/api/top-schools')
+      .then(r => {
+        if (!r.ok) throw new Error('Failed to fetch schools')
+        return r.json()
+      })
       .then((data) => {
-        if (mounted) setSchools(data)
+        if (mounted) setSchools(data.data || [])
+      })
+      .catch((error) => {
+        console.error('Error fetching schools:', error)
+        if (mounted) setSchools([])
       })
       .finally(() => mounted && setLoading(false))
 
@@ -75,8 +84,6 @@ export function SchoolGrid({ filters, sortBy = "rating" }: Props) {
     const sorted = [...schoolsToSort]
     
     switch (sortBy) {
-      case "rating":
-        return sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0))
       case "fees-low-to-high": {
         return sorted.sort((a, b) => {
           const aFee = extractFeeNumber(a.feeRange)
@@ -125,5 +132,4 @@ export function SchoolGrid({ filters, sortBy = "rating" }: Props) {
       </div>
     </div>
   )
-}
 }

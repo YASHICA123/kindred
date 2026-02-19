@@ -6,13 +6,13 @@ import { DiscoverFilters, filterCategories } from "@/components/discover/discove
 import { SchoolGrid } from "@/components/discover/school-grid"
 import { SortOptions } from "@/components/discover/sort-options"
 
-type SortOption = "rating" | "fees-low-to-high" | "fees-high-to-low" | "name-asc" | "newest"
+type SortOption = "fees-low-to-high" | "fees-high-to-low" | "name-asc" | "newest"
 
 export default function DiscoverClient() {
   const searchParams = useSearchParams()
 
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({})
-  const [sortBy, setSortBy] = useState<SortOption>("rating")
+  const [sortBy, setSortBy] = useState<SortOption>("newest")
   const [cityOptions, setCityOptions] = useState<string[] | undefined>(undefined)
   const [stateOptions, setStateOptions] = useState<string[] | undefined>(undefined)
 

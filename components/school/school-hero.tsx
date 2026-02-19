@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Heart, Share2, MapPin, Star, ChevronLeft, ChevronRight, Calendar, Users } from "lucide-react"
+import { Heart, Share2, MapPin, ChevronLeft, ChevronRight, Calendar, Users } from "lucide-react"
 import Link from "next/link"
 
 const heroImages = [
@@ -109,10 +109,6 @@ export function SchoolHero() {
               <span className="flex items-center gap-2">
                 <MapPin className="h-5 w-5" />
                 Gurgaon, Haryana
-              </span>
-              <span className="flex items-center gap-2">
-                <Star className="h-5 w-5 fill-accent text-accent" />
-                4.9 (324 reviews)
               </span>
               <span className="flex items-center gap-2">
                 <Users className="h-5 w-5" />

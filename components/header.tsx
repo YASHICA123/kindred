@@ -4,7 +4,7 @@ import type React from "react"
 
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
-import { Menu, X, ChevronDown, LogOut, LayoutDashboard } from "lucide-react"
+import { Menu, X, ChevronDown, LogOut, Heart, Video } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { AuthDialog } from "@/components/auth-dialog"
 import { auth, db } from "@/lib/firebase"
@@ -141,10 +141,15 @@ export function Header() {
                       <div className="px-2 py-1.5 text-xs text-muted-foreground">
                         {userEmail}
                       </div>
+                      <DropdownMenuItem onClick={() => router.push("/counselor-connect")}
+                        className="cursor-pointer">
+                        <Video className="h-4 w-4" />
+                        See your sessions
+                      </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => router.push("/dashboard")}
                         className="cursor-pointer">
-                        <LayoutDashboard className="h-4 w-4" />
-                        Dashboard
+                        <Heart className="h-4 w-4" />
+                        Shortlisted schools
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         variant="destructive"
@@ -224,11 +229,20 @@ export function Header() {
                 <button
                   onClick={() => {
                     setIsMenuOpen(false)
+                    router.push("/counselor-connect")
+                  }}
+                  className="w-full text-center py-4 bg-primary text-primary-foreground rounded-2xl text-base font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
+                >
+                  See your sessions
+                </button>
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false)
                     router.push("/dashboard")
                   }}
                   className="w-full text-center py-4 bg-primary text-primary-foreground rounded-2xl text-base font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
                 >
-                  Dashboard
+                  Shortlisted schools
                 </button>
                 <button
                   onClick={async () => {
