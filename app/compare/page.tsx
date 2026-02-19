@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import { ArrowLeft, BookOpen, Search, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { fetchSchoolsFromStrapiOnly } from "@/lib/strapi"
+import { fetchSchools } from "@/lib/strapi"
 
 export default function ComparePage() {
   const [schools, setSchools] = useState<any[]>([])
@@ -18,7 +18,7 @@ export default function ComparePage() {
   useEffect(() => {
     async function loadSchools() {
       try {
-        const data = await fetchSchoolsFromStrapiOnly()
+        const data = await fetchSchools()
         setSchools(data)
         setFilteredSchools(data)
         if (data.length === 0) {
@@ -99,23 +99,22 @@ export default function ComparePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {loading ? (
               <div className="col-span-full text-center py-12">
-                <p className="text-muted-foreground">Loading schools from Strapi...</p>
+                <p className="text-muted-foreground">Loading schools...</p>
               </div>
             ) : error ? (
               <div className="col-span-full text-center py-12 bg-red-50/50 rounded-lg p-6">
                 <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Strapi Connection Error</h3>
+                <h3 className="text-lg font-semibold mb-2">Unable to Load Schools</h3>
                 <p className="text-muted-foreground mb-4">
-                  Unable to connect to Strapi. Please ensure the Strapi server is running on http://localhost:1337
+                  There was an error loading school data. Please check your database connection.
                 </p>
-                <div className="text-sm text-left bg-muted p-4 rounded font-mono">
-                  <p>To start Strapi:</p>
-                  <p>cd ../school-cms && npm run develop</p>
+                <div className="text-sm text-muted-foreground">
+                  <p>Ensure Supabase credentials are configured in environment variables.</p>
                 </div>
               </div>
             ) : filteredSchools.length === 0 ? (
               <div className="col-span-full text-center py-12">
-                <p className="text-muted-foreground">No schools found in Strapi. Try adjusting your search or add schools to your CMS.</p>
+                <p className="text-muted-foreground">No schools found matching your search.</p>
               </div>
             ) : (
               filteredSchools.map((school) => (
@@ -214,6 +213,7 @@ export default function ComparePage() {
                   </tr>
                   <tr className="border-b hover:bg-secondary/30">
                     <td className="Range || school.fee_range-4 font-medium">Curriculum</td>
+                    {selectedSchoolp-4 font-medium">Curriculum</td>
                     {selectedSchools.map((school) => (
                       <td key={school.id} className="p-4">
                         <span className="bg-secondary/50 px-2 py-1 rounded text-sm">
@@ -226,8 +226,7 @@ export default function ComparePage() {
                     <td className="p-4 font-medium">Annual Fees</td>
                     {selectedSchools.map((school) => (
                       <td key={school.id} className="p-4 font-semibold text-primary">
-                        {school.fees}
-                      </td>
+                        {school.feeRange || school.fee_range || "Contact school"
                     ))}
                   </tr>
                   <tr className="border-b hover:bg-secondary/30">
