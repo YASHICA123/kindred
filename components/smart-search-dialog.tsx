@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { saveEnquiry } from "@/lib/firebase-data"
+import { auth } from "@/lib/firebase"
 
 const indianCities = [
   "Delhi NCR", "Mumbai", "Bangalore", "Hyderabad", "Chennai",
@@ -59,34 +61,53 @@ export function SmartSearchDialog({ open = true, onOpenChange }: SmartSearchDial
   const handleEnquireSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    // Build search params
-    const params = new URLSearchParams()
-    if (selectedCity) params.append("city", selectedCity)
-    if (selectedClass) params.append("class", selectedClass)
-    if (selectedBoard) params.append("board", selectedBoard)
-    if (selectedFeeRange) params.append("fees", selectedFeeRange)
-    
-    // Store enquiry data in session/state
-    const enquiryData = {
-      parentName,
-      parentEmail,
-      parentPhone,
-      childName,
-      preferences: {
+    // Check if user is authenticated
+    if (!auth.currentUser) {
+      alert('Please sign in to submit an enquiry')
+      return
+    }
+
+    try {
+      // Build search params
+      const params = new URLSearchParams()
+      if (selectedCity) params.append("city", selectedCity)
+      if (selectedClass) params.append("class", selectedClass)
+      if (selectedBoard) params.append("board", selectedBoard)
+      if (selectedFeeRange) params.append("fees", selectedFeeRange)
+      
+      // Save enquiry to Firebase Firestore
+      await saveEnquiry({
         city: selectedCity,
         class: selectedClass,
         board: selectedBoard,
-        feeRange: selectedFeeRange
-      },
-      timestamp: new Date().toISOString()
+        feeRange: selectedFeeRange,
+        searchMode: 'smart-search',
+        timestamp: new Date().toISOString()
+      })
+      
+      // Also keep localStorage as fallback for immediate access
+      const enquiryData = {
+        parentName,
+        parentEmail,
+        parentPhone,
+        childName,
+        preferences: {
+          city: selectedCity,
+          class: selectedClass,
+          board: selectedBoard,
+          feeRange: selectedFeeRange
+        },
+        timestamp: new Date().toISOString()
+      }
+      localStorage.setItem('lastEnquiry', JSON.stringify(enquiryData))
+      
+      // Redirect to discover page
+      const queryString = params.toString()
+      window.location.href = `/discover?${queryString}&enquiry=true`
+    } catch (error) {
+      console.error('Error submitting enquiry:', error)
+      alert('Failed to submit enquiry. Please try again.')
     }
-    
-    // Save to localStorage for later use
-    localStorage.setItem('lastEnquiry', JSON.stringify(enquiryData))
-    
-    // Redirect to discover page
-    const queryString = params.toString()
-    window.location.href = `/discover?${queryString}&enquiry=true`
   }
 
   const handleReset = () => {

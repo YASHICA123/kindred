@@ -11,10 +11,14 @@ export async function fetchSchools() {
       .select('*')
       .order('ratings', { ascending: false })
 
-    if (error) throw error
+    if (error) {
+      console.error('Supabase error:', error.message || error)
+      throw error
+    }
     return data as School[]
   } catch (error) {
-    console.error('Error fetching schools:', error)
+    const errorMsg = error instanceof Error ? error.message : JSON.stringify(error)
+    console.error('Error fetching schools:', errorMsg)
     throw error
   }
 }

@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/use-auth'
+import { getSavedSchools, saveSchool, removeSavedSchool } from '@/lib/firebase-data'
 
 interface SavedSchool {
   schoolId: string | number
@@ -39,11 +40,27 @@ export function SavedSchoolsProvider({ children }: { children: React.ReactNode }
     
     try {
       setLoading(true)
-      const response = await fetch(`/api/user/saved-schools?userId=${user.uid}`)
-      const data = await response.json()
-      setSavedSchools(data.savedSchools || [])
+      // First try Firebase
+      const firebaseSavedSchools = await getSavedSchools()
+      const schoolsList = firebaseSavedSchools.map((school) => ({
+        schoolId: school.schoolId,
+        schoolName: school.schoolName,
+        schoolImage: school.schoolImage || '',
+        schoolLocation: school.schoolLocation || '',
+        savedAt: school.savedAt instanceof Object ? new Date(school.savedAt).toISOString() : school.savedAt,
+      }))
+      setSavedSchools(schoolsList)
     } catch (error) {
-      console.error('Error fetching saved schools:', error)
+      console.error('Error fetching saved schools from Firebase:', error)
+      
+      // Fallback to API
+      try {
+        const response = await fetch(`/api/user/saved-schools?userId=${user.uid}`)
+        const data = await response.json()
+        setSavedSchools(data.savedSchools || [])
+      } catch (apiError) {
+        console.error('Error fetching saved schools from API:', apiError)
+      }
     } finally {
       setLoading(false)
     }
@@ -60,24 +77,36 @@ export function SavedSchoolsProvider({ children }: { children: React.ReactNode }
       const isSavedNow = isSaved(school.schoolId)
 
       if (isSavedNow) {
-        // Remove from saved
+        // Remove from Firebase
+        await removeSavedSchool(school.schoolId.toString())
+        setSavedSchools((prev) => prev.filter((s) => s.schoolId !== school.schoolId))
+        
+        // Also call API for backup
         await fetch(`/api/user/saved-schools`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId: user.uid, schoolId: school.schoolId }),
-        })
-        setSavedSchools((prev) => prev.filter((s) => s.schoolId !== school.schoolId))
+        }).catch(err => console.warn('API deletion fallback failed:', err))
       } else {
-        // Add to saved
+        // Save to Firebase
+        await saveSchool({
+          schoolId: school.schoolId.toString(),
+          schoolName: school.schoolName,
+          schoolImage: school.schoolImage,
+          schoolLocation: school.schoolLocation,
+        })
+        setSavedSchools((prev) => [...prev, { ...school, savedAt: new Date().toISOString() }])
+        
+        // Also call API for backup
         await fetch(`/api/user/saved-schools`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${await user.getIdToken()}` },
           body: JSON.stringify({ userId: user.uid, ...school }),
-        })
-        setSavedSchools((prev) => [...prev, { ...school, savedAt: new Date().toISOString() }])
+        }).catch(err => console.warn('API save fallback failed:', err))
       }
     } catch (error) {
       console.error('Error toggling save:', error)
+      throw error
     }
   }
 

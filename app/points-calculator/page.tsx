@@ -1,11 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { BarChart3, ArrowRight, Plus, Minus } from "lucide-react"
+import { BarChart3, ArrowRight, Plus, Minus, Save, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { savePointsCalculation, getPointsCalculation } from "@/lib/firebase-data"
+import { auth } from "@/lib/firebase"
+import { onAuthStateChanged } from "firebase/auth"
 
 interface PointsCriteria {
   label: string
@@ -32,6 +35,33 @@ const defaultSchool: SchoolPoints = {
 
 export default function PointsCalculatorPage() {
   const [school, setSchool] = useState<SchoolPoints>(defaultSchool)
+  const [user, setUser] = useState<any>(null)
+  const [saveMessage, setSaveMessage] = useState("")
+  const [loading, setLoading] = useState(true)
+
+  // Load from Firestore on mount
+  useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser)
+
+      if (currentUser) {
+        try {
+          const saved = await getPointsCalculation()
+          if (saved) {
+            setSchool({
+              name: saved.schoolName,
+              criteria: saved.criteria,
+            })
+          }
+        } catch (error) {
+          console.error("Error loading points calculation:", error)
+        }
+      }
+      setLoading(false)
+    })
+
+    return () => unsubscribeAuth()
+  }, [])
 
   const totalPoints = school.criteria.reduce((sum, c) => sum + c.current, 0)
   const maxTotalPoints = school.criteria.reduce((sum, c) => sum + c.maxPoints, 0)
@@ -53,6 +83,31 @@ export default function PointsCalculatorPage() {
 
   const reset = () => {
     setSchool(defaultSchool)
+  }
+
+  const handleSave = async () => {
+    if (!user) {
+      setSaveMessage("Please log in to save your calculations")
+      return
+    }
+
+    try {
+      const prediction = getAdmissionPrediction()
+      await savePointsCalculation({
+        schoolName: school.name,
+        criteria: school.criteria,
+        totalPoints,
+        maxTotalPoints,
+        percentage,
+        prediction,
+      })
+      setSaveMessage("✅ Calculation saved successfully!")
+      setTimeout(() => setSaveMessage(""), 3000)
+    } catch (error) {
+      setSaveMessage("❌ Error saving calculation. Please try again.")
+      console.error("Save error:", error)
+      setTimeout(() => setSaveMessage(""), 3000)
+    }
   }
 
   const getAdmissionPrediction = (): string => {
@@ -222,21 +277,42 @@ export default function PointsCalculatorPage() {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-4">
-              <Button
-                onClick={reset}
-                variant="outline"
-                className="flex-1"
-              >
-                Reset
-              </Button>
-              <Link
-                href="/discover"
-                className="flex-1 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors inline-flex items-center justify-center gap-2"
-              >
-                Find Matching Schools
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+            <div className="space-y-4">
+              {saveMessage && (
+                <div className={`p-4 rounded-lg flex items-center gap-2 ${
+                  saveMessage.includes('✅') 
+                    ? 'bg-green-50 text-green-800 border border-green-200' 
+                    : 'bg-red-50 text-red-800 border border-red-200'
+                }`}>
+                  <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                  <span className="text-sm">{saveMessage}</span>
+                </div>
+              )}
+              <div className="flex gap-4">
+                <Button
+                  onClick={reset}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  Reset
+                </Button>
+                <Button
+                  onClick={handleSave}
+                  disabled={!user}
+                  className="flex-1 bg-primary hover:bg-primary/90"
+                  title={user ? "Save calculation to your profile" : "Login to save"}
+                >
+                  <Save className="h-4 w-4 mr-2" />
+                  Save Calculation
+                </Button>
+                <Link
+                  href="/discover"
+                  className="flex-1 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors inline-flex items-center justify-center gap-2"
+                >
+                  Find Matching Schools
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
             </div>
           </div>
 

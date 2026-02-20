@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
+import { collection, addDoc, getDoc, doc, getDocs, query, where, serverTimestamp } from "firebase/firestore"
+import { db, auth } from "@/lib/firebase"
+import { getAuth } from "firebase/auth"
 
 interface ParentProfile {
   firstName: string
@@ -52,7 +55,7 @@ interface ApplicationData {
 
 export async function POST(request: NextRequest) {
   try {
-    const data: ApplicationData = await request.json()
+    const data = await request.json()
 
     // Validation
     if (!data.parentProfile?.email || !data.parentProfile?.phone) {
@@ -76,25 +79,45 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Generate application ID
-    const applicationId = `APP-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`
+    // Get userId from request body (sent by client)
+    const userId = data.userId || data.firebaseId
+    
+    if (!userId) {
+      return NextResponse.json(
+        { error: "User ID required" },
+        { status: 401 }
+      )
+    }
 
-    // TODO: Store application in database
-    // In a real application, you would:
-    // 1. Connect to your database (MongoDB, PostgreSQL, etc.)
-    // 2. Create an applications collection/table
-    // 3. Insert the application data with timestamp
-    // 4. Send confirmation email to parent
-    // 5. Notify schools of new applications
+    // Save application to Firestore
+    const applicationsRef = collection(db, 'users', userId, 'applications')
+    
+    const applicationDocRef = await addDoc(applicationsRef, {
+      parentProfile: data.parentProfile,
+      studentDetails: data.studentDetails,
+      documents: data.documents,
+      selectedSchools: data.selectedSchools.filter((s) => s.selected),
+      status: 'submitted',
+      submittedAt: serverTimestamp(),
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    })
 
-    console.log("New application submitted:", {
+    const applicationId = applicationDocRef.id
+
+    console.log("✅ New application stored in Firestore:", {
       applicationId,
+      userId,
       parentEmail: data.parentProfile.email,
       studentName: `${data.studentDetails.firstName} ${data.studentDetails.lastName}`,
-      schoolCount: data.selectedSchools.length,
+      schoolCount: data.selectedSchools.filter(s => s.selected).length,
       documentCount: data.documents.length,
       submittedAt: new Date().toISOString(),
     })
+
+    // TODO: Send confirmation email to parent
+    // TODO: Notify schools of new applications
+    // TODO: Add to email queue for async processing
 
     // Return success response
     return NextResponse.json(
@@ -122,33 +145,46 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    // TODO: Get application status by ID
     const applicationId = request.nextUrl.searchParams.get("id")
+    const userId = request.nextUrl.searchParams.get("userId")
 
-    if (!applicationId) {
+    if (!applicationId || !userId) {
       return NextResponse.json(
-        { error: "Application ID required" },
+        { error: "Application ID and User ID required" },
         { status: 400 }
       )
     }
 
-    // Return mock status for now
+    // Fetch application from Firestore
+    const applicationRef = doc(db, 'users', userId, 'applications', applicationId)
+    const applicationDoc = await getDoc(applicationRef)
+
+    if (!applicationDoc.exists()) {
+      return NextResponse.json(
+        { error: "Application not found" },
+        { status: 404 }
+      )
+    }
+
+    const appData = applicationDoc.data()
+    
     return NextResponse.json({
-      applicationId,
-      status: "under_review",
-      submittedAt: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+      id: applicationId,
+      ...appData,
+      status: appData.status || 'submitted',
+      submittedAt: appData.submittedAt?.toDate?.()?.toISOString() || new Date().toISOString(),
       updates: [
         {
           date: new Date().toISOString(),
-          status: "received",
-          message: "Application received and documents are being reviewed",
+          status: appData.status || "received",
+          message: "Your application is being reviewed",
         },
       ],
     })
   } catch (error) {
-    console.error("Application status error:", error)
+    console.error("❌ Application retrieval error:", error)
     return NextResponse.json(
-      { error: "Failed to retrieve application status" },
+      { error: "Failed to retrieve application" },
       { status: 500 }
     )
   }

@@ -1,4 +1,6 @@
-import { createContext, useContext, useState, ReactNode } from "react"
+import { createContext, useContext, useState, ReactNode, useEffect } from "react"
+import { saveApplicationForm, updateApplicationForm, getApplicationForm } from "@/lib/firebase-data"
+import { auth } from "@/lib/firebase"
 
 export interface ParentProfile {
   firstName: string
@@ -33,6 +35,8 @@ export interface DocumentFile {
   type: string
   size: number
   file?: File
+  url?: string  // Firebase Storage download URL
+  storagePath?: string  // Firebase Storage path
 }
 
 export interface SchoolSelection {
@@ -64,6 +68,8 @@ interface ApplicationContextType {
   setCurrentStep: (step: number) => void
   submitApplication: () => Promise<void>
   resetForm: () => void
+  saveDraft: () => Promise<void>
+  loadApplicationDraft: (applicationId: string) => Promise<void>
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(undefined)
@@ -154,36 +160,113 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({ ...prev, isSubmitting: true, submissionError: null }))
 
     try {
+      // Check authentication
+      if (!auth.currentUser) {
+        throw new Error("Please sign in to submit an application")
+      }
+
+      console.log('📝 Starting application submission...')
+      console.log('👤 User ID:', auth.currentUser.uid)
+      console.log('📄 Documents to upload:', state.documents.length)
+
+      // First, upload all documents to Firebase Storage
+      const uploadedDocuments = []
+      for (const doc of state.documents) {
+        try {
+          if (doc.file) {
+            console.log('📤 Starting upload for:', doc.name, '(', doc.file.size, 'bytes)')
+            const startTime = Date.now()
+            
+            // Dynamic import with better error handling
+            const { uploadApplicationDocument } = await import('@/lib/firebase-data')
+            console.log('✅ uploadApplicationDocument imported ')
+            
+            const uploadedDoc = await uploadApplicationDocument(
+              auth.currentUser.uid,
+              doc.file,
+              "draft"
+            )
+            
+            const duration = Date.now() - startTime
+            console.log(`✅ Document uploaded in ${duration}ms:`, doc.name, '→', uploadedDoc.url?.substring(0, 50))
+            
+            uploadedDocuments.push({
+              name: uploadedDoc.name,
+              type: uploadedDoc.type,
+              size: uploadedDoc.size,
+              url: uploadedDoc.url,
+              storagePath: uploadedDoc.storagePath,
+            })
+          } else if (doc.url) {
+            // Document already uploaded, keep the URL
+            console.log('✓ Document already has URL:', doc.name)
+            uploadedDocuments.push({
+              name: doc.name,
+              type: doc.type,
+              size: doc.size,
+              url: doc.url,
+              storagePath: doc.storagePath,
+            })
+          }
+        } catch (uploadError) {
+          console.error('❌ Error uploading document:', doc.name, uploadError)
+          throw new Error(`Failed to upload ${doc.name}: ${uploadError instanceof Error ? uploadError.message : 'Unknown error'}`)
+        }
+      }
+
+      console.log('💾 All documents uploaded. Saving to Firestore...')
+
+      // Save application to Firebase Firestore (with file URLs, not File objects)
+      const firebaseApp = await saveApplicationForm({
+        userId: auth.currentUser.uid,
+        currentStep: state.currentStep,
+        parentProfile: state.parentProfile,
+        studentDetails: state.studentDetails,
+        documents: uploadedDocuments,
+        selectedSchools: state.selectedSchools,
+        isSubmitting: false,
+        submissionError: null,
+        submittedApplicationId: state.submittedApplicationId,
+      } as any)
+
+      console.log('✅ Application saved to Firestore:', firebaseApp.id)
+      console.log('📡 Sending to API...')
+
+      // Send to API for additional processing
       const response = await fetch("/api/applications", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          userId: auth.currentUser.uid,
+          firebaseId: firebaseApp.id,
           parentProfile: state.parentProfile,
           studentDetails: state.studentDetails,
           selectedSchools: state.selectedSchools.filter((s) => s.selected),
-          documents: state.documents.map((d) => ({
-            name: d.name,
-            type: d.type,
-            size: d.size,
-          })),
+          documents: uploadedDocuments,
         }),
       })
 
       if (!response.ok) {
-        throw new Error("Failed to submit application")
+        const errorText = await response.text()
+        console.error('❌ API error:', response.status, errorText)
+        throw new Error(`API returned ${response.status}: ${errorText}`)
       }
 
       const data = await response.json()
+      console.log('✅ API response:', data)
 
       setState((prev) => ({
         ...prev,
         isSubmitting: false,
-        submittedApplicationId: data.id,
+        submittedApplicationId: firebaseApp.id || data.id,
         currentStep: 5,
       }))
+      
+      console.log('🎉 Application submitted successfully!')
     } catch (error) {
+      console.error('❌ Submission error:', error)
       setState((prev) => ({
         ...prev,
         isSubmitting: false,
@@ -195,6 +278,104 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
 
   const resetForm = () => {
     setState(initialState)
+  }
+
+  const saveDraft = async () => {
+    try {
+      if (!auth.currentUser) {
+        throw new Error("Please sign in to save a draft")
+      }
+
+      // Upload any new documents that haven't been uploaded yet
+      const uploadedDocuments = []
+      for (const doc of state.documents) {
+        try {
+          if (doc.file && !doc.url) {
+            // Document is a new File that hasn't been uploaded yet
+            const { uploadApplicationDocument } = await import('@/lib/firebase-data')
+            const uploadedDoc = await uploadApplicationDocument(
+              auth.currentUser.uid,
+              doc.file,
+              state.submittedApplicationId || "draft"
+            )
+            uploadedDocuments.push({
+              id: doc.id,
+              name: uploadedDoc.name,
+              type: uploadedDoc.type,
+              size: uploadedDoc.size,
+              url: uploadedDoc.url,
+              storagePath: uploadedDoc.storagePath,
+            })
+          } else {
+            // Document already has URL or no file
+            uploadedDocuments.push({
+              id: doc.id,
+              name: doc.name,
+              type: doc.type,
+              size: doc.size,
+              url: doc.url,
+              storagePath: doc.storagePath,
+            })
+          }
+        } catch (uploadError) {
+          console.error('Error uploading document:', doc.name, uploadError)
+          // Continue with other documents
+        }
+      }
+
+      const draftData = {
+        userId: auth.currentUser.uid,
+        currentStep: state.currentStep,
+        parentProfile: state.parentProfile,
+        studentDetails: state.studentDetails,
+        documents: uploadedDocuments, // Use documents with URLs
+        selectedSchools: state.selectedSchools,
+        isSubmitting: false,
+        submissionError: null,
+        submittedApplicationId: state.submittedApplicationId,
+      }
+
+      if (state.submittedApplicationId) {
+        // Update existing draft
+        await updateApplicationForm(state.submittedApplicationId, draftData)
+      } else {
+        // Create new draft
+        const draft = await saveApplicationForm(draftData as any)
+        setState((prev) => ({
+          ...prev,
+          submittedApplicationId: draft.id,
+        }))
+      }
+
+      console.log('✅ Application draft saved successfully')
+    } catch (error) {
+      console.error('Error saving draft:', error)
+      throw error
+    }
+  }
+
+  const loadApplicationDraft = async (applicationId: string) => {
+    try {
+      if (!auth.currentUser) {
+        throw new Error("Please sign in to load a draft")
+      }
+
+      const application = await getApplicationForm(applicationId)
+      if (application) {
+        setState((prev) => ({
+          ...prev,
+          currentStep: application.currentStep || 0,
+          parentProfile: application.parentProfile,
+          studentDetails: application.studentDetails,
+          documents: application.documents || [],
+          selectedSchools: application.selectedSchools || [],
+          submittedApplicationId: applicationId,
+        }))
+      }
+    } catch (error) {
+      console.error('Error loading application draft:', error)
+      throw error
+    }
   }
 
   return (
@@ -209,6 +390,8 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
         setCurrentStep,
         submitApplication,
         resetForm,
+        saveDraft,
+        loadApplicationDraft,
       }}
     >
       {children}

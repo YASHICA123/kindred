@@ -5,6 +5,8 @@ import { motion } from "framer-motion"
 import { Sparkles, MapPin, Users, Heart, ArrowRight, RefreshCw, Calendar, DollarSign, Award } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { saveSchool, removeSavedSchool, isSchoolSaved, getSavedSchools } from "@/lib/firebase-data"
+import { auth } from "@/lib/firebase"
 
 interface JourneyResultsProps {
   answers: Record<string, string | string[]>
@@ -105,21 +107,61 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
 
   const matchedSchools = getMatchedSchools()
 
-  const toggleSave = (schoolId: string) => {
-    setSavedSchools((prev) => (prev.includes(schoolId) ? prev.filter((id) => id !== schoolId) : [...prev, schoolId]))
-    
-    // Save to localStorage for persistence
-    const saved = savedSchools.includes(schoolId) 
-      ? savedSchools.filter((id) => id !== schoolId)
-      : [...savedSchools, schoolId]
-    localStorage.setItem('savedSchools', JSON.stringify(saved))
+  const toggleSave = async (schoolId: string) => {
+    // Check authentication
+    if (!auth.currentUser) {
+      alert('Please sign in to save schools')
+      return
+    }
+
+    try {
+      const isSaved = savedSchools.includes(schoolId)
+      const school = matchedSchools.find(s => s.id === schoolId)
+      
+      if (isSaved) {
+        // Remove from Firebase
+        await removeSavedSchool(schoolId)
+        setSavedSchools((prev) => prev.filter((id) => id !== schoolId))
+      } else {
+        // Save to Firebase
+        await saveSchool({
+          schoolId,
+          schoolName: school?.name || 'Unknown School',
+          schoolImage: school?.image,
+          schoolLocation: school?.location,
+          schoolCity: school?.location,
+          notes: `Match score: ${school?.match}%`
+        })
+        setSavedSchools((prev) => [...prev, schoolId])
+      }
+    } catch (error) {
+      console.error('Error toggling save:', error)
+      alert('Failed to update saved schools. Please try again.')
+    }
   }
 
   useEffect(() => {
-    const saved = localStorage.getItem('savedSchools')
-    if (saved) {
-      setSavedSchools(JSON.parse(saved))
+    // Load saved schools from Firebase on component mount
+    const loadSavedSchools = async () => {
+      if (!auth.currentUser) {
+        setSavedSchools([])
+        return
+      }
+
+      try {
+        const schools = await getSavedSchools()
+        setSavedSchools(schools.map(s => s.schoolId))
+      } catch (error) {
+        console.error('Error loading saved schools:', error)
+        // Fallback to localStorage if Firebase fails
+        const saved = localStorage.getItem('savedSchools')
+        if (saved) {
+          setSavedSchools(JSON.parse(saved))
+        }
+      }
     }
+
+    loadSavedSchools()
   }, [])
 
   if (isLoading) {

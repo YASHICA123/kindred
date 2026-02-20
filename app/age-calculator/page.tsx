@@ -1,12 +1,15 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { Calculator, Calendar, Target, ArrowRight } from "lucide-react"
+import { Calculator, Calendar, Target, ArrowRight, Save, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { saveAgeCalculation, getAgeCalculation } from "@/lib/firebase-data"
+import { auth } from "@/lib/firebase"
+import { onAuthStateChanged } from "firebase/auth"
 
 const gradeStructure = [
   { grade: "Nursery", minAge: 2.5, maxAge: 3.5 },
@@ -29,6 +32,58 @@ const gradeStructure = [
 export default function AgeCalculatorPage() {
   const [dateOfBirth, setDateOfBirth] = useState("")
   const [admissionYear, setAdmissionYear] = useState(new Date().getFullYear().toString())
+  const [user, setUser] = useState<any>(null)
+  const [saveMessage, setSaveMessage] = useState("")
+
+  // Load from Firestore on mount
+  useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser)
+
+      if (currentUser) {
+        try {
+          const saved = await getAgeCalculation()
+          if (saved) {
+            setDateOfBirth(saved.dateOfBirth)
+            setAdmissionYear(saved.admissionYear)
+          }
+        } catch (error) {
+          console.error("Error loading age calculation:", error)
+        }
+      }
+    })
+
+    return () => unsubscribeAuth()
+  }, [])
+
+  const handleSave = async () => {
+    if (!user) {
+      setSaveMessage("Please log in to save your results")
+      return
+    }
+
+    if (!dateOfBirth) {
+      setSaveMessage("Please enter a date of birth first")
+      return
+    }
+
+    try {
+      await saveAgeCalculation({
+        dateOfBirth,
+        admissionYear,
+        currentAge: calculations.currentAge,
+        admissionAge: calculations.admissionAge,
+        admissionAgeDecimal: calculations.admissionAgeDecimal || "0",
+        eligibleGrades: calculations.eligibleGrades,
+      })
+      setSaveMessage("✅ Calculation saved successfully!")
+      setTimeout(() => setSaveMessage(""), 3000)
+    } catch (error) {
+      setSaveMessage("❌ Error saving calculation. Please try again.")
+      console.error("Save error:", error)
+      setTimeout(() => setSaveMessage(""), 3000)
+    }
+  }
 
   const calculations = useMemo(() => {
     if (!dateOfBirth) {
@@ -278,8 +333,28 @@ export default function AgeCalculatorPage() {
 
                 {/* Next Steps */}
                 <div className="mt-10 pt-8 border-t">
+                  {saveMessage && (
+                    <div className={`mb-6 p-4 rounded-lg flex items-center gap-2 ${
+                      saveMessage.includes('✅') 
+                        ? 'bg-green-50 text-green-800 border border-green-200' 
+                        : 'bg-red-50 text-red-800 border border-red-200'
+                    }`}>
+                      <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                      <span className="text-sm">{saveMessage}</span>
+                    </div>
+                  )}
+
                   <h3 className="text-lg font-semibold mb-4">Next Steps</h3>
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <Button
+                      onClick={handleSave}
+                      disabled={!user || !dateOfBirth}
+                      className="flex items-center justify-center gap-2 px-6 py-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      title={user ? "Save calculation to your profile" : "Login to save"}
+                    >
+                      <Save className="h-4 w-4" />
+                      Save Results
+                    </Button>
                     <Link
                       href="/discover"
                       className="flex items-center justify-center gap-2 px-6 py-4 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors"

@@ -1,11 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Calendar, Clock, User, Mail, Phone, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { saveFreeCounsellingBooking } from "@/lib/firebase-data"
+import { onAuthStateChanged } from "firebase/auth"
+import { auth } from "@/lib/firebase"
 import Link from "next/link"
 
 const counsellors = [
@@ -43,6 +46,16 @@ export default function FreeCounsellingPage() {
     preferredTime: "",
   })
   const [submitted, setSubmitted] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const [isSaving, setIsSaving] = useState(false)
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+    })
+    return () => unsubscribe()
+  }, [])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -52,19 +65,38 @@ export default function FreeCounsellingPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Counselling request submitted:", formData)
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 5000)
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      childAge: "",
-      currentSchool: "",
-      concerns: "",
-      preferredDate: "",
-      preferredTime: "",
-    })
+    
+    // Validate required fields
+    if (!formData.name || !formData.email || !formData.phone || !formData.childAge || 
+        !formData.concerns || !formData.preferredDate || !formData.preferredTime) {
+      setError("Please fill in all required fields")
+      return
+    }
+
+    setIsSaving(true)
+    setError("")
+    
+    try {
+      await saveFreeCounsellingBooking(formData)
+      console.log("✅ Free counselling booking saved:", formData)
+      setSubmitted(true)
+      setTimeout(() => setSubmitted(false), 5000)
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        childAge: "",
+        currentSchool: "",
+        concerns: "",
+        preferredDate: "",
+        preferredTime: "",
+      })
+    } catch (err) {
+      console.error("❌ Error submitting counselling booking:", err)
+      setError("Failed to book consultation. Please try again.")
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -214,6 +246,13 @@ export default function FreeCounsellingPage() {
                     </select>
                   </div>
 
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-800">
+                      <p className="font-semibold mb-1">Error</p>
+                      <p className="text-sm">{error}</p>
+                    </div>
+                  )}
+
                   {submitted && (
                     <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-green-800">
                       <p className="font-semibold mb-1">Booking Confirmed!</p>
@@ -223,9 +262,10 @@ export default function FreeCounsellingPage() {
 
                   <Button
                     type="submit"
+                    disabled={isSaving || submitted}
                     className="w-full h-12 bg-primary hover:bg-primary/90 text-base font-medium"
                   >
-                    Book Free Consultation
+                    {isSaving ? "Booking..." : submitted ? "Booking Confirmed" : "Book Free Consultation"}
                   </Button>
                 </form>
               </div>

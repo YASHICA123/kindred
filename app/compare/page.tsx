@@ -2,9 +2,12 @@
 
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
-import { ArrowLeft, BookOpen, Search, AlertCircle, X, ExternalLink, ChevronDown, ArrowDown } from "lucide-react"
+import { ArrowLeft, BookOpen, Search, AlertCircle, X, ExternalLink, ChevronDown, ArrowDown, Save } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { saveSchoolComparison } from "@/lib/firebase-data"
+import { auth } from "@/lib/firebase"
+import { onAuthStateChanged } from "firebase/auth"
 
 export default function ComparePage() {
   const [schools, setSchools] = useState<any[]>([])
@@ -13,10 +16,48 @@ export default function ComparePage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedSchools, setSelectedSchools] = useState<any[]>([])
   const [filteredSchools, setFilteredSchools] = useState<any[]>([])
+  const [user, setUser] = useState<any>(null)
+  const [saveMessage, setSaveMessage] = useState("")
   const comparisonRef = useRef<HTMLDivElement>(null)
 
   const scrollToComparison = () => {
     comparisonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  // Load user on mount
+  useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+    })
+
+    return () => unsubscribeAuth()
+  }, [])
+
+  const handleSaveComparison = async () => {
+    if (!user) {
+      setSaveMessage("Please log in to save comparisons")
+      setTimeout(() => setSaveMessage(""), 3000)
+      return
+    }
+
+    if (selectedSchools.length === 0) {
+      setSaveMessage("Please select schools to compare")
+      setTimeout(() => setSaveMessage(""), 3000)
+      return
+    }
+
+    try {
+      await saveSchoolComparison({
+        schoolIds: selectedSchools.map(s => s.id),
+        schoolNames: selectedSchools.map(s => s.name),
+      })
+      setSaveMessage("✅ Comparison saved successfully!")
+      setTimeout(() => setSaveMessage(""), 3000)
+    } catch (error) {
+      setSaveMessage("❌ Error saving comparison. Please try again.")
+      console.error("Save error:", error)
+      setTimeout(() => setSaveMessage(""), 3000)
+    }
   }
 
   // Helper function to get school image URL
@@ -413,7 +454,28 @@ export default function ComparePage() {
 
             {/* Action Buttons */}
             <div className="mt-8 space-y-4">
+              {saveMessage && (
+                <div className={`p-4 rounded-lg flex items-center gap-2 ${
+                  saveMessage.includes('✅') 
+                    ? 'bg-green-50 text-green-800 border border-green-200' 
+                    : 'bg-red-50 text-red-800 border border-red-200'
+                }`}>
+                  <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                  <span className="text-sm">{saveMessage}</span>
+                </div>
+              )}
               <div className="flex gap-3 justify-center flex-wrap">
+                <Button 
+                  onClick={handleSaveComparison}
+                  disabled={!user || selectedSchools.length === 0}
+                  variant="default"
+                  size="lg"
+                  className="gap-2"
+                  title={user ? "Save comparison to your profile" : "Login to save"}
+                >
+                  <Save className="h-4 w-4" />
+                  Save Comparison
+                </Button>
                 {selectedSchools.map((school) => (
                   <Button key={school.id} asChild variant="default" size="lg">
                     <Link href={`/schools/${school.slug}`} className="gap-2">

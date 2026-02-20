@@ -247,33 +247,36 @@ function normalizeSchoolDetail(item: any): SchoolDetail {
 // Wrapper to ensure consistent response format - fetch ALL 47 schools from Supabase, fallback to CSV
 export async function fetchSchools(): Promise<School[]> {
   try {
-    console.log('Fetching all schools from Supabase')
+    console.log('📡 Fetching all schools from Supabase...')
     const schools = await fetchSchoolsFromDB()
     
     if (!schools || schools.length === 0) {
-      console.warn('No schools found in Supabase, trying CSV fallback...')
+      console.warn('⚠️ No schools found in Supabase, trying CSV fallback...')
       const csvSchools = await loadSchoolsFromCSV()
       if (csvSchools.length > 0) {
-        console.log(`Loaded ${csvSchools.length} schools from CSV`)
+        console.log(`✅ Loaded ${csvSchools.length} schools from CSV`)
         return csvSchools
       }
       return []
     }
     
     const normalized = schools.map(normalizeSchool)
-    console.log(`Supabase returned ${normalized.length} schools`)
+    console.log(`✅ Supabase returned ${normalized.length} schools`)
     return normalized
   } catch (error) {
-    console.error('Error fetching schools from Supabase:', error)
-    console.warn('Trying CSV fallback...')
+    const errorMsg = error instanceof Error ? error.message : JSON.stringify(error)
+    console.warn(`⚠️ Supabase error (will try CSV): ${errorMsg}`)
     try {
+      console.log('📄 Attempting CSV fallback...')
       const csvSchools = await loadSchoolsFromCSV()
       if (csvSchools.length > 0) {
-        console.log(`Loaded ${csvSchools.length} schools from CSV after Supabase error`)
+        console.log(`✅ Loaded ${csvSchools.length} schools from CSV after Supabase error`)
         return csvSchools
       }
+      console.error('❌ CSV fallback also failed - no schools available')
     } catch (csvError) {
-      console.error('Error loading CSV:', csvError)
+      const csvErrorMsg = csvError instanceof Error ? csvError.message : JSON.stringify(csvError)
+      console.error(`❌ Error loading CSV: ${csvErrorMsg}`)
     }
     return []
   }

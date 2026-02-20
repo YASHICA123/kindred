@@ -1,10 +1,13 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import React, { useState, useMemo, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ArrowRight, Sparkles, CheckCircle, Search, X } from "lucide-react"
 import Link from "next/link"
+import { saveQuizAnswers } from "@/lib/firebase-data"
+import { auth } from "@/lib/firebase"
+import { onAuthStateChanged } from "firebase/auth"
 
 const indianStates = [
   "Andhra Pradesh",
@@ -109,6 +112,17 @@ export function SmartRecommendationQuiz() {
   const [answers, setAnswers] = useState<Answers>({})
   const [showResults, setShowResults] = useState(false)
   const [locationSearch, setLocationSearch] = useState("")
+  const [user, setUser] = useState<any>(null)
+  const [saveMessage, setSaveMessage] = useState("")
+
+  // Check if user is logged in
+  useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+    })
+
+    return () => unsubscribeAuth()
+  }, [])
 
   const filteredStates = useMemo(
     () =>
@@ -159,6 +173,24 @@ export function SmartRecommendationQuiz() {
     window.location.href = `/discover?${queryString}`
   }
 
+  const handleSaveAnswers = async () => {
+    if (!user) {
+      setSaveMessage("Please log in to save your quiz results")
+      setTimeout(() => setSaveMessage(""), 3000)
+      return
+    }
+
+    try {
+      await saveQuizAnswers(answers)
+      setSaveMessage("✅ Quiz results saved successfully!")
+      setTimeout(() => setSaveMessage(""), 3000)
+    } catch (error) {
+      setSaveMessage("❌ Error saving quiz results. Please try again.")
+      console.error("Save error:", error)
+      setTimeout(() => setSaveMessage(""), 3000)
+    }
+  }
+
   const progress = ((currentStep + 1) / quizQuestions.length) * 100
   const currentQuestion = quizQuestions[currentStep]
   const isAnswered = answers[currentQuestion.id]
@@ -205,22 +237,45 @@ export function SmartRecommendationQuiz() {
           })}
         </div>
 
-        <div className="flex gap-4 justify-center">
-          <Button
-            onClick={() => {
-              setShowResults(false)
-              setCurrentStep(0)
-              setAnswers({})
-            }}
-            variant="outline"
-            size="lg"
-          >
-            Retake Quiz
-          </Button>
-          <Button onClick={handleGetRecommendations} size="lg" className="bg-primary hover:bg-primary/90">
-            View Recommendations
-            <ArrowRight className="h-4 w-4 ml-2" />
-          </Button>
+        <div className="flex gap-4 justify-center flex-col items-center">
+          {saveMessage && (
+            <div className={`w-full p-4 rounded-lg flex items-center gap-2 ${
+              saveMessage.includes('✅') 
+                ? 'bg-green-50 text-green-800 border border-green-200' 
+                : 'bg-red-50 text-red-800 border border-red-200'
+            }`}>
+              <span className="text-lg">{saveMessage.includes('✅') ? '✅' : '❌'}</span>
+              <span className="text-sm">{saveMessage}</span>
+            </div>
+          )}
+
+          <div className="flex gap-4 justify-center flex-wrap">
+            <Button
+              onClick={() => {
+                setShowResults(false)
+                setCurrentStep(0)
+                setAnswers({})
+                setSaveMessage("")
+              }}
+              variant="outline"
+              size="lg"
+            >
+              Retake Quiz
+            </Button>
+            <Button 
+              onClick={handleSaveAnswers}
+              disabled={!user}
+              variant="outline"
+              size="lg"
+              title={user ? "Save quiz results to your profile" : "Login to save"}
+            >
+              Save Results
+            </Button>
+            <Button onClick={handleGetRecommendations} size="lg" className="bg-primary hover:bg-primary/90">
+              View Recommendations
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          </div>
         </div>
       </div>
     )
