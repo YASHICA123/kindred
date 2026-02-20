@@ -1,21 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getAuth } from "firebase-admin/auth"
-import { getFirestore } from "firebase-admin/firestore"
-import * as admin from "firebase-admin"
-
-// Initialize Firebase Admin
-if (!admin.apps.length) {
-  const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY
-  if (!serviceAccountKey) {
-    throw new Error("FIREBASE_SERVICE_ACCOUNT_KEY not found in environment variables")
-  }
-
-  admin.initializeApp({
-    credential: admin.credential.cert(JSON.parse(serviceAccountKey)),
-  })
-}
-
-const db = getFirestore()
+import { collection, addDoc, getDocs, query, where, serverTimestamp, deleteDoc, doc, getDoc } from "firebase/firestore"
+import { db } from "@/lib/firebase"
 
 interface CounsellingBooking {
   name: string
@@ -40,8 +25,9 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const bookingsRef = db.collection("freeCounsellingBookings")
-    const snapshot = await bookingsRef.where("userId", "==", userId).get()
+    const bookingsRef = collection(db, "freeCounsellingBookings")
+    const q = query(bookingsRef, where("userId", "==", userId))
+    const snapshot = await getDocs(q)
 
     const bookings = snapshot.docs.map((doc) => ({
       id: doc.id,
@@ -84,12 +70,13 @@ export async function POST(request: NextRequest) {
       preferredDate: body.preferredDate,
       preferredTime: body.preferredTime,
       userId: body.userId || "guest",
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
     }
 
     // Save to Firestore
-    const docRef = await db.collection("freeCounsellingBookings").add(bookingData)
+    const bookingsRef = collection(db, "freeCounsellingBookings")
+    const docRef = await addDoc(bookingsRef, bookingData)
 
     console.log("✅ Free counselling booking saved:", docRef.id)
 
@@ -124,24 +111,24 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Verify ownership before deleting
-    const docRef = db.collection("freeCounsellingBookings").doc(bookingId)
-    const doc = await docRef.get()
+    const docRef = doc(db, "freeCounsellingBookings", bookingId)
+    const docSnap = await getDoc(docRef)
 
-    if (!doc.exists) {
+    if (!docSnap.exists()) {
       return NextResponse.json(
         { error: "Booking not found" },
         { status: 404 }
       )
     }
 
-    if (doc.data()?.userId !== userId) {
+    if (docSnap.data()?.userId !== userId) {
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 403 }
       )
     }
 
-    await docRef.delete()
+    await deleteDoc(docRef)
 
     console.log("✅ Free counselling booking deleted:", bookingId)
 
