@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react"
+import { FILTER_BOARDS, FILTER_FEE_RANGES, FILTER_SCHOOL_TYPES } from "@/lib/discover-options"
 
 type Props = {
   selectedFilters: Record<string, string[]>
@@ -14,7 +15,7 @@ type Props = {
 export const filterCategories = [
   {
     name: "Board",
-    options: ["CBSE", "ICSE", "IB", "Cambridge", "State Board", "Montessori"],
+    options: FILTER_BOARDS,
   },
   {
     name: "Grade Level",
@@ -22,7 +23,7 @@ export const filterCategories = [
   },
   {
     name: "School Type",
-    options: ["Co-educational", "Boys Only", "Girls Only", "Day School", "Boarding"],
+    options: FILTER_SCHOOL_TYPES,
   },
   {
     name: "Facilities",
@@ -106,7 +107,7 @@ export const filterCategories = [
   },
   {
     name: "Fee Range",
-    options: ["Under ₹50,000", "₹50,000 - ₹1 Lakh", "₹1 - 2 Lakh", "₹2 - 5 Lakh", "Above ₹5 Lakh"],
+    options: FILTER_FEE_RANGES,
   },
   {
     name: "City",

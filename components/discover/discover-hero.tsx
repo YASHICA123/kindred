@@ -2,9 +2,17 @@
 
 import { Search } from "lucide-react"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export function DiscoverHero() {
   const [searchQuery, setSearchQuery] = useState("")
+  const router = useRouter()
+
+  const handleSearch = () => {
+    const query = searchQuery.trim()
+    if (!query) return
+    router.push(`/discover?search=${encodeURIComponent(query)}`)
+  }
 
   return (
     <section className="pt-24 lg:pt-32 pb-8 lg:pb-12 bg-secondary/30">
@@ -27,8 +35,16 @@ export function DiscoverHero() {
                 placeholder="Search by school name, location, or curriculum..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 className="w-full pl-12 pr-4 py-4 rounded-full border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
               />
+              <button
+                type="button"
+                onClick={handleSearch}
+                className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+              >
+                Search
+              </button>
             </div>
           </div>
 

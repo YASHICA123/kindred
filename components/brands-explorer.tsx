@@ -3,51 +3,48 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
+import { FILTER_BOARDS } from "@/lib/discover-options"
 
-const brands = [
-  {
-    name: "Montessori",
-    description: "Child-led, hands-on learning",
-    schools: 240,
-    color: "from-amber-500/20 to-orange-500/10",
-    textColor: "text-amber-700",
-  },
-  {
-    name: "International",
-    description: "Global curriculum focus",
-    schools: 180,
-    color: "from-sky-500/20 to-blue-500/10",
-    textColor: "text-sky-700",
-  },
-  {
-    name: "CBSE",
+const boardMeta: Record<string, { description: string; schools: number; color: string; textColor: string }> = {
+  CBSE: {
     description: "National curriculum",
     schools: 520,
     color: "from-emerald-500/20 to-green-500/10",
     textColor: "text-emerald-700",
   },
-  {
-    name: "ICSE",
-    description: "Application-focused",
+  ICSE: {
+    description: "Application-focused learning",
     schools: 310,
     color: "from-violet-500/20 to-purple-500/10",
     textColor: "text-violet-700",
   },
-  {
-    name: "IB World",
-    description: "Inquiry-based learning",
+  IB: {
+    description: "Inquiry-based global curriculum",
     schools: 95,
     color: "from-rose-500/20 to-pink-500/10",
     textColor: "text-rose-700",
   },
-  {
-    name: "Cambridge",
+  Cambridge: {
     description: "International excellence",
     schools: 145,
     color: "from-cyan-500/20 to-teal-500/10",
     textColor: "text-cyan-700",
   },
-]
+  "State Board": {
+    description: "State curriculum framework",
+    schools: 260,
+    color: "from-indigo-500/20 to-blue-500/10",
+    textColor: "text-indigo-700",
+  },
+  Montessori: {
+    description: "Child-led, hands-on learning",
+    schools: 240,
+    color: "from-amber-500/20 to-orange-500/10",
+    textColor: "text-amber-700",
+  },
+}
+
+const brands = FILTER_BOARDS.map((name) => ({ name, ...boardMeta[name] }))
 
 export function BrandsExplorer() {
   const [isVisible, setIsVisible] = useState(false)
@@ -106,7 +103,7 @@ export function BrandsExplorer() {
           {brands.map((brand, index) => (
             <Link
               key={brand.name}
-              href={`/discover?board=${brand.name.toLowerCase()}`}
+              href={`/discover?board=${encodeURIComponent(brand.name)}`}
               onMouseEnter={() => setHoveredBrand(brand.name)}
               onMouseLeave={() => setHoveredBrand(null)}
               className={`group relative rounded-2xl p-8 lg:p-10 overflow-hidden transition-all duration-700 border border-border/30 ${

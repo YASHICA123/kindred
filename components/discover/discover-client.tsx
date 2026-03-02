@@ -17,6 +17,7 @@ export default function DiscoverClient() {
   const [stateOptions, setStateOptions] = useState<string[] | undefined>(undefined)
 
   const mapping: Record<string, string> = {
+    Search: "search",
     Curriculum: "curriculum",
     "Grade Level": "grade",
     "School Type": "type",

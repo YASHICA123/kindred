@@ -71,6 +71,15 @@ export function SchoolGrid({ filters, sortBy = "newest" }: Props) {
     if (!matchAny(school.curriculum, filters.curriculum || [])) return false
     if (!matchAny(school.type, filters.type || [])) return false
     if (!matchAny(school.feeRange || school.fee, filters.fee || [])) return false
+    if ((filters.search || []).length) {
+      const searchNeedles = filters.search.map((s) => s.toLowerCase())
+      const haystack = [school.name, school.city, school.location, school.curriculum, school.type]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+      const matchesSearch = searchNeedles.some((needle) => haystack.includes(needle))
+      if (!matchesSearch) return false
+    }
     // City filter: match against `city` or fallback to `location`
     if (!matchAny(school.city || school.location, filters.city || [])) return false
 

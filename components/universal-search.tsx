@@ -12,22 +12,7 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-
-const cities = [
-  "Delhi NCR", "Mumbai", "Bangalore", "Hyderabad", "Chennai",
-  "Pune", "Kolkata", "Ahmedabad", "Jaipur", "Lucknow"
-]
-
-const boards = ["CBSE", "ICSE", "IB", "Cambridge", "State Board", "Montessori"]
-
-const feeRanges = [
-  { label: "Under ₹2L", value: "0-200000" },
-  { label: "₹2L - ₹5L", value: "200000-500000" },
-  { label: "₹5L - ₹10L", value: "500000-1000000" },
-  { label: "Above ₹10L", value: "1000000+" },
-]
-
-const schoolTypes = ["Co-educational", "Boys Only", "Girls Only", "Day School", "Boarding"]
+import { CITY_OPTIONS_WITH_PINCODES, FILTER_BOARDS, FILTER_FEE_RANGES, FILTER_SCHOOL_TYPES } from "@/lib/discover-options"
 
 export function UniversalSearch() {
   const [isVisible, setIsVisible] = useState(false)
@@ -144,9 +129,9 @@ export function UniversalSearch() {
                     </SelectTrigger>
                     <SelectContent className="rounded-3xl border-0 shadow-2xl shadow-black/15">
                       <div className="p-2 space-y-1">
-                        {cities.map((c) => (
-                          <SelectItem key={c} value={c} className="rounded-xl transition-colors duration-150 cursor-pointer hover:bg-primary/10">
-                            {c}
+                        {CITY_OPTIONS_WITH_PINCODES.map((cityOption) => (
+                          <SelectItem key={cityOption.city} value={cityOption.city} className="rounded-xl transition-colors duration-150 cursor-pointer hover:bg-primary/10">
+                            {cityOption.label}
                           </SelectItem>
                         ))}
                       </div>
@@ -165,7 +150,7 @@ export function UniversalSearch() {
                     </SelectTrigger>
                     <SelectContent className="rounded-3xl border-0 shadow-2xl shadow-black/15">
                       <div className="p-2 space-y-1">
-                        {boards.map((b) => (
+                        {FILTER_BOARDS.map((b) => (
                           <SelectItem key={b} value={b} className="rounded-xl transition-colors duration-150 cursor-pointer hover:bg-primary/10">
                             {b}
                           </SelectItem>
@@ -186,9 +171,9 @@ export function UniversalSearch() {
                     </SelectTrigger>
                     <SelectContent className="rounded-3xl border-0 shadow-2xl shadow-black/15">
                       <div className="p-2 space-y-1">
-                        {feeRanges.map((range) => (
-                          <SelectItem key={range.value} value={range.value} className="rounded-xl transition-colors duration-150 cursor-pointer hover:bg-primary/10">
-                            {range.label}
+                        {FILTER_FEE_RANGES.map((range) => (
+                          <SelectItem key={range} value={range} className="rounded-xl transition-colors duration-150 cursor-pointer hover:bg-primary/10">
+                            {range}
                           </SelectItem>
                         ))}
                       </div>
@@ -207,7 +192,7 @@ export function UniversalSearch() {
                     </SelectTrigger>
                     <SelectContent className="rounded-3xl border-0 shadow-2xl shadow-black/15">
                       <div className="p-2 space-y-1">
-                        {schoolTypes.map((type) => (
+                        {FILTER_SCHOOL_TYPES.map((type) => (
                           <SelectItem key={type} value={type} className="rounded-xl transition-colors duration-150 cursor-pointer hover:bg-primary/10">
                             {type}
                           </SelectItem>
@@ -273,7 +258,7 @@ export function UniversalSearch() {
                     )}
                     {feeRange && (
                       <div className="inline-flex items-center gap-2.5 px-4 py-2.5 bg-gradient-to-r from-primary/10 to-accent/10 text-primary text-sm font-medium rounded-full border border-primary/20 transition-all duration-200 hover:border-primary/40 hover:bg-gradient-to-r hover:from-primary/15 hover:to-accent/15">
-                        <span>Fee: {feeRanges.find(f => f.value === feeRange)?.label}</span>
+                        <span>Fee: {feeRange}</span>
                         <button 
                           onClick={() => setFeeRange("")}
                           className="hover:scale-110 transition-transform duration-200 rounded-full p-0.5 hover:bg-primary/20"

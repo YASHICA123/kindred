@@ -3,14 +3,22 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { ArrowUpRight, IndianRupee } from "lucide-react"
+import { FILTER_FEE_RANGES } from "@/lib/discover-options"
 
-const feeRanges = [
-  { name: "Budget Friendly", range: "₹1-3 Lakhs/year", schools: 680, color: "from-green-400 to-emerald-500" },
-  { name: "Affordable", range: "₹3-6 Lakhs/year", schools: 1420, color: "from-blue-400 to-sky-500" },
-  { name: "Mid-Range", range: "₹6-12 Lakhs/year", schools: 2150, color: "from-purple-400 to-violet-500" },
-  { name: "Premium", range: "₹12-20 Lakhs/year", schools: 980, color: "from-amber-400 to-yellow-500" },
-  { name: "Luxury", range: "₹20+ Lakhs/year", schools: 520, color: "from-rose-400 to-pink-500" },
-]
+const feeMeta: Record<string, { schools: number; color: string }> = {
+  "Under ₹50,000": { schools: 680, color: "from-green-400 to-emerald-500" },
+  "₹50,000 - ₹1 Lakh": { schools: 1420, color: "from-blue-400 to-sky-500" },
+  "₹1 - 2 Lakh": { schools: 2150, color: "from-purple-400 to-violet-500" },
+  "₹2 - 5 Lakh": { schools: 980, color: "from-amber-400 to-yellow-500" },
+  "Above ₹5 Lakh": { schools: 520, color: "from-rose-400 to-pink-500" },
+}
+
+const feeRanges = FILTER_FEE_RANGES.map((name) => ({
+  name,
+  range: name,
+  schools: feeMeta[name].schools,
+  color: feeMeta[name].color,
+}))
 
 export function FeesExplorer() {
   const [isVisible, setIsVisible] = useState(false)
@@ -63,7 +71,7 @@ export function FeesExplorer() {
           {feeRanges.map((fee, index) => (
             <Link
               key={fee.name}
-              href={`/discover?feeRange=${fee.name.toLowerCase().replace(/\s+/g, "-")}`}
+              href={`/discover?fee=${encodeURIComponent(fee.name)}`}
               onMouseEnter={() => setHoveredFee(fee.name)}
               onMouseLeave={() => setHoveredFee(null)}
               className={`group relative rounded-2xl p-6 overflow-hidden transition-all duration-700 border border-transparent ${

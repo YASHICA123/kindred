@@ -13,33 +13,27 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { CITY_OPTIONS_WITH_PINCODES, FILTER_BOARDS, FILTER_FEE_RANGES, FILTER_SCHOOL_TYPES } from "@/lib/discover-options"
 
 export function ImmersiveHero() {
   const [scrollY, setScrollY] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [selectedCity, setSelectedCity] = useState("")
-  const [selectedClass, setSelectedClass] = useState("")
+  const [selectedType, setSelectedType] = useState("")
   const [selectedBoard, setSelectedBoard] = useState("")
   const [selectedFeeRange, setSelectedFeeRange] = useState("")
+  const [searchTerm, setSearchTerm] = useState("")
   const heroRef = useRef<HTMLDivElement>(null)
-
-  const indianCities = ["Delhi NCR", "Mumbai", "Bangalore", "Hyderabad", "Chennai", "Pune", "Kolkata", "Ahmedabad", "Jaipur", "Lucknow"]
-  const boards = ["CBSE", "ICSE", "IB", "IGCSE", "State Board"]
-  const classes = ["Nursery", "KG", "1-5", "6-8", "9-10", "11-12"]
-  const feeRanges = [
-    { label: "Under ₹2L", value: "0-200000" },
-    { label: "₹2L - ₹5L", value: "200000-500000" },
-    { label: "₹5L - ₹10L", value: "500000-1000000" },
-    { label: "Above ₹10L", value: "1000000+" },
-  ]
 
   const handleSearch = () => {
     const params = new URLSearchParams()
     if (selectedCity) params.append("city", selectedCity)
-    if (selectedClass) params.append("class", selectedClass)
+    if (selectedType) params.append("type", selectedType)
     if (selectedBoard) params.append("board", selectedBoard)
-    if (selectedFeeRange) params.append("fees", selectedFeeRange)
+    if (selectedFeeRange) params.append("fee", selectedFeeRange)
+    if (searchTerm.trim()) params.append("search", searchTerm.trim())
     
     const queryString = params.toString()
     window.location.href = `/discover?${queryString}`
@@ -142,79 +136,93 @@ export function ImmersiveHero() {
               }`}
               style={{ transitionDelay: "320ms" }}
             >
-              <div className="bg-white rounded-3xl border border-white/60 shadow-lg hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 p-4 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
-                {/* City Select */}
-                <Select value={selectedCity} onValueChange={setSelectedCity}>
-                  <SelectTrigger className="border-0 h-11 sm:h-auto bg-white/80 hover:bg-white transition-colors text-sm font-medium flex-1">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-primary/60" />
-                      <SelectValue placeholder="City" />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent className="rounded-2xl">
-                    {indianCities.map((city) => (
-                      <SelectItem key={city} value={city}>
-                        {city}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="bg-white rounded-3xl border border-white/60 shadow-lg hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 p-3 sm:p-4 flex flex-col gap-3">
+                {/* Search Input - Full width on mobile */}
+                <div className="w-full">
+                  <Input
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                    placeholder="Search school, city, board..."
+                    className="h-11 border-0 bg-white/80 hover:bg-white focus-visible:ring-2 focus-visible:ring-primary/25 text-sm"
+                  />
+                </div>
 
-                {/* Board Select */}
-                <Select value={selectedBoard} onValueChange={setSelectedBoard}>
-                  <SelectTrigger className="border-0 h-11 sm:h-auto bg-white/80 hover:bg-white transition-colors text-sm font-medium flex-1">
-                    <div className="flex items-center gap-2">
-                      <BookOpen className="h-4 w-4 text-primary/60" />
-                      <SelectValue placeholder="Board" />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent className="rounded-2xl">
-                    {boards.map((board) => (
-                      <SelectItem key={board} value={board}>
-                        {board}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                {/* Filters Grid on mobile (2x2), Flex row on sm+ */}
+                <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-3 items-stretch sm:items-center">
+                  {/* City Select */}
+                  <Select value={selectedCity} onValueChange={setSelectedCity}>
+                    <SelectTrigger className="border-0 h-10 sm:h-auto bg-white/80 hover:bg-white transition-colors text-xs sm:text-sm font-medium flex-1 sm:flex-1">
+                      <div className="flex items-center gap-1 sm:gap-2">
+                        <MapPin className="h-3.5 sm:h-4 w-3.5 sm:w-4 text-primary/60 flex-shrink-0" />
+                        <SelectValue placeholder="City" />
+                      </div>
+                    </SelectTrigger>
+                    <SelectContent className="rounded-2xl">
+                      {CITY_OPTIONS_WITH_PINCODES.map((cityOption) => (
+                        <SelectItem key={cityOption.city} value={cityOption.city}>
+                          {cityOption.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
 
-                {/* Fees Select */}
-                <Select value={selectedFeeRange} onValueChange={setSelectedFeeRange}>
-                  <SelectTrigger className="border-0 h-11 sm:h-auto bg-white/80 hover:bg-white transition-colors text-sm font-medium flex-1">
-                    <div className="flex items-center gap-2">
-                      <IndianRupee className="h-4 w-4 text-primary/60" />
-                      <SelectValue placeholder="Fees" />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent className="rounded-2xl">
-                    {feeRanges.map((range) => (
-                      <SelectItem key={range.value} value={range.value}>
-                        {range.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  {/* Board Select */}
+                  <Select value={selectedBoard} onValueChange={setSelectedBoard}>
+                    <SelectTrigger className="border-0 h-10 sm:h-auto bg-white/80 hover:bg-white transition-colors text-xs sm:text-sm font-medium flex-1 sm:flex-1">
+                      <div className="flex items-center gap-1 sm:gap-2">
+                        <BookOpen className="h-3.5 sm:h-4 w-3.5 sm:w-4 text-primary/60 flex-shrink-0" />
+                        <SelectValue placeholder="Board" />
+                      </div>
+                    </SelectTrigger>
+                    <SelectContent className="rounded-2xl">
+                      {FILTER_BOARDS.map((board) => (
+                        <SelectItem key={board} value={board}>
+                          {board}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
 
-                {/* Type Select */}
-                <Select value={selectedClass} onValueChange={setSelectedClass}>
-                  <SelectTrigger className="border-0 h-11 sm:h-auto bg-white/80 hover:bg-white transition-colors text-sm font-medium flex-1">
-                    <div className="flex items-center gap-2">
-                      <Zap className="h-4 w-4 text-primary/60" />
-                      <SelectValue placeholder="Type" />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent className="rounded-2xl">
-                    {classes.map((cls) => (
-                      <SelectItem key={cls} value={cls}>
-                        {cls}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  {/* Fees Select */}
+                  <Select value={selectedFeeRange} onValueChange={setSelectedFeeRange}>
+                    <SelectTrigger className="border-0 h-10 sm:h-auto bg-white/80 hover:bg-white transition-colors text-xs sm:text-sm font-medium flex-1 sm:flex-1">
+                      <div className="flex items-center gap-1 sm:gap-2">
+                        <IndianRupee className="h-3.5 sm:h-4 w-3.5 sm:w-4 text-primary/60 flex-shrink-0" />
+                        <SelectValue placeholder="Fees" />
+                      </div>
+                    </SelectTrigger>
+                    <SelectContent className="rounded-2xl">
+                      {FILTER_FEE_RANGES.map((range) => (
+                        <SelectItem key={range} value={range}>
+                          {range}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
 
-                {/* Search Button */}
+                  {/* Type Select */}
+                  <Select value={selectedType} onValueChange={setSelectedType}>
+                    <SelectTrigger className="border-0 h-10 sm:h-auto bg-white/80 hover:bg-white transition-colors text-xs sm:text-sm font-medium flex-1 sm:flex-1">
+                      <div className="flex items-center gap-1 sm:gap-2">
+                        <Zap className="h-3.5 sm:h-4 w-3.5 sm:w-4 text-primary/60 flex-shrink-0" />
+                        <SelectValue placeholder="Type" />
+                      </div>
+                    </SelectTrigger>
+                    <SelectContent className="rounded-2xl">
+                      {FILTER_SCHOOL_TYPES.map((type) => (
+                        <SelectItem key={type} value={type}>
+                          {type}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Search Button - Full width on mobile, flex on sm+ */}
                 <Button
                   onClick={handleSearch}
-                  className="h-11 sm:h-auto bg-gradient-to-r from-primary to-primary/90 hover:from-primary/95 hover:to-primary/80 text-primary-foreground font-semibold rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 whitespace-nowrap flex-shrink-0"
+                  className="w-full sm:w-auto h-11 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/95 hover:to-primary/80 text-primary-foreground font-semibold rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 whitespace-nowrap flex-shrink-0 text-sm"
                 >
                   <Search className="h-4 w-4 mr-2" />
                   Search
