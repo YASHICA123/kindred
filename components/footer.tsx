@@ -1,7 +1,15 @@
 "use client"
 
 import Link from "next/link"
-import { Instagram, Linkedin, Twitter, Sparkles, ArrowUpRight } from "lucide-react"
+import { Instagram, Linkedin, Twitter, Sparkles, ArrowUpRight, Compass, BookOpen, MessageSquare, Home, BarChart3 } from "lucide-react"
+
+const mobileNavButtons = [
+  { name: "Discover", href: "/discover", icon: Compass },
+  { name: "Journey", href: "/journey", icon: BookOpen },
+  { name: "Free Counselling", href: "/free-counselling", icon: MessageSquare },
+  { name: "Dashboard", href: "/dashboard", icon: Home },
+  { name: "Compare", href: "/compare", icon: BarChart3 },
+]
 
 const footerLinks = {
   discover: [
@@ -40,7 +48,7 @@ export function Footer() {
       {/* Ambient glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-primary/5 blur-3xl pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-16 lg:py-20">
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-16 lg:py-20 pb-28 md:pb-16 lg:pb-20">
         {/* Top section - CTA */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 pb-16 border-b border-border/30">
           <div>
@@ -145,6 +153,25 @@ export function Footer() {
               Terms of Service
             </Link>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Fixed Footer Navigation */}
+      <div className="fixed bottom-0 inset-x-0 z-50 md:hidden border-t border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="grid grid-cols-5 gap-1 px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+          {mobileNavButtons.map((button) => {
+            const Icon = button.icon
+            return (
+              <Link
+                key={button.name}
+                href={button.href}
+                className="flex flex-col items-center justify-center gap-1.5 rounded-lg px-1 py-2 text-muted-foreground transition-colors hover:text-foreground active:scale-95"
+              >
+                <Icon className="h-5 w-5" />
+                <span className="text-[10px] font-medium leading-none text-center">{button.name}</span>
+              </Link>
+            )
+          })}
         </div>
       </div>
     </footer>

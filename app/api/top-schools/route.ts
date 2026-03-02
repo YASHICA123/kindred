@@ -4,16 +4,29 @@ import { loadSchoolsFromCSV } from '@/lib/load-csv-schools'
 export async function GET() {
   try {
     // Try fetching from Supabase first (has images and latest data)
-    const { data: supabaseSchools, error: supabaseError } = await supabase
-      .from('schools')
-      .select('*')
-      .order('rating', { ascending: false })
+    let supabaseSchools: any[] | null = null
+    let supabaseError: unknown = null
+
+    try {
+      const result = await supabase
+        .from('schools')
+        .select('*')
+        .order('rating', { ascending: false })
+
+      supabaseSchools = result.data
+      supabaseError = result.error
+    } catch (error) {
+      supabaseError = error
+    }
 
     let schools = []
     let source = 'supabase'
 
     if (supabaseError || !supabaseSchools || supabaseSchools.length === 0) {
       console.warn('⚠️ Supabase query failed or empty, falling back to CSV...')
+      if (supabaseError) {
+        console.warn('Supabase error:', supabaseError)
+      }
       
       // Fallback to CSV
       const csvSchools = await loadSchoolsFromCSV()
