@@ -11,29 +11,6 @@ import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "@/lib/firebase"
 import Link from "next/link"
 
-const counsellors = [
-  {
-    name: "Ms. Priya Sharma",
-    expertise: "K-5 Education, Montessori Methods",
-    availability: "Mon-Wed, 3-6 PM",
-  },
-  {
-    name: "Mr. Rajesh Kumar",
-    expertise: "Senior Secondary, Engineering Prep",
-    availability: "Tue-Thu, 2-5 PM",
-  },
-  {
-    name: "Dr. Neha Singh",
-    expertise: "Special Needs, Inclusive Education",
-    availability: "Wed-Fri, 4-7 PM",
-  },
-  {
-    name: "Ms. Isha Patel",
-    expertise: "International Boards (IB, Cambridge)",
-    availability: "Mon-Thu, 3-6 PM",
-  },
-]
-
 export default function FreeCounsellingPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -271,21 +248,7 @@ export default function FreeCounsellingPage() {
               </div>
             </div>
 
-            {/* Counsellors Sidebar */}
             <div className="space-y-6">
-              <div className="bg-primary/5 border border-primary/20 rounded-3xl p-6">
-                <h3 className="font-semibold text-lg mb-4">Expert Counsellors</h3>
-                <div className="space-y-4">
-                  {counsellors.map((counsellor, i) => (
-                    <div key={i} className="bg-card rounded-xl p-4 border">
-                      <p className="font-semibold text-sm mb-1">{counsellor.name}</p>
-                      <p className="text-xs text-muted-foreground mb-2">{counsellor.expertise}</p>
-                      <p className="text-xs text-primary font-medium">{counsellor.availability}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Why Counselling */}
               <div className="bg-card rounded-3xl p-6 border">
                 <h3 className="font-semibold text-lg mb-4">Why Counselling?</h3>

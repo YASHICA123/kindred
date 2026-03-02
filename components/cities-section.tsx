@@ -8,7 +8,7 @@ const cities = [
   {
     name: "Mumbai",
     schools: 280,
-    image: "/mumbai-cityscape-gateway-of-india-sunset.jpg",
+    image: "/mumbai.jpg",
   },
   {
     name: "Delhi NCR",
@@ -18,12 +18,12 @@ const cities = [
   {
     name: "Bangalore",
     schools: 340,
-    image: "/bangalore-garden-city-tech-park-green-trees.jpg",
+    image: "/banglore.webp",
   },
   {
     name: "Hyderabad",
     schools: 190,
-    image: "/hyderabad-charminar-historical-architecture-evenin.jpg",
+    image: "/hydrabad.webp",
   },
   {
     name: "Chennai",

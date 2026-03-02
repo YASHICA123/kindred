@@ -236,15 +236,6 @@ export function Header() {
                   See your sessions
                 </button>
                 <button
-                  onClick={() => {
-                    setIsMenuOpen(false)
-                    router.push("/dashboard")
-                  }}
-                  className="w-full text-center py-4 bg-primary text-primary-foreground rounded-2xl text-base font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
-                >
-                  Shortlisted schools
-                </button>
-                <button
                   onClick={async () => {
                     await handleLogout()
                     setIsMenuOpen(false)

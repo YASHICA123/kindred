@@ -5,11 +5,11 @@ import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 
 const cities = [
-  { name: "Mumbai", schools: 280, image: "/mumbai-cityscape-gateway-of-india-sunset.jpg" },
-  { name: "Jaipur", schools: 310, image: "/school-building-eco-friendly-green-architecture.jpg" },
-  { name: "Bangalore", schools: 340, image: "/bangalore-garden-city-tech-park-green-trees.jpg" },
-  { name: "Pune", schools: 190, image: "/hyderabad-charminar-historical-architecture-evenin.jpg" },
-  { name: "Hyderabad", schools: 210, image: "/chennai-marina-beach-temple-architecture.jpg" },
+  { name: "Mumbai", schools: 280, image: "/mumbai.jpg" },
+  { name: "Jaipur", schools: 310, image: "/OIP.webp" },
+  { name: "Bangalore", schools: 340, image: "/banglore.webp" },
+  { name: "Pune", schools: 190, image: "/pune.webp" },
+  { name: "Hyderabad", schools: 210, image: "/hydrabad.webp" },
 ]
 
 export function CitiesExplorer() {

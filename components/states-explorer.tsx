@@ -5,11 +5,11 @@ import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 
 const states = [
-  { name: "Maharashtra", schools: 580, image: "/mumbai-cityscape-gateway-of-india-sunset.jpg" },
-  { name: "Gujarat", schools: 420, image: "/modern-school-building-with-green-campus-architect.jpg" },
-  { name: "Karnataka", schools: 480, image: "/bangalore-garden-city-tech-park-green-trees.jpg" },
-  { name: "Telangana", schools: 290, image: "/hyderabad-charminar-historical-architecture-evenin.jpg" },
-  { name: "Tamil Nadu", schools: 350, image: "/chennai-marina-beach-temple-architecture.jpg" },
+  { name: "Maharashtra", schools: 580, image: "/mumbai.jpg" },
+  { name: "Gujarat", schools: 420, image: "/gujarat.webp" },
+  { name: "Karnataka", schools: 480, image: "/banglore.webp" },
+  { name: "Telangana", schools: 290, image: "/hydrabad.webp" },
+  { name: "Tamil Nadu", schools: 350, image: "/tamuil nadu.webp" },
 ]
 
 export function StatesExplorer() {

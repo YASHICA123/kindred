@@ -5,15 +5,15 @@ import { MapPin, ArrowUpRight } from "lucide-react"
 
 const cities = [
   { name: "Delhi NCR", slug: "delhi-ncr", count: 420, image: "/delhi-india-gate-monuments-urban-landscape.jpg" },
-  { name: "Mumbai", slug: "mumbai", count: 280, image: "/mumbai-cityscape-gateway-of-india-sunset.jpg" },
-  { name: "Bangalore", slug: "bangalore", count: 340, image: "/bangalore-garden-city-tech-park-green-trees.jpg" },
-  { name: "Hyderabad", slug: "hyderabad", count: 190, image: "/hyderabad-charminar-historical-architecture-evenin.jpg" },
+  { name: "Mumbai", slug: "mumbai", count: 280, image: "/mumbai.jpg" },
+  { name: "Bangalore", slug: "bangalore", count: 340, image: "/banglore.webp" },
+  { name: "Hyderabad", slug: "hyderabad", count: 190, image: "/hydrabad.webp" },
   { name: "Chennai", slug: "chennai", count: 210, image: "/chennai-marina-beach-temple-architecture.jpg" },
-  { name: "Pune", slug: "pune", count: 165, image: "/pune-city-architecture-cultural-hub.jpg" },
-  { name: "Kolkata", slug: "kolkata", count: 140, image: "/kolkata-victoria-memorial-heritage.jpg" },
-  { name: "Ahmedabad", slug: "ahmedabad", count: 125, image: "/ahmedabad-city-education-hub.jpg" },
-  { name: "Jaipur", slug: "jaipur", count: 95, image: "/jaipur-city-palace-historic.jpg" },
-  { name: "Lucknow", slug: "lucknow", count: 85, image: "/lucknow-city-education-excellence.jpg" },
+  { name: "Pune", slug: "pune", count: 165, image: "/pune.webp" },
+  { name: "Kolkata", slug: "kolkata", count: 140, image: "/placeholder.jpg" },
+  { name: "Ahmedabad", slug: "ahmedabad", count: 125, image: "/OIP.webp" },
+  { name: "Jaipur", slug: "jaipur", count: 95, image: "/OIP.webp" },
+  { name: "Lucknow", slug: "lucknow", count: 85, image: "/placeholder.jpg" },
 ]
 
 export const metadata = {
