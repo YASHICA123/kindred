@@ -14,16 +14,12 @@ type Props = {
 
 export const filterCategories = [
   {
-    name: "Board",
-    options: FILTER_BOARDS,
-  },
-  {
-    name: "Grade Level",
-    options: ["Pre-Primary", "Primary (1-5)", "Middle (6-8)", "Secondary (9-10)", "Senior Secondary (11-12)"],
-  },
-  {
     name: "School Type",
     options: FILTER_SCHOOL_TYPES,
+  },
+  {
+    name: "Curriculum",
+    options: ["CBSE", "ICSE", "IB", "Cambridge", "State Board", "Montessori", "International Baccalaureate"],
   },
   {
     name: "Facilities",
@@ -32,37 +28,27 @@ export const filterCategories = [
       "Swimming Pool",
       "Science Labs",
       "Library",
-      "Arts Studio",
-      "Music Room",
-      "Counselling Cell",
       "Computer Lab",
       "Auditorium",
       "Cafeteria",
-      "Health Center",
-      "Gymnasium",
+      "Medical Facility",
       "Playground",
       "Basketball Court",
       "Football Field",
       "Tennis Court",
       "Badminton Court",
-      "Cricket Pitch",
+      "Cricket Field",
       "Indoor Games",
       "Dance Studio",
-      "Drama Theatre",
-      "Debate Hall",
+      "Music Room",
+      "Art Studio",
       "Robotics Lab",
-      "Art Gallery",
-      "Science Club",
-      "Mathematics Lab",
       "Language Lab",
-      "Digital Library",
-      "Yoga Center",
-      "Garden",
+      "Counseling Cell",
+      "Transportation",
+      "Hostel",
+      "WiFi",
     ],
-  },
-  {
-    name: "Distance",
-    options: ["Within 1 km", "1-3 km", "3-5 km", "5-10 km", "10+ km"],
   },
   {
     name: "State",
@@ -197,7 +183,7 @@ export const filterCategories = [
 ]
 
 export function DiscoverFilters({ selectedFilters, onToggle, onClear, cityOptions, stateOptions }: Props) {
-  const [expandedCategories, setExpandedCategories] = useState<string[]>(["Board", "Grade Level", "Fee Range", "City"])
+  const [expandedCategories, setExpandedCategories] = useState<string[]>(["School Type", "Curriculum", "Fee Range", "City"])
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [cityQuery, setCityQuery] = useState("")
   const [stateQuery, setStateQuery] = useState("")

@@ -19,7 +19,6 @@ export default function DiscoverClient() {
   const mapping: Record<string, string> = {
     Search: "search",
     Curriculum: "curriculum",
-    "Grade Level": "grade",
     "School Type": "type",
     Facilities: "facilities",
     "Fee Range": "fee",

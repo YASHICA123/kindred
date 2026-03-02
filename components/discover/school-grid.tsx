@@ -70,7 +70,8 @@ export function SchoolGrid({ filters, sortBy = "newest" }: Props) {
 
     if (!matchAny(school.curriculum, filters.curriculum || [])) return false
     if (!matchAny(school.type, filters.type || [])) return false
-    if (!matchAny(school.feeRange || school.fee, filters.fee || [])) return false
+    if (!matchAny(school.feeRange || school.fee || school.fee_range, filters.fee || [])) return false
+    if (!matchAny(school.facilities, filters.facilities || [])) return false
     if ((filters.search || []).length) {
       const searchNeedles = filters.search.map((s) => s.toLowerCase())
       const haystack = [school.name, school.city, school.location, school.curriculum, school.type]

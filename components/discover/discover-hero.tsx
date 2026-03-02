@@ -10,8 +10,13 @@ export function DiscoverHero() {
 
   const handleSearch = () => {
     const query = searchQuery.trim()
-    if (!query) return
-    router.push(`/discover?search=${encodeURIComponent(query)}`)
+    if (!query) {
+      console.warn("Search query is empty")
+      return
+    }
+    const encodedQuery = encodeURIComponent(query)
+    console.log("Searching for:", query)
+    router.push(`/discover?search=${encodedQuery}`)
   }
 
   return (
@@ -23,7 +28,7 @@ export function DiscoverHero() {
             <span className="block text-primary">your family's vision</span>
           </h1>
           <p className="text-muted-foreground mt-4 text-lg max-w-xl">
-            Explore over 1,200 schools across India. Filter by philosophy, location, and what matters most to you.
+            Explore over 1,200 schools across India. Filter by curriculum, location, and what matters most to you.
           </p>
 
           {/* Search bar */}
@@ -35,7 +40,12 @@ export function DiscoverHero() {
                 placeholder="Search by school name, location, or curriculum..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault()
+                    handleSearch()
+                  }
+                }}
                 className="w-full pl-12 pr-4 py-4 rounded-full border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
               />
               <button
@@ -51,12 +61,17 @@ export function DiscoverHero() {
           {/* Quick filters */}
           <div className="mt-6 flex flex-wrap gap-2">
             <span className="text-sm text-muted-foreground py-2">Popular:</span>
-            {["CBSE Schools", "Near Me", "IB World Schools", "Montessori"].map((filter) => (
+            {[
+              { label: "CBSE Schools", query: "curriculum=CBSE" },
+              { label: "IB World Schools", query: "curriculum=IB" },
+              { label: "Montessori", query: "curriculum=Montessori" },
+            ].map((filter) => (
               <button
-                key={filter}
+                key={filter.label}
+                onClick={() => router.push(`/discover?${filter.query}`)}
                 className="px-4 py-2 text-sm font-medium rounded-full border border-border hover:border-primary hover:text-primary transition-colors"
               >
-                {filter}
+                {filter.label}
               </button>
             ))}
           </div>
