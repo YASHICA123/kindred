@@ -22,7 +22,7 @@ interface SchoolCardProps {
 }
 
 export function SchoolCard({ school }: SchoolCardProps) {
-  const { isSaved, toggleSavedSchools } = useSavedSchools()
+  const { isSaved, toggleSave } = useSavedSchools()
   const { user } = useAuth()
   const [savingState, setSavingState] = useState(false)
   const [imageError, setImageError] = useState(false)
@@ -47,8 +47,9 @@ export function SchoolCard({ school }: SchoolCardProps) {
 
     setSavingState(true)
     try {
-      await toggleSavedSchools({
+      await toggleSave({
         schoolId: school.id,
+        schoolSlug: school.slug,
         schoolName: school.name,
         schoolImage: imageUrl,
         schoolLocation: school.location,
@@ -84,7 +85,7 @@ export function SchoolCard({ school }: SchoolCardProps) {
         <button
           onClick={handleSave}
           disabled={savingState}
-          className="absolute top-3 right-3 p-2 rounded-full bg-white/80 hover:bg-white shadow-md transition-all duration-200 z-10"
+          className="absolute top-2 right-2 sm:top-3 sm:right-3 p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow-md transition-all duration-200 z-10"
         >
           <Heart
             className={`h-5 w-5 ${
@@ -94,12 +95,12 @@ export function SchoolCard({ school }: SchoolCardProps) {
         </button>
       </div>
 
-      <div className="p-5">
-        <h3 className="text-lg font-medium line-clamp-2">{school.name}</h3>
+      <div className="p-4 sm:p-5">
+        <h3 className="text-base sm:text-lg font-medium line-clamp-2">{school.name}</h3>
 
         <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
-          <MapPin className="h-4 w-4" />
-          <span>{school.location}</span>
+          <MapPin className="h-4 w-4 shrink-0" />
+          <span className="line-clamp-1">{school.location}</span>
         </div>
 
         {school.feeRange && (

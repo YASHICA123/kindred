@@ -6,6 +6,7 @@ import { getSavedSchools, saveSchool, removeSavedSchool } from '@/lib/firebase-d
 
 interface SavedSchool {
   schoolId: string | number
+  schoolSlug?: string
   schoolName: string
   schoolImage: string
   schoolLocation: string

@@ -15,6 +15,8 @@ import indianCities from "@/data/indian-cities.json"
  * @see docs/CITIES_API.md for detailed documentation
  */
 
+import indianStates from "@/data/indian-states.json"
+
 export const FILTER_BOARDS = ["CBSE", "ICSE", "IB", "Cambridge", "State Board", "Montessori"]
 
 export const FILTER_SCHOOL_TYPES = ["Co-educational", "Boys Only", "Girls Only", "Day School", "Boarding"]
@@ -128,6 +130,100 @@ export const CITY_OPTIONS_WITH_PINCODES: CityOption[] = uniqueCities
     pincode: CITY_PINCODE_MAP[city],
     label: `${city} (${CITY_PINCODE_MAP[city]})`,
   }))
+
+/**
+ * Extract structured search intent from a natural-language query.
+ *
+ * Given "Best IB schools in Delhi under 2 lakh" returns:
+ *   { city: "Delhi", board: "IB", feeRange: "₹1 - 2 Lakh" }
+ *
+ * Matches are case-insensitive. Longer names are matched first so
+ * "Andaman and Nicobar Islands" isn't confused with partial hits.
+ */
+export interface SearchIntent {
+  city?: string
+  state?: string
+  board?: string
+  type?: string
+  feeRange?: string
+}
+
+export function extractSearchIntent(query: string): SearchIntent {
+  const result: SearchIntent = {}
+  const q = query.toLowerCase()
+
+  // --- Board ---
+  const boardKeywords: Record<string, string> = {
+    cbse: "CBSE",
+    icse: "ICSE",
+    ib: "IB",
+    igcse: "IGCSE",
+    cambridge: "Cambridge",
+    "state board": "State Board",
+    montessori: "Montessori",
+  }
+  for (const [kw, label] of Object.entries(boardKeywords)) {
+    if (q.includes(kw)) {
+      result.board = label
+      break
+    }
+  }
+
+  // --- School type ---
+  const typeKeywords: Record<string, string> = {
+    boarding: "Boarding",
+    "day school": "Day School",
+    "co-ed": "Co-educational",
+    "co-educational": "Co-educational",
+    "boys": "Boys Only",
+    "girls": "Girls Only",
+  }
+  for (const [kw, label] of Object.entries(typeKeywords)) {
+    if (q.includes(kw)) {
+      result.type = label
+      break
+    }
+  }
+
+  // --- Fee range ---
+  const underMatch = q.match(/under\s*₹?\s*(\d+)\s*(k|lakh|lac|l)?/i)
+  if (underMatch) {
+    const amt = parseInt(underMatch[1])
+    const unit = (underMatch[2] || "lakh").toLowerCase()
+    const value = unit === "k" ? amt * 1000 : amt * 100000
+    if (value <= 50000) result.feeRange = "Under ₹50,000"
+    else if (value <= 100000) result.feeRange = "₹50,000 - ₹1 Lakh"
+    else if (value <= 200000) result.feeRange = "₹1 - 2 Lakh"
+    else if (value <= 500000) result.feeRange = "₹2 - 5 Lakh"
+    else result.feeRange = "Above ₹5 Lakh"
+  }
+
+  // --- State (longest match first to avoid partial hits) ---
+  const sortedStates = [...indianStates].sort((a, b) => b.length - a.length)
+  for (const name of sortedStates) {
+    if (q.includes(name.toLowerCase())) {
+      result.state = name
+      break
+    }
+  }
+
+  // --- City (longest match first) ---
+  const allCityNames = Object.keys(CITY_PINCODE_MAP)
+  const sortedCities = [...allCityNames].sort((a, b) => b.length - a.length)
+  for (const name of sortedCities) {
+    if (q.includes(name.toLowerCase())) {
+      result.city = name
+      break
+    }
+  }
+
+  // Delhi is both a state and a city — prefer city when user says "in Delhi"
+  if (result.state && result.city && result.state.toLowerCase() === result.city.toLowerCase()) {
+    delete result.state
+  }
+
+  return result
+}
 /**
  * Utility function to fetch city data from external APIs if needed
  * Supports OpenCage Geocoding API and Google Maps API

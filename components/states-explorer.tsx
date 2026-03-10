@@ -4,17 +4,36 @@ import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 
-const states = [
-  { name: "Maharashtra", schools: 580, image: "/mumbai.jpg" },
-  { name: "Gujarat", schools: 420, image: "/gujarat.webp" },
-  { name: "Karnataka", schools: 480, image: "/banglore.webp" },
-  { name: "Telangana", schools: 290, image: "/hydrabad.webp" },
-  { name: "Tamil Nadu", schools: 350, image: "/tamuil nadu.webp" },
+interface StateData {
+  name: string
+  slug: string
+  schoolCount: number
+}
+
+// Fallback images by state name
+const stateImages: Record<string, string> = {
+  "Maharashtra": "/mumbai-cityscape-gateway-of-india-sunset.jpg",
+  "Gujarat": "/gujarat.webp",
+  "Karnataka": "/bangalore-garden-city-tech-park-green-trees.jpg",
+  "Telangana": "/hyderabad-charminar-historical-architecture-evenin.jpg",
+  "Tamil Nadu": "/tamuil nadu.webp",
+  "Delhi": "/delhi.jpg",
+  "Uttar Pradesh": "/Uttar pradesh.jpg",
+  "Rajasthan": "/OIP.webp",
+}
+
+const fallbackStates: StateData[] = [
+  { name: "Maharashtra", slug: "maharashtra", schoolCount: 0 },
+  { name: "Gujarat", slug: "gujarat", schoolCount: 0 },
+  { name: "Karnataka", slug: "karnataka", schoolCount: 0 },
+  { name: "Telangana", slug: "telangana", schoolCount: 0 },
+  { name: "Tamil Nadu", slug: "tamil-nadu", schoolCount: 0 },
 ]
 
 export function StatesExplorer() {
   const [isVisible, setIsVisible] = useState(false)
   const [hoveredState, setHoveredState] = useState<string | null>(null)
+  const [states, setStates] = useState<StateData[]>(fallbackStates)
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -34,6 +53,26 @@ export function StatesExplorer() {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    async function loadStates() {
+      try {
+        const res = await fetch("/api/states?counts=true")
+        if (!res.ok) return
+        const data = await res.json()
+        if (data.states && data.states.length > 0) {
+          // Pick top 5 states by school count
+          const sorted = [...data.states]
+            .sort((a: StateData, b: StateData) => b.schoolCount - a.schoolCount)
+            .slice(0, 5)
+          if (sorted.length > 0) setStates(sorted)
+        }
+      } catch {
+        // keep fallback
+      }
+    }
+    loadStates()
+  }, [])
+
   return (
     <section ref={sectionRef} className="py-12 lg:py-16 bg-white border-b border-border/20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -50,7 +89,7 @@ export function StatesExplorer() {
             </h2>
           </div>
           <Link
-            href="/discover"
+            href="/states"
             className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:gap-3 transition-all mt-4"
           >
             View all states
@@ -69,10 +108,12 @@ export function StatesExplorer() {
               "col-span-3 lg:col-span-5 row-span-1",
             ]
 
+            const image = stateImages[state.name] || "/placeholder.jpg"
+
             return (
               <Link
                 key={state.name}
-                href={`/discover?state=${state.name.toLowerCase().replace(/\s+/g, "-")}`}
+                href={`/schools/state/${state.slug}`}
                 onMouseEnter={() => setHoveredState(state.name)}
                 onMouseLeave={() => setHoveredState(null)}
                 className={`group relative rounded-2xl lg:rounded-3xl overflow-hidden ${sizes[index]} transition-all duration-700 glow-hover ${
@@ -82,7 +123,7 @@ export function StatesExplorer() {
               >
                 {/* Image */}
                 <img
-                  src={state.image}
+                  src={image}
                   alt={state.name}
                   className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ${
                     hoveredState === state.name ? "scale-110" : "scale-100"
@@ -95,7 +136,7 @@ export function StatesExplorer() {
                   <div />
                   <div>
                     <h3 className="font-serif text-2xl lg:text-3xl font-bold text-white">{state.name}</h3>
-                    <p className="text-sm text-white/80 mt-1">{state.schools} schools</p>
+                    <p className="text-sm text-white/80 mt-1">{state.schoolCount} schools</p>
                   </div>
                 </div>
                 {/* Hover arrow */}

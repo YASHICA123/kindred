@@ -1,27 +1,55 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { fetchStatesWithSchoolCount, fetchCitiesWithSchoolCount } from "@/lib/supabase-queries"
 import Link from "next/link"
 import { MapPin, ArrowUpRight } from "lucide-react"
 
-const cities = [
-  { name: "Delhi NCR", slug: "delhi-ncr", count: 420, image: "/delhi-india-gate-monuments-urban-landscape.jpg" },
-  { name: "Mumbai", slug: "mumbai", count: 280, image: "/mumbai.jpg" },
-  { name: "Bangalore", slug: "bangalore", count: 340, image: "/banglore.webp" },
-  { name: "Hyderabad", slug: "hyderabad", count: 190, image: "/hydrabad.webp" },
-  { name: "Chennai", slug: "chennai", count: 210, image: "/chennai-marina-beach-temple-architecture.jpg" },
-  { name: "Pune", slug: "pune", count: 165, image: "/pune.webp" },
-  { name: "Kolkata", slug: "kolkata", count: 140, image: "/placeholder.jpg" },
-  { name: "Ahmedabad", slug: "ahmedabad", count: 125, image: "/OIP.webp" },
-  { name: "Jaipur", slug: "jaipur", count: 95, image: "/OIP.webp" },
-  { name: "Lucknow", slug: "lucknow", count: 85, image: "/placeholder.jpg" },
-]
+const cityImages: Record<string, string> = {
+  "Mumbai": "/mumbai-cityscape-gateway-of-india-sunset.jpg",
+  "New Delhi": "/delhi.jpg",
+  "Delhi": "/delhi.jpg",
+  "Bengaluru": "/bangalore-garden-city-tech-park-green-trees.jpg",
+  "Hyderabad": "/hyderabad-charminar-historical-architecture-evenin.jpg",
+  "Chennai": "/chennai-marina-beach-temple-architecture.jpg",
+  "Pune": "/pune.webp",
+  "Kolkata": "/placeholder.jpg",
+  "Ahmedabad": "/OIP.webp",
+  "Jaipur": "/OIP.webp",
+  "Lucknow": "/lucknow.jpg",
+  "Noida": "/noida.jpg",
+}
 
 export const metadata = {
   title: "Schools by City | Kindred School Discovery",
   description: "Explore and discover schools across India's major cities",
 }
 
-export default function CitiesPage() {
+export default async function CitiesPage() {
+  // Fetch states and collect all cities with school counts
+  const states = await fetchStatesWithSchoolCount()
+  const topStates = states
+    .filter((s) => s.schoolCount > 0)
+    .sort((a, b) => b.schoolCount - a.schoolCount)
+    .slice(0, 10)
+
+  const allCities: { name: string; slug: string; count: number; stateName: string; stateSlug: string }[] = []
+
+  for (const state of topStates) {
+    const { cities } = await fetchCitiesWithSchoolCount(state.slug)
+    for (const city of cities) {
+      if (city.schoolCount > 0) {
+        allCities.push({
+          name: city.name,
+          slug: city.slug,
+          count: city.schoolCount,
+          stateName: state.name,
+          stateSlug: state.slug,
+        })
+      }
+    }
+  }
+
+  allCities.sort((a, b) => b.count - a.count)
   return (
     <main className="min-h-screen">
       <Header />
@@ -46,19 +74,23 @@ export default function CitiesPage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {cities.map((city) => (
+            {allCities.map((city) => (
               <Link
                 key={city.slug}
                 href={`/cities/${city.slug}`}
                 className="group block bg-card rounded-3xl overflow-hidden border hover:shadow-xl hover:border-primary/30 transition-all duration-300"
               >
                 <div className="relative aspect-[16/9] overflow-hidden bg-muted">
-                  {city.image && (
+                  {cityImages[city.name] ? (
                     <img
-                      src={city.image}
+                      src={cityImages[city.name]}
                       alt={city.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                      <MapPin className="h-8 w-8 text-primary/30" />
+                    </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
@@ -71,8 +103,8 @@ export default function CitiesPage() {
                     <ArrowUpRight className="h-5 w-5 text-primary/60 group-hover:text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                   </div>
                   
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Explore {city.count}+ schools
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {city.count} school{city.count !== 1 ? "s" : ""} &middot; {city.stateName}
                   </p>
                   
                   <div className="flex flex-wrap gap-2">

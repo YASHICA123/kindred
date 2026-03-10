@@ -15,6 +15,7 @@ export default function DiscoverClient() {
   const [sortBy, setSortBy] = useState<SortOption>("newest")
   const [cityOptions, setCityOptions] = useState<string[] | undefined>(undefined)
   const [stateOptions, setStateOptions] = useState<string[] | undefined>(undefined)
+  const [boardOptions, setBoardOptions] = useState<string[] | undefined>(undefined)
 
   const mapping: Record<string, string> = {
     Search: "search",
@@ -63,17 +64,36 @@ export default function DiscoverClient() {
     setSelectedFilters(next)
   }, [searchParams])
 
-  // fetch available cities from our server API (bundled + Strapi union)
+  // Fetch boards for curriculum filter
   useEffect(() => {
     let mounted = true
-    fetch("/api/cities")
+    fetch("/api/boards")
+      .then((r) => {
+        if (!r.ok) throw new Error("Failed to fetch boards")
+        return r.json()
+      })
+      .then((data) => {
+        if (!mounted) return
+        const boards = (Array.isArray(data) ? data : []).map((b: any) => String(b.name).trim()).filter(Boolean)
+        if (boards.length > 0) setBoardOptions(boards)
+      })
+      .catch(() => {})
+    return () => { mounted = false }
+  }, [])
+
+  // fetch available cities
+  useEffect(() => {
+    let mounted = true
+    fetch("/api/cities?limit=500")
       .then((r) => {
         if (!r.ok) throw new Error("Failed to fetch cities")
         return r.json()
       })
       .then((json) => {
         if (!mounted) return
-        const cities = (json.data || []).map((c: any) => String(c).trim())
+        const cities = (json.data || []).map((c: any) =>
+          typeof c === "string" ? c.trim() : String(c.city || c).trim()
+        )
         setCityOptions(cities)
       })
       .catch(() => {
@@ -94,8 +114,10 @@ export default function DiscoverClient() {
       })
       .then((json) => {
         if (!mounted) return
-        const states = (json.data || []).map((s: any) => String(s).trim())
-        setStateOptions(states)
+        // API returns { states: [...] } where each item may be an object with .name or a string
+        const raw = json.states || json.data || []
+        const states = raw.map((s: any) => (typeof s === "string" ? s : s.name || String(s)).trim()).filter(Boolean)
+        if (states.length > 0) setStateOptions(states)
       })
       .catch(() => {
         if (mounted) setStateOptions(undefined)
@@ -135,6 +157,7 @@ export default function DiscoverClient() {
             onClear={onClear}
             cityOptions={cityOptions}
             stateOptions={stateOptions}
+            boardOptions={boardOptions}
           />
         </div>
       </aside>

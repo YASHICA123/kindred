@@ -4,17 +4,38 @@ import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 
-const cities = [
-  { name: "Mumbai", schools: 280, image: "/mumbai.jpg" },
-  { name: "Jaipur", schools: 310, image: "/OIP.webp" },
-  { name: "Bangalore", schools: 340, image: "/banglore.webp" },
-  { name: "Pune", schools: 190, image: "/pune.webp" },
-  { name: "Hyderabad", schools: 210, image: "/hydrabad.webp" },
+interface CityData {
+  name: string
+  slug: string
+  schoolCount: number
+}
+
+const cityImages: Record<string, string> = {
+  "Mumbai": "/mumbai-cityscape-gateway-of-india-sunset.jpg",
+  "Jaipur": "/OIP.webp",
+  "Bengaluru": "/bangalore-garden-city-tech-park-green-trees.jpg",
+  "Bangalore": "/banglore.webp",
+  "Pune": "/pune.webp",
+  "Hyderabad": "/hyderabad-charminar-historical-architecture-evenin.jpg",
+  "New Delhi": "/delhi.jpg",
+  "Delhi": "/delhi.jpg",
+  "Chennai": "/chennai-marina-beach-temple-architecture.jpg",
+  "Lucknow": "/lucknow.jpg",
+  "Noida": "/noida.jpg",
+}
+
+const fallbackCities: CityData[] = [
+  { name: "Mumbai", slug: "mumbai", schoolCount: 0 },
+  { name: "Jaipur", slug: "jaipur", schoolCount: 0 },
+  { name: "Bengaluru", slug: "bengaluru", schoolCount: 0 },
+  { name: "Pune", slug: "pune", schoolCount: 0 },
+  { name: "Hyderabad", slug: "hyderabad", schoolCount: 0 },
 ]
 
 export function CitiesExplorer() {
   const [isVisible, setIsVisible] = useState(false)
   const [hoveredCity, setHoveredCity] = useState<string | null>(null)
+  const [cities, setCities] = useState<CityData[]>(fallbackCities)
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -34,6 +55,47 @@ export function CitiesExplorer() {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    async function loadCities() {
+      try {
+        const res = await fetch("/api/schools/discovery")
+        if (!res.ok) return
+        const data = await res.json()
+        if (data.states && data.states.length > 0) {
+          // Collect all cities with counts from top states
+          const allCities: CityData[] = []
+          // Fetch cities for the top 5 states by school count
+          const topStates = [...data.states]
+            .sort((a: { schoolCount: number }, b: { schoolCount: number }) => b.schoolCount - a.schoolCount)
+            .slice(0, 5)
+
+          for (const state of topStates) {
+            const cityRes = await fetch(`/api/states?slug=${state.slug}`)
+            if (!cityRes.ok) continue
+            const cityData = await cityRes.json()
+            if (cityData.cities) {
+              for (const city of cityData.cities) {
+                if (city.schoolCount > 0) {
+                  allCities.push(city)
+                }
+              }
+            }
+          }
+
+          if (allCities.length > 0) {
+            const sorted = allCities
+              .sort((a, b) => b.schoolCount - a.schoolCount)
+              .slice(0, 5)
+            setCities(sorted)
+          }
+        }
+      } catch {
+        // keep fallback
+      }
+    }
+    loadCities()
+  }, [])
+
   return (
     <section ref={sectionRef} className="py-16 lg:py-24 bg-white border-b border-border/20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -50,7 +112,7 @@ export function CitiesExplorer() {
             </h2>
           </div>
           <Link
-            href="/discover"
+            href="/cities"
             className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:gap-3 transition-all"
           >
             View all cities
@@ -69,10 +131,12 @@ export function CitiesExplorer() {
               "col-span-3 lg:col-span-5 row-span-1",
             ]
 
+            const image = cityImages[city.name] || "/placeholder.jpg"
+
             return (
               <Link
                 key={city.name}
-                href={`/discover?city=${city.name.toLowerCase().replace(/\s+/g, "-")}`}
+                href={`/cities/${city.slug}`}
                 onMouseEnter={() => setHoveredCity(city.name)}
                 onMouseLeave={() => setHoveredCity(null)}
                 className={`group relative rounded-2xl lg:rounded-3xl overflow-hidden ${sizes[index]} transition-all duration-700 glow-hover ${
@@ -81,7 +145,7 @@ export function CitiesExplorer() {
                 style={{ transitionDelay: `${index * 80}ms` }}
               >
                 <img
-                  src={city.image || "/placeholder.svg"}
+                  src={image}
                   alt={city.name}
                   className={`w-full h-full object-cover transition-transform duration-700 ${
                     hoveredCity === city.name ? "scale-110" : "scale-100"
@@ -92,7 +156,7 @@ export function CitiesExplorer() {
                   <div className="flex items-end justify-between">
                     <div>
                       <h3 className="font-serif text-lg lg:text-xl text-white">{city.name}</h3>
-                      <p className="text-white/70 text-sm mt-0.5">{city.schools} schools</p>
+                      <p className="text-white/70 text-sm mt-0.5">{city.schoolCount} schools</p>
                     </div>
                     <div
                       className={`p-2.5 rounded-full transition-all duration-300 ${

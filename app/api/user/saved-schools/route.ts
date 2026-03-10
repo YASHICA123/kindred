@@ -5,17 +5,8 @@ import { getAuth } from 'firebase/auth'
 
 export async function POST(request: NextRequest) {
   try {
-    const { schoolId, schoolName, schoolImage, schoolLocation } = await request.json()
-    
-    // Get current user from auth header or session
-    const authHeader = request.headers.get('authorization')
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    // In a real app, you'd validate the token
-    // For now, we'll assume the userId is passed in the body
-    const { userId } = await request.json()
+    const body = await request.json()
+    const { schoolId, schoolName, schoolImage, schoolLocation, userId } = body
     
     if (!userId || !schoolId) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })

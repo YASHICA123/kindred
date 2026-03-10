@@ -108,17 +108,17 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-6 sm:py-8">
         {/* Back Button */}
-        <Link href="/" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6">
+        <Link href="/" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-4 sm:mb-6 py-2">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Schools
         </Link>
 
         {/* Hero Section */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
           <div className="lg:col-span-2">
-            <div className="relative h-64 md:h-96 rounded-xl overflow-hidden">
+            <div className="relative h-48 sm:h-64 md:h-96 rounded-xl overflow-hidden">
               {school.image ? (
                 <>
                   <Image
@@ -134,12 +134,12 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
                   <span className="text-sm text-muted-foreground">No image available</span>
                 </div>
               )}
-              <div className="absolute bottom-4 left-4 text-white">
+              <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-white">
                 <Badge className="mb-2">{school.type}</Badge>
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">{school.name}</h1>
-                <div className="flex items-center gap-4 text-sm">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2">{school.name}</h1>
+                <div className="flex items-center gap-4 text-xs sm:text-sm">
                   <div className="flex items-center gap-1">
-                    <MapPin className="w-4 h-4" />
+                    <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
                     {school.location}
                   </div>
                 </div>
@@ -150,11 +150,11 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
           {/* Quick Info Card */}
           <div className="space-y-4">
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <p className="text-2xl font-bold text-primary">{school.feeRange}</p>
-                    <p className="text-sm text-muted-foreground">Annual Fee Range</p>
+                    <p className="text-xl sm:text-2xl font-bold text-primary">{school.feeRange}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Annual Fee Range</p>
                   </div>
                   <div className="flex gap-2">
                     <Button
@@ -211,7 +211,7 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
 
             {/* Contact Card */}
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 <h3 className="font-semibold mb-4">Quick Contact</h3>
                 {hasContact ? (
                   <div className="space-y-3">
@@ -243,19 +243,19 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
         </div>
 
         {/* Tab Navigation */}
-        <div className="mb-12">
-          <div className="flex flex-wrap gap-2 p-2 bg-secondary/50 rounded-xl overflow-x-auto">
+        <div className="mb-8 sm:mb-12">
+          <div className="flex gap-2 p-1.5 sm:p-2 bg-secondary/50 rounded-xl overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 whitespace-nowrap ${
+                className={`px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap ${
                   activeTab === tab.id
                     ? "bg-primary text-primary-foreground shadow-md"
                     : "text-foreground hover:bg-secondary"
                 }`}
               >
-                <span className="mr-2">{tab.icon}</span>
+                <span className="mr-1.5 sm:mr-2">{tab.icon}</span>
                 {tab.label}
               </button>
             ))}
@@ -263,7 +263,7 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
         </div>
 
         {/* Tab Content */}
-        <div className="mb-12">
+        <div className="mb-8 sm:mb-12">
           {activeTab === "overview" && (
             <div>
               <Card>
@@ -382,7 +382,7 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
                   <div className="space-y-4">
                     {school.admissions?.map((item) => (
                       <div key={item.id} className="rounded-lg border border-border p-4">
-                        <div className="flex items-start justify-between gap-4">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
                           <div>
                             <h3 className="font-semibold">{item.title || "Admission Update"}</h3>
                             {item.description && (
@@ -390,7 +390,7 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
                             )}
                           </div>
                           {item.deadline && (
-                            <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-full">
+                            <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-full self-start whitespace-nowrap">
                               Deadline: {item.deadline}
                             </span>
                           )}
@@ -509,10 +509,10 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
 
         {/* CTA Section */}
         <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-transparent">
-          <CardContent className="p-8">
+          <CardContent className="p-6 sm:p-8">
             <div className="text-center">
-              <h2 className="text-2xl font-bold mb-2">Ready to Join {school.name}?</h2>
-              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+              <h2 className="text-xl sm:text-2xl font-bold mb-2">Ready to Join {school.name}?</h2>
+              <p className="text-sm sm:text-base text-muted-foreground mb-6 max-w-2xl mx-auto">
                 Take the next step towards an exceptional educational experience. Apply now or schedule a campus visit.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/use-auth"
 
 interface SavedSchool {
   schoolId: string | number
+  schoolSlug?: string
   schoolName: string
   schoolImage: string
   schoolLocation: string
@@ -45,7 +46,7 @@ export function SavedSchoolsList() {
 
   if (!user) {
     return (
-      <Card className="p-8 text-center">
+      <Card className="p-6 sm:p-8 text-center">
         <p className="text-muted-foreground mb-4">Please log in to view saved schools</p>
       </Card>
     )
@@ -53,7 +54,7 @@ export function SavedSchoolsList() {
 
   if (loading) {
     return (
-      <Card className="p-8 flex justify-center">
+      <Card className="p-6 sm:p-8 flex justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </Card>
     )
@@ -61,10 +62,10 @@ export function SavedSchoolsList() {
 
   if (savedSchools.length === 0) {
     return (
-      <Card className="p-8 text-center">
+      <Card className="p-6 sm:p-8 text-center">
         <Heart className="h-12 w-12 text-gray-300 mx-auto mb-4" />
         <h3 className="text-lg font-semibold mb-2">No saved schools yet</h3>
-        <p className="text-muted-foreground mb-6">
+        <p className="text-sm sm:text-base text-muted-foreground mb-6">
           Explore schools and save your favorites to compare and track them later.
         </p>
         <Link
@@ -78,19 +79,19 @@ export function SavedSchoolsList() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Saved Schools</h2>
-          <p className="text-muted-foreground mt-1">You have {savedSchools.length} saved school{savedSchools.length !== 1 ? "s" : ""}</p>
+          <h2 className="text-xl sm:text-2xl font-bold">Saved Schools</h2>
+          <p className="text-sm sm:text-base text-muted-foreground mt-1">You have {savedSchools.length} saved school{savedSchools.length !== 1 ? "s" : ""}</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {savedSchools.map((school) => (
           <Link
             key={school.schoolId}
-            href={`/schools/${school.schoolId}`}
+            href={`/schools/${school.schoolSlug || school.schoolId}`}
             onMouseEnter={() => setHoveredId(school.schoolId)}
             onMouseLeave={() => setHoveredId(null)}
             className="group block"
@@ -109,7 +110,7 @@ export function SavedSchoolsList() {
               </div>
 
               {/* Content */}
-              <div className="p-5 flex-1 flex flex-col">
+              <div className="p-4 sm:p-5 flex-1 flex flex-col">
                 <h3 className="font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors">
                   {school.schoolName}
                 </h3>

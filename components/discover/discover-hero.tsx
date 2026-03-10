@@ -1,22 +1,79 @@
 "use client"
 
 import { Search } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { extractSearchIntent } from "@/lib/discover-options"
+
+const placeholderExamples = [
+  "Best schools in Delhi",
+  "Top CBSE schools near me",
+  "Boarding schools under 2 Lakh",
+  "IB schools in Bangalore",
+  "Montessori preschools in Mumbai",
+]
 
 export function DiscoverHero() {
   const [searchQuery, setSearchQuery] = useState("")
+  const [animatedPlaceholder, setAnimatedPlaceholder] = useState("")
   const router = useRouter()
+
+  // Typewriter animation for search placeholder
+  useEffect(() => {
+    if (searchQuery) return
+
+    let exampleIndex = 0
+    let charIndex = 0
+    let deleting = false
+    let timeout: NodeJS.Timeout
+
+    const tick = () => {
+      const currentText = placeholderExamples[exampleIndex]
+
+      if (!deleting) {
+        charIndex++
+        setAnimatedPlaceholder(currentText.slice(0, charIndex))
+        if (charIndex === currentText.length) {
+          deleting = true
+          timeout = setTimeout(tick, 1800)
+          return
+        }
+        timeout = setTimeout(tick, 80)
+      } else {
+        charIndex--
+        setAnimatedPlaceholder(currentText.slice(0, charIndex))
+        if (charIndex === 0) {
+          deleting = false
+          exampleIndex = (exampleIndex + 1) % placeholderExamples.length
+          timeout = setTimeout(tick, 400)
+          return
+        }
+        timeout = setTimeout(tick, 40)
+      }
+    }
+
+    timeout = setTimeout(tick, 600)
+    return () => clearTimeout(timeout)
+  }, [searchQuery])
 
   const handleSearch = () => {
     const query = searchQuery.trim()
-    if (!query) {
-      console.warn("Search query is empty")
-      return
+    if (!query) return
+
+    const params = new URLSearchParams()
+    const intent = extractSearchIntent(query)
+
+    if (intent.city) params.append("city", intent.city)
+    if (intent.state) params.append("state", intent.state)
+    if (intent.board) params.append("curriculum", intent.board)
+    if (intent.type) params.append("type", intent.type)
+    if (intent.feeRange) params.append("fee", intent.feeRange)
+
+    if (!intent.city && !intent.state && !intent.board && !intent.type && !intent.feeRange) {
+      params.append("search", query)
     }
-    const encodedQuery = encodeURIComponent(query)
-    console.log("Searching for:", query)
-    router.push(`/discover?search=${encodedQuery}`)
+
+    router.push(`/discover?${params.toString()}`)
   }
 
   return (
@@ -37,7 +94,7 @@ export function DiscoverHero() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search by school name, location, or curriculum..."
+                placeholder={searchQuery ? "" : animatedPlaceholder || "Search by school name, location, or curriculum..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => {

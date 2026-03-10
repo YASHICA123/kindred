@@ -1,6 +1,6 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { fetchSchools } from "@/lib/strapi"
+import { fetchSchoolsByCitySlug } from "@/lib/supabase-queries"
 import Link from "next/link"
 import { MapPin, ArrowUpRight } from "lucide-react"
 
@@ -8,6 +8,7 @@ const cities = [
   { name: "Delhi NCR", slug: "delhi-ncr", description: "Explore premium schools in Delhi NCR with CBSE, ICSE, and IB boards" },
   { name: "Mumbai", slug: "mumbai", description: "Discover schools in Mumbai offering diverse educational philosophies" },
   { name: "Bangalore", slug: "bangalore", description: "Find innovative schools in Bangalore's tech-forward education ecosystem" },
+  { name: "Bengaluru", slug: "bengaluru", description: "Find innovative schools in Bengaluru's tech-forward education ecosystem" },
   { name: "Hyderabad", slug: "hyderabad", description: "Explore quality schools in Hyderabad combining tradition and modern education" },
   { name: "Chennai", slug: "chennai", description: "Discover heritage schools in Chennai with strong academic focus" },
   { name: "Pune", slug: "pune", description: "Find progressive schools in Pune known for holistic education" },
@@ -18,16 +19,18 @@ const cities = [
 ]
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const city = cities.find(c => c.slug === params.slug)
+  const { slug } = await params
+  const city = cities.find(c => c.slug === slug)
+  const cityName = city?.name || slug.replace(/-/g, " ")
   return {
-    title: `Schools in ${city?.name} | Kindred School Discovery`,
-    description: city?.description,
+    title: `Schools in ${cityName} | Kindred School Discovery`,
+    description: city?.description || `Discover top schools in ${cityName}`,
   }
 }
 
@@ -38,21 +41,15 @@ export async function generateStaticParams() {
 }
 
 export default async function CityPage({ params }: PageProps) {
-  const { slug } = params
+  const { slug } = await params
   const city = cities.find(c => c.slug === slug)
+  const cityName = city?.name || slug.replace(/-/g, " ")
   
-  if (!city) {
-    return <div>City not found</div>
-  }
-
-  let schoolsData = []
+  let schoolsData: any[] = []
   try {
-    const allSchools = await fetchSchools()
-    schoolsData = allSchools.filter((school: any) => 
-      school.city && school.city.toLowerCase().includes(city.name.split(' ')[0].toLowerCase())
-    )
+    schoolsData = await fetchSchoolsByCitySlug(slug)
   } catch (error) {
-    console.error(`Error loading schools for ${city.name}:`, error)
+    console.error(`Error loading schools for ${cityName}:`, error)
   }
 
   return (
@@ -67,10 +64,10 @@ export default async function CityPage({ params }: PageProps) {
             <span className="text-sm font-medium text-primary">City Guide</span>
           </div>
           <h1 className="font-serif text-4xl lg:text-5xl font-medium mb-4">
-            Schools in {city.name}
+            Schools in {cityName}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl">
-            {city.description}
+            {city?.description || `Discover top schools in ${cityName}`}
           </p>
         </div>
       </section>
@@ -80,26 +77,26 @@ export default async function CityPage({ params }: PageProps) {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-wrap gap-3">
             <Link
-              href={`/discover?city=${city.name}`}
+              href={`/discover?city=${cityName}`}
               className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/50 border border-border rounded-full text-sm font-medium hover:border-primary transition-colors"
             >
               View All
               <ArrowUpRight className="h-4 w-4" />
             </Link>
             <Link
-              href={`/discover?city=${city.name}&board=CBSE`}
+              href={`/discover?city=${cityName}&board=CBSE`}
               className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/50 border border-border rounded-full text-sm font-medium hover:border-primary transition-colors"
             >
               CBSE
             </Link>
             <Link
-              href={`/discover?city=${city.name}&board=ICSE`}
+              href={`/discover?city=${cityName}&board=ICSE`}
               className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/50 border border-border rounded-full text-sm font-medium hover:border-primary transition-colors"
             >
               ICSE
             </Link>
             <Link
-              href={`/discover?city=${city.name}&board=IB`}
+              href={`/discover?city=${cityName}&board=IB`}
               className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/50 border border-border rounded-full text-sm font-medium hover:border-primary transition-colors"
             >
               IB
@@ -124,9 +121,9 @@ export default async function CityPage({ params }: PageProps) {
                     className="group block bg-card rounded-2xl overflow-hidden border hover:shadow-lg transition-all duration-300"
                   >
                     <div className="aspect-[16/10] overflow-hidden relative bg-muted">
-                      {school.image && (
+                      {school.cover_image && (
                         <img
-                          src={school.image}
+                          src={school.cover_image}
                           alt={school.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
@@ -137,11 +134,11 @@ export default async function CityPage({ params }: PageProps) {
                         {school.name}
                       </h3>
                       <p className="text-sm text-muted-foreground mt-2">
-                        {school.location}
+                        {school.city_name}{school.state_name ? `, ${school.state_name}` : ''}
                       </p>
-                      {school.curriculum && (
+                      {school.board && (
                         <p className="text-xs text-primary mt-3 font-medium">
-                          {school.curriculum}
+                          {school.board}
                         </p>
                       )}
                     </div>
@@ -151,7 +148,7 @@ export default async function CityPage({ params }: PageProps) {
               {schoolsData.length > 12 && (
                 <div className="text-center mt-12">
                   <Link
-                    href={`/discover?city=${city.name}`}
+                    href={`/discover?city=${cityName}`}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors"
                   >
                     View All {schoolsData.length} Schools
@@ -163,7 +160,7 @@ export default async function CityPage({ params }: PageProps) {
           ) : (
             <div className="text-center py-16">
               <p className="text-muted-foreground text-lg mb-4">
-                No schools found in {city.name} yet
+                No schools found in {cityName} yet
               </p>
               <Link
                 href="/discover"

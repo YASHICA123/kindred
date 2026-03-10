@@ -69,17 +69,22 @@ export function SchoolGrid({ filters, sortBy = "newest" }: Props) {
     }
 
     if (!matchAny(school.curriculum, filters.curriculum || [])) return false
-    if (!matchAny(school.type, filters.type || [])) return false
+    // Use school_type_names from junction table if available, fallback to raw type
+    if (!matchAny(school.school_type_names?.length ? school.school_type_names : school.type, filters.type || [])) return false
     if (!matchAny(school.feeRange || school.fee || school.fee_range, filters.fee || [])) return false
     if (!matchAny(school.facilities, filters.facilities || [])) return false
     if ((filters.search || []).length) {
-      const searchNeedles = filters.search.map((s) => s.toLowerCase())
-      const haystack = [school.name, school.city, school.location, school.curriculum, school.type]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase()
-      const matchesSearch = searchNeedles.some((needle) => haystack.includes(needle))
-      if (!matchesSearch) return false
+      const searchWords = filters.search
+        .flatMap((s) => s.toLowerCase().split(/\s+/))
+        .filter((w) => w.length > 2 && !["the", "and", "for", "best", "top", "schools", "school", "in"].includes(w))
+      if (searchWords.length > 0) {
+        const haystack = [school.name, school.city, school.location, school.curriculum, school.type, school.state]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase()
+        const matchesSearch = searchWords.some((word) => haystack.includes(word))
+        if (!matchesSearch) return false
+      }
     }
     // City filter: match against `city` or fallback to `location`
     if (!matchAny(school.city || school.location, filters.city || [])) return false

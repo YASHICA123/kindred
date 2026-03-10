@@ -35,6 +35,49 @@ export const supabaseAdmin = supabaseUrl && supabaseServiceKey
   ? createClient(supabaseUrl, supabaseServiceKey)
   : createMockClient() as any
 
+export type Board = {
+  id: string
+  name: string
+  slug: string
+  full_name?: string
+  description?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export type AgeGroup = {
+  id: string
+  name: string
+  slug: string
+  age_range: string
+  min_age?: number
+  max_age?: number
+  display_order?: number
+  created_at?: string
+  updated_at?: string
+}
+
+export type FeeRange = {
+  id: string
+  name: string
+  slug: string
+  min_fee?: number
+  max_fee?: number
+  display_order?: number
+  created_at?: string
+  updated_at?: string
+}
+
+export type SchoolType = {
+  id: string
+  name: string
+  slug: string
+  description?: string
+  display_order?: number
+  created_at?: string
+  updated_at?: string
+}
+
 export type School = {
   id: number
   name: string
@@ -55,6 +98,8 @@ export type School = {
   location?: string
   type?: string
   board?: string
+  board_id?: string
+  fee_range_id?: string
   contact_email?: string
   contact_phone?: string
   created_at?: string

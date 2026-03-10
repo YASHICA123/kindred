@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { CITY_OPTIONS_WITH_PINCODES, FILTER_BOARDS, FILTER_FEE_RANGES, FILTER_SCHOOL_TYPES } from "@/lib/discover-options"
+import { CITY_OPTIONS_WITH_PINCODES, FILTER_BOARDS, FILTER_FEE_RANGES, FILTER_SCHOOL_TYPES, extractSearchIntent } from "@/lib/discover-options"
 
 export function UniversalSearch() {
   const [isVisible, setIsVisible] = useState(false)
@@ -49,7 +49,20 @@ export function UniversalSearch() {
     if (board) params.append("board", board)
     if (feeRange) params.append("feeRange", feeRange)
     if (schoolType) params.append("type", schoolType)
-    if (searchTerm) params.append("search", searchTerm)
+
+    // Parse free-text query to extract city/state/board/type/fees
+    if (searchTerm) {
+      const intent = extractSearchIntent(searchTerm)
+      if (intent.city && !city) params.append("city", intent.city)
+      if (intent.state) params.append("state", intent.state)
+      if (intent.board && !board) params.append("curriculum", intent.board)
+      if (intent.type && !schoolType) params.append("type", intent.type)
+      if (intent.feeRange && !feeRange) params.append("fee", intent.feeRange)
+
+      if (!intent.city && !intent.state && !intent.board && !intent.type && !intent.feeRange) {
+        params.append("search", searchTerm)
+      }
+    }
 
     setHasSearched(true)
     router.push(`/discover?${params.toString()}`)

@@ -22,6 +22,26 @@ export async function GET() {
     let schools = []
     let source = 'supabase'
 
+    // Try to fetch school types from the junction table
+    let schoolTypeMap: Record<string, string[]> = {}
+    try {
+      const { data: junctionData } = await supabase
+        .from('school_school_types')
+        .select('school_id, school_types(name)')
+      if (junctionData) {
+        for (const row of junctionData as any[]) {
+          const sid = String(row.school_id)
+          const typeName = row.school_types?.name
+          if (typeName) {
+            if (!schoolTypeMap[sid]) schoolTypeMap[sid] = []
+            schoolTypeMap[sid].push(typeName)
+          }
+        }
+      }
+    } catch {
+      // Junction table may not exist yet - ignore
+    }
+
     if (supabaseError || !supabaseSchools || supabaseSchools.length === 0) {
       console.warn('⚠️ Supabase query failed or empty, falling back to CSV...')
       if (supabaseError) {
@@ -63,6 +83,7 @@ export async function GET() {
         city: school.city,
         state: school.state,
         type: school.type,
+        school_type_names: schoolTypeMap[String(school.id)] || [],
         curriculum: school.curriculum,
         rating: school.rating,
         reviews: school.reviews,

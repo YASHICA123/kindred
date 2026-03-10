@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { CITY_OPTIONS_WITH_PINCODES, FILTER_BOARDS, FILTER_FEE_RANGES, FILTER_SCHOOL_TYPES } from "@/lib/discover-options"
+import { CITY_OPTIONS_WITH_PINCODES, FILTER_BOARDS, FILTER_FEE_RANGES, FILTER_SCHOOL_TYPES, extractSearchIntent } from "@/lib/discover-options"
 
 export function ImmersiveHero() {
   const [scrollY, setScrollY] = useState(0)
@@ -26,6 +26,16 @@ export function ImmersiveHero() {
   const [selectedFeeRange, setSelectedFeeRange] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
   const heroRef = useRef<HTMLDivElement>(null)
+  const [animatedPlaceholder, setAnimatedPlaceholder] = useState("")
+  const [isTyping, setIsTyping] = useState(true)
+
+  const placeholderExamples = [
+    "Best schools in Delhi",
+    "Top CBSE schools near me",
+    "Boarding schools under 2 Lakh",
+    "IB schools in Bangalore",
+    "Montessori preschools in Mumbai",
+  ]
 
   const handleSearch = () => {
     const params = new URLSearchParams()
@@ -33,8 +43,22 @@ export function ImmersiveHero() {
     if (selectedType) params.append("type", selectedType)
     if (selectedBoard) params.append("board", selectedBoard)
     if (selectedFeeRange) params.append("fee", selectedFeeRange)
-    if (searchTerm.trim()) params.append("search", searchTerm.trim())
-    
+
+    // Parse free-text query to extract city/state/board/type/fees
+    if (searchTerm.trim()) {
+      const intent = extractSearchIntent(searchTerm)
+      if (intent.city && !selectedCity) params.append("city", intent.city)
+      if (intent.state) params.append("state", intent.state)
+      if (intent.board && !selectedBoard) params.append("curriculum", intent.board)
+      if (intent.type && !selectedType) params.append("type", intent.type)
+      if (intent.feeRange && !selectedFeeRange) params.append("fee", intent.feeRange)
+
+      // Only pass raw search if nothing was extracted
+      if (!intent.city && !intent.state && !intent.board && !intent.type && !intent.feeRange) {
+        params.append("search", searchTerm.trim())
+      }
+    }
+
     const queryString = params.toString()
     window.location.href = `/discover?${queryString}`
   }
@@ -47,6 +71,45 @@ export function ImmersiveHero() {
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  // Parallax cursor effect for ambient glow
+  // Typewriter animation for search placeholder
+  useEffect(() => {
+    if (searchTerm) return // Stop animation when user types
+
+    let exampleIndex = 0
+    let charIndex = 0
+    let deleting = false
+    let timeout: NodeJS.Timeout
+
+    const tick = () => {
+      const currentText = placeholderExamples[exampleIndex]
+
+      if (!deleting) {
+        charIndex++
+        setAnimatedPlaceholder(currentText.slice(0, charIndex))
+        if (charIndex === currentText.length) {
+          deleting = true
+          timeout = setTimeout(tick, 1800) // Pause before deleting
+          return
+        }
+        timeout = setTimeout(tick, 80) // Typing speed
+      } else {
+        charIndex--
+        setAnimatedPlaceholder(currentText.slice(0, charIndex))
+        if (charIndex === 0) {
+          deleting = false
+          exampleIndex = (exampleIndex + 1) % placeholderExamples.length
+          timeout = setTimeout(tick, 400) // Pause before next word
+          return
+        }
+        timeout = setTimeout(tick, 40) // Deleting speed
+      }
+    }
+
+    timeout = setTimeout(tick, 600) // Initial delay
+    return () => clearTimeout(timeout)
+  }, [searchTerm])
 
   // Parallax cursor effect for ambient glow
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -77,21 +140,6 @@ export function ImmersiveHero() {
         <div className="relative z-10 w-full">
           {/* Hero Content with enhanced spacing */}
           <div className="min-h-screen flex flex-col justify-center max-w-7xl mx-auto px-6 lg:px-8 pt-28 lg:pt-36 pb-6 lg:pb-8">
-            {/* Trust Badge - Refined */}
-            <div
-              className={`inline-flex self-start items-center gap-3 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/40 mb-4 transition-all duration-700 hover:shadow-md hover:border-green-300/60 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-              style={{ transitionDelay: "80ms" }}
-            >
-              <div className="relative flex -space-x-1">
-                <div className="w-5 h-5 rounded-full bg-green-400 border-2 border-white/80" />
-                <div className="w-5 h-5 rounded-full bg-emerald-500 border-2 border-white/80" />
-                <div className="w-5 h-5 rounded-full bg-teal-400 border-2 border-white/80" />
-              </div>
-              <span className="text-xs font-semibold text-green-700 tracking-wide">Trusted by 50,000+ families</span>
-            </div>
-
             {/* Main headline with refined styling */}
             <h1 className="font-serif text-5xl lg:text-6xl xl:text-7xl leading-[1.15] tracking-tight max-w-5xl">
               <span className="block overflow-hidden">
@@ -143,7 +191,7 @@ export function ImmersiveHero() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                    placeholder="Search school, city, board..."
+                    placeholder={searchTerm ? "" : animatedPlaceholder || "Search school, city, board..."}
                     className="h-11 border-0 bg-white/80 hover:bg-white focus-visible:ring-2 focus-visible:ring-primary/25 text-sm"
                   />
                 </div>
