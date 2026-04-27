@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Heart, MapPin, DollarSign, BookOpen } from "lucide-react"
 import { useApplicationForm } from "@/hooks/use-application-form"
 import { Button } from "@/components/ui/button"
-import { fetchSchools } from "@/lib/strapi"
+import { fetchSchools } from "@/lib/supabase-queries"
 
 interface School {
   id: string | number
@@ -30,7 +30,19 @@ export function MultiSchoolSelection() {
       try {
         setLoading(true)
         const data = await fetchSchools()
-        setSchools(data)
+        const normalized = data.map((school: any) => ({
+          id: school.id,
+          slug: school.slug,
+          name: school.name,
+          location: school.location || `${school.city || ''}${school.state ? `, ${school.state}` : ''}`,
+          city: school.city || '',
+          rating: school.ratings || 0,
+          reviews: school.reviews || 0,
+          feeRange: school.fee_range || 'Contact school',
+          type: school.type || 'School',
+          image: school.cover_image || '/placeholder.svg',
+        }))
+        setSchools(normalized)
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load schools")
       } finally {

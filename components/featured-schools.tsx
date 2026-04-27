@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { ArrowUpRight, MapPin, Heart, ChevronLeft, ChevronRight } from "lucide-react"
 
-const fallbackFeatured = [] // Removed local data - using only Strapi
-
 export function FeaturedSchools() {
   const [isVisible, setIsVisible] = useState(false)
   const [hoveredSchool, setHoveredSchool] = useState<number | null>(null)

@@ -1,39 +1,27 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import Link from "next/link"
-import { auth } from "@/lib/firebase"
-import { onAuthStateChanged, signOut } from "firebase/auth"
+import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Loader2, LogOut, ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { SavedSchoolsList } from "@/components/profile/saved-schools-list"
+import { useAuth } from "@/hooks/use-auth"
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
   const router = useRouter()
+  const { user, loading } = useAuth()
 
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser)
-        setLoading(false)
-      } else {
-        setUser(null)
-        setLoading(false)
-        router.push("/")
-      }
-    })
-
-    return () => {
-      unsubscribeAuth()
+    if (!loading && !user) {
+      router.push("/")
     }
-  }, [router])
+  }, [loading, router, user])
 
   const handleLogout = async () => {
     try {
-      await signOut(auth)
+      await supabase.auth.signOut()
       router.push("/")
     } catch (error) {
       console.error("Logout error:", error)

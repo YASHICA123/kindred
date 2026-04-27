@@ -6,7 +6,7 @@ import { Footer } from "@/components/footer"
 import { Mail, Phone, MapPin, Send, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { saveContactSubmission } from "@/lib/firebase-data"
+import { saveContactSubmission } from "@/lib/supabase-data"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" })
@@ -27,7 +27,7 @@ export default function ContactPage() {
     }
 
     try {
-      // Save to Firestore
+      // Save to Supabase
       await saveContactSubmission(formData)
       
       console.log("✅ Contact form submitted and saved:", formData)

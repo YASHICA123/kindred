@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { fetchSchools } from "@/lib/strapi"
+import { fetchSchools } from "@/lib/supabase-queries"
 import { CompareCards } from "./compare-cards"
 import { CompareDetails } from "./compare-details"
 
@@ -16,7 +16,9 @@ export default function CompareClient() {
     fetchSchools()
       .then((data) => {
         if (!mounted) return
-        const sorted = data.slice().sort((a: any, b: any) => (b.rating || 0) - (a.rating || 0))
+        const sorted = data
+          .slice()
+          .sort((a: any, b: any) => (b.rating ?? b.ratings ?? 0) - (a.rating ?? a.ratings ?? 0))
         setAllSchools(sorted)
         setSelectedA(sorted[0]?.id ?? null)
         setSelectedB(sorted[1]?.id ?? null)

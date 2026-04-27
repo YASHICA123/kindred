@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { fetchSchools, fetchSchoolDetailBySlug } from '@/lib/strapi'
+import { fetchSchools, fetchSchoolDetailBySlug } from '@/lib/supabase-queries'
 import SchoolDetail from '@/components/school-detail'
 
 interface PageProps {
@@ -39,19 +39,19 @@ export async function generateMetadata(
     }
 
     return {
-      title: `${school.name} - ${school.location} | Kindred School Search`,
+      title: `${school.name} - ${school.location || school.city || ''} | Kindred School Search`,
       description:
         school.description ||
-        `Learn more about ${school.name}, a ${school.type} school in ${school.location}.`,
+        `Learn more about ${school.name}, a ${school.type} school in ${school.location || school.city || ''}.`,
       openGraph: {
         title: school.name,
         description:
           school.description ||
-          `Learn more about ${school.name}, a ${school.type} school in ${school.location}.`,
-        images: school.image
+          `Learn more about ${school.name}, a ${school.type} school in ${school.location || school.city || ''}.`,
+        images: school.image || school.cover_image
           ? [
               {
-                url: school.image,
+                url: school.image || school.cover_image,
               },
             ]
           : [],

@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react"
-import { saveApplicationForm, updateApplicationForm, getApplicationForm } from "@/lib/firebase-data"
-import { auth } from "@/lib/firebase"
+import { saveApplicationForm, updateApplicationForm, getApplicationForm } from "@/lib/supabase-data"
+import { useAuth } from "@/hooks/use-auth"
 
 export interface ParentProfile {
   firstName: string
@@ -35,8 +35,8 @@ export interface DocumentFile {
   type: string
   size: number
   file?: File
-  url?: string  // Firebase Storage download URL
-  storagePath?: string  // Firebase Storage path
+  url?: string
+  storagePath?: string
 }
 
 export interface SchoolSelection {
@@ -110,6 +110,8 @@ const initialState: ApplicationFormState = {
 
 export function ApplicationFormProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<ApplicationFormState>(initialState)
+  const { user } = useAuth()
+  const userId = user?.uid ?? null
 
   const setParentProfile = (profile: ParentProfile) => {
     setState((prev) => ({ ...prev, parentProfile: profile }))
@@ -161,15 +163,15 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
 
     try {
       // Check authentication
-      if (!auth.currentUser) {
+      if (!userId) {
         throw new Error("Please sign in to submit an application")
       }
 
       console.log('📝 Starting application submission...')
-      console.log('👤 User ID:', auth.currentUser.uid)
+      console.log('👤 User ID:', userId)
       console.log('📄 Documents to upload:', state.documents.length)
 
-      // First, upload all documents to Firebase Storage
+      // First, upload all documents to Supabase Storage
       const uploadedDocuments = []
       for (const doc of state.documents) {
         try {
@@ -178,11 +180,11 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
             const startTime = Date.now()
             
             // Dynamic import with better error handling
-            const { uploadApplicationDocument } = await import('@/lib/firebase-data')
+            const { uploadApplicationDocument } = await import('@/lib/supabase-data')
             console.log('✅ uploadApplicationDocument imported ')
             
             const uploadedDoc = await uploadApplicationDocument(
-              auth.currentUser.uid,
+              userId,
               doc.file,
               "draft"
             )
@@ -214,11 +216,11 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
         }
       }
 
-      console.log('💾 All documents uploaded. Saving to Firestore...')
+      console.log('💾 All documents uploaded. Saving to Supabase...')
 
-      // Save application to Firebase Firestore (with file URLs, not File objects)
-      const firebaseApp = await saveApplicationForm({
-        userId: auth.currentUser.uid,
+      // Save application with file URLs (not File objects)
+      const savedApp = await saveApplicationForm({
+        userId,
         currentStep: state.currentStep,
         parentProfile: state.parentProfile,
         studentDetails: state.studentDetails,
@@ -229,7 +231,7 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
         submittedApplicationId: state.submittedApplicationId,
       } as any)
 
-      console.log('✅ Application saved to Firestore:', firebaseApp.id)
+      console.log('✅ Application saved:', savedApp.id)
       console.log('📡 Sending to API...')
 
       // Send to API for additional processing
@@ -239,8 +241,8 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: auth.currentUser.uid,
-          firebaseId: firebaseApp.id,
+          userId,
+          applicationStoreId: savedApp.id,
           parentProfile: state.parentProfile,
           studentDetails: state.studentDetails,
           selectedSchools: state.selectedSchools.filter((s) => s.selected),
@@ -260,7 +262,7 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
       setState((prev) => ({
         ...prev,
         isSubmitting: false,
-        submittedApplicationId: firebaseApp.id || data.id,
+        submittedApplicationId: savedApp.id || data.id,
         currentStep: 5,
       }))
       
@@ -282,7 +284,7 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
 
   const saveDraft = async () => {
     try {
-      if (!auth.currentUser) {
+      if (!userId) {
         throw new Error("Please sign in to save a draft")
       }
 
@@ -292,9 +294,9 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
         try {
           if (doc.file && !doc.url) {
             // Document is a new File that hasn't been uploaded yet
-            const { uploadApplicationDocument } = await import('@/lib/firebase-data')
+            const { uploadApplicationDocument } = await import('@/lib/supabase-data')
             const uploadedDoc = await uploadApplicationDocument(
-              auth.currentUser.uid,
+              userId,
               doc.file,
               state.submittedApplicationId || "draft"
             )
@@ -324,7 +326,7 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
       }
 
       const draftData = {
-        userId: auth.currentUser.uid,
+        userId,
         currentStep: state.currentStep,
         parentProfile: state.parentProfile,
         studentDetails: state.studentDetails,
@@ -356,7 +358,7 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
 
   const loadApplicationDraft = async (applicationId: string) => {
     try {
-      if (!auth.currentUser) {
+      if (!userId) {
         throw new Error("Please sign in to load a draft")
       }
 

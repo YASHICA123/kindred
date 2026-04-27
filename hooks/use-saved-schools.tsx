@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/use-auth'
-import { getSavedSchools, saveSchool, removeSavedSchool } from '@/lib/firebase-data'
+import { getSavedSchools, saveSchool, removeSavedSchool } from '@/lib/supabase-data'
 
 interface SavedSchool {
   schoolId: string | number
@@ -41,9 +41,8 @@ export function SavedSchoolsProvider({ children }: { children: React.ReactNode }
     
     try {
       setLoading(true)
-      // First try Firebase
-      const firebaseSavedSchools = await getSavedSchools()
-      const schoolsList = firebaseSavedSchools.map((school) => ({
+      const savedSchoolsData = await getSavedSchools()
+      const schoolsList = savedSchoolsData.map((school) => ({
         schoolId: school.schoolId,
         schoolName: school.schoolName,
         schoolImage: school.schoolImage || '',
@@ -52,7 +51,7 @@ export function SavedSchoolsProvider({ children }: { children: React.ReactNode }
       }))
       setSavedSchools(schoolsList)
     } catch (error) {
-      console.error('Error fetching saved schools from Firebase:', error)
+      console.error('Error fetching saved schools from Supabase:', error)
       
       // Fallback to API
       try {
@@ -78,7 +77,7 @@ export function SavedSchoolsProvider({ children }: { children: React.ReactNode }
       const isSavedNow = isSaved(school.schoolId)
 
       if (isSavedNow) {
-        // Remove from Firebase
+        // Remove from Supabase
         await removeSavedSchool(school.schoolId.toString())
         setSavedSchools((prev) => prev.filter((s) => s.schoolId !== school.schoolId))
         
@@ -89,7 +88,7 @@ export function SavedSchoolsProvider({ children }: { children: React.ReactNode }
           body: JSON.stringify({ userId: user.uid, schoolId: school.schoolId }),
         }).catch(err => console.warn('API deletion fallback failed:', err))
       } else {
-        // Save to Firebase
+        // Save to Supabase
         await saveSchool({
           schoolId: school.schoolId.toString(),
           schoolName: school.schoolName,

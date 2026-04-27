@@ -6,13 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { auth, db } from "@/lib/firebase"
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword,
-  UserCredential 
-} from "firebase/auth"
-import { doc, setDoc, serverTimestamp } from "firebase/firestore"
+import { supabase } from "@/lib/supabase"
 import { Loader2 } from "lucide-react"
 
 interface AuthDialogProps {
@@ -41,15 +35,21 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
 
     try {
       if (isLogin) {
-        // Login
-        await signInWithEmailAndPassword(auth, formData.email, formData.password)
+        const { error } = await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password,
+        })
+
+        if (error) {
+          throw error
+        }
+
         setSuccess("Login successful! Redirecting...")
         setTimeout(() => {
           onOpenChange(false)
           window.location.href = "/dashboard"
         }, 1000)
       } else {
-        // Signup validation
         if (!formData.name) {
           setError("Name is required")
           setLoading(false)
@@ -66,50 +66,44 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
           return
         }
 
-        // Create user
-        const userCredential: UserCredential = await createUserWithEmailAndPassword(
-          auth, 
-          formData.email, 
-          formData.password
-        )
-        
-        // Save user data to Firestore
-        await setDoc(
-          doc(db, "users", userCredential.user.uid),
-          {
-            uid: userCredential.user.uid,
-            name: formData.name,
-            email: formData.email,
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
-            stats: {
-              schoolsVisited: 0,
-              sessionsBooked: 0,
-              favorites: 0,
+        const { data, error } = await supabase.auth.signUp({
+          email: formData.email,
+          password: formData.password,
+          options: {
+            data: {
+              name: formData.name,
             },
           },
-          { merge: true },
-        )
+        })
 
-        setSuccess("Account created! Redirecting...")
-        setTimeout(() => {
-          onOpenChange(false)
-          window.location.href = "/dashboard"
-        }, 1000)
+        if (error) {
+          throw error
+        }
+
+        if (data.session) {
+          setSuccess("Account created! Redirecting...")
+          setTimeout(() => {
+            onOpenChange(false)
+            window.location.href = "/dashboard"
+          }, 1000)
+        } else {
+          setSuccess("Account created! Please check your email to confirm your account.")
+        }
       }
     } catch (err: any) {
       let errorMessage = "An error occurred. Please try again."
-      
-      if (err.code === "auth/email-already-in-use") {
+
+      if (typeof err?.message === "string" && err.message) {
+        errorMessage = err.message
+      }
+
+      const normalizedMessage = errorMessage.toLowerCase()
+      if (normalizedMessage.includes("already registered")) {
         errorMessage = "Email already in use. Please login instead."
-      } else if (err.code === "auth/invalid-email") {
-        errorMessage = "Invalid email address"
-      } else if (err.code === "auth/weak-password") {
-        errorMessage = "Password is too weak"
-      } else if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password") {
+      } else if (normalizedMessage.includes("invalid login credentials")) {
         errorMessage = "Invalid email or password"
-      } else if (err.code === "auth/network-request-failed") {
-        errorMessage = "Network error. Please check your connection."
+      } else if (normalizedMessage.includes("invalid email")) {
+        errorMessage = "Invalid email address"
       }
       
       setError(errorMessage)
@@ -212,6 +206,38 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
             ) : (
               isLogin ? "Log In" : "Sign Up"
             )}
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            disabled={loading}
+            onClick={async () => {
+              setError("")
+              setSuccess("")
+              setLoading(true)
+
+              const { error } = await supabase.auth.signInWithOAuth({
+                provider: "google",
+                options: {
+                  redirectTo: `${window.location.origin}/dashboard`,
+                },
+              })
+
+              if (error) {
+                setError(error.message)
+                setLoading(false)
+                return
+              }
+
+              onOpenChange(false)
+              if (typeof window !== "undefined") {
+                window.location.href = "/dashboard"
+              }
+            }}
+          >
+            Continue with Google
           </Button>
 
           <div className="text-center text-sm">

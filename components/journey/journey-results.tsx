@@ -5,8 +5,8 @@ import { motion } from "framer-motion"
 import { Sparkles, MapPin, Users, Heart, ArrowRight, RefreshCw, Calendar, DollarSign, Award } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { saveSchool, removeSavedSchool, isSchoolSaved, getSavedSchools } from "@/lib/firebase-data"
-import { auth } from "@/lib/firebase"
+import { saveSchool, removeSavedSchool, isSchoolSaved, getSavedSchools } from "@/lib/supabase-data"
+import { useAuth } from "@/hooks/use-auth"
 
 interface JourneyResultsProps {
   answers: Record<string, string | string[]>
@@ -66,6 +66,7 @@ const mockSchools = [
 export function JourneyResults({ answers }: JourneyResultsProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [savedSchools, setSavedSchools] = useState<string[]>([])
+  const { user } = useAuth()
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2000)
@@ -109,7 +110,7 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
 
   const toggleSave = async (schoolId: string) => {
     // Check authentication
-    if (!auth.currentUser) {
+    if (!user) {
       alert('Please sign in to save schools')
       return
     }
@@ -119,11 +120,11 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
       const school = matchedSchools.find(s => s.id === schoolId)
       
       if (isSaved) {
-        // Remove from Firebase
+        // Remove from Supabase
         await removeSavedSchool(schoolId)
         setSavedSchools((prev) => prev.filter((id) => id !== schoolId))
       } else {
-        // Save to Firebase
+        // Save to Supabase
         await saveSchool({
           schoolId,
           schoolName: school?.name || 'Unknown School',
@@ -141,9 +142,9 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
   }
 
   useEffect(() => {
-    // Load saved schools from Firebase on component mount
+    // Load saved schools from Supabase on component mount
     const loadSavedSchools = async () => {
-      if (!auth.currentUser) {
+      if (!user) {
         setSavedSchools([])
         return
       }
@@ -153,7 +154,7 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
         setSavedSchools(schools.map(s => s.schoolId))
       } catch (error) {
         console.error('Error loading saved schools:', error)
-        // Fallback to localStorage if Firebase fails
+        // Fallback to localStorage if Supabase fails
         const saved = localStorage.getItem('savedSchools')
         if (saved) {
           setSavedSchools(JSON.parse(saved))
@@ -162,7 +163,7 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
     }
 
     loadSavedSchools()
-  }, [])
+  }, [user])
 
   if (isLoading) {
     return (

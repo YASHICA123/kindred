@@ -7,9 +7,8 @@ import { Calculator, Calendar, Target, ArrowRight, Save, AlertCircle } from "luc
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
-import { saveAgeCalculation, getAgeCalculation } from "@/lib/firebase-data"
-import { auth } from "@/lib/firebase"
-import { onAuthStateChanged } from "firebase/auth"
+import { saveAgeCalculation, getAgeCalculation } from "@/lib/supabase-data"
+import { useAuth } from "@/hooks/use-auth"
 
 const gradeStructure = [
   { grade: "Nursery", minAge: 2.5, maxAge: 3.5 },
@@ -32,29 +31,33 @@ const gradeStructure = [
 export default function AgeCalculatorPage() {
   const [dateOfBirth, setDateOfBirth] = useState("")
   const [admissionYear, setAdmissionYear] = useState(new Date().getFullYear().toString())
-  const [user, setUser] = useState<any>(null)
   const [saveMessage, setSaveMessage] = useState("")
+  const { user, loading: authLoading } = useAuth()
 
-  // Load from Firestore on mount
+  // Load from Supabase on mount
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser)
+    if (authLoading) {
+      return
+    }
 
-      if (currentUser) {
-        try {
-          const saved = await getAgeCalculation()
-          if (saved) {
-            setDateOfBirth(saved.dateOfBirth)
-            setAdmissionYear(saved.admissionYear)
-          }
-        } catch (error) {
-          console.error("Error loading age calculation:", error)
+    if (!user?.uid) {
+      return
+    }
+
+    const loadSavedCalculation = async () => {
+      try {
+        const saved = await getAgeCalculation()
+        if (saved) {
+          setDateOfBirth(saved.dateOfBirth)
+          setAdmissionYear(saved.admissionYear)
         }
+      } catch (error) {
+        console.error("Error loading age calculation:", error)
       }
-    })
+    }
 
-    return () => unsubscribeAuth()
-  }, [])
+    loadSavedCalculation()
+  }, [authLoading, user?.uid])
 
   const handleSave = async () => {
     if (!user) {

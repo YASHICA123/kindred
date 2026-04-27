@@ -1,13 +1,12 @@
 "use client"
 
-import React, { useState, useMemo, useEffect } from "react"
+import React, { useState, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ArrowRight, Sparkles, CheckCircle, Search, X } from "lucide-react"
 import Link from "next/link"
-import { saveQuizAnswers } from "@/lib/firebase-data"
-import { auth } from "@/lib/firebase"
-import { onAuthStateChanged } from "firebase/auth"
+import { saveQuizAnswers } from "@/lib/supabase-data"
+import { useAuth } from "@/hooks/use-auth"
 
 const indianStates = [
   "Andhra Pradesh",
@@ -112,17 +111,8 @@ export function SmartRecommendationQuiz() {
   const [answers, setAnswers] = useState<Answers>({})
   const [showResults, setShowResults] = useState(false)
   const [locationSearch, setLocationSearch] = useState("")
-  const [user, setUser] = useState<any>(null)
   const [saveMessage, setSaveMessage] = useState("")
-
-  // Check if user is logged in
-  useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser)
-    })
-
-    return () => unsubscribeAuth()
-  }, [])
+  const { user } = useAuth()
 
   const filteredStates = useMemo(
     () =>

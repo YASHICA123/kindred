@@ -6,9 +6,8 @@ import { Footer } from "@/components/footer"
 import { BarChart3, ArrowRight, Plus, Minus, Save, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { savePointsCalculation, getPointsCalculation } from "@/lib/firebase-data"
-import { auth } from "@/lib/firebase"
-import { onAuthStateChanged } from "firebase/auth"
+import { savePointsCalculation, getPointsCalculation } from "@/lib/supabase-data"
+import { useAuth } from "@/hooks/use-auth"
 
 interface PointsCriteria {
   label: string
@@ -35,16 +34,18 @@ const defaultSchool: SchoolPoints = {
 
 export default function PointsCalculatorPage() {
   const [school, setSchool] = useState<SchoolPoints>(defaultSchool)
-  const [user, setUser] = useState<any>(null)
   const [saveMessage, setSaveMessage] = useState("")
   const [loading, setLoading] = useState(true)
+  const { user, loading: authLoading } = useAuth()
 
-  // Load from Firestore on mount
+  // Load from Supabase on mount
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser)
+    if (authLoading) {
+      return
+    }
 
-      if (currentUser) {
+    if (user?.uid) {
+      const loadSavedCalculation = async () => {
         try {
           const saved = await getPointsCalculation()
           if (saved) {
@@ -55,13 +56,17 @@ export default function PointsCalculatorPage() {
           }
         } catch (error) {
           console.error("Error loading points calculation:", error)
+        } finally {
+          setLoading(false)
         }
       }
-      setLoading(false)
-    })
 
-    return () => unsubscribeAuth()
-  }, [])
+      loadSavedCalculation()
+      return
+    }
+
+    setLoading(false)
+  }, [authLoading, user?.uid])
 
   const totalPoints = school.criteria.reduce((sum, c) => sum + c.current, 0)
   const maxTotalPoints = school.criteria.reduce((sum, c) => sum + c.maxPoints, 0)

@@ -1,4 +1,3 @@
-import { useContext } from 'react'
 import { useAuthContext } from '@/components/providers/auth-provider'
 
 export function useAuth() {

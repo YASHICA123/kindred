@@ -1,198 +1,114 @@
-import { NextRequest, NextResponse } from "next/server"
-import { collection, addDoc, query, getDocs, doc, getDoc, updateDoc, setDoc, serverTimestamp } from "firebase/firestore"
-import { db } from "@/lib/firebase"
+import { NextRequest, NextResponse } from 'next/server'
+import {
+  serverGetUserRecord,
+  serverInsertUserRecord,
+  serverListUserRecords,
+  serverUpsertUserRecord,
+} from '@/lib/server-user-data'
 
-interface JourneyEvent {
-  userId: string
-  eventType: 'quiz_started' | 'quiz_completed' | 'school_viewed' | 'school_saved' | 'application_started' | 'application_submitted'
-  title: string
-  description?: string
-  metadata?: Record<string, any>
-  createdAt?: any
-}
+const EVENTS_BUCKET = 'journey-events'
+const PROGRESS_BUCKET = 'journey-progress'
+const PROGRESS_KEY = 'current'
 
-interface JourneyProgress {
-  userId: string
-  currentStep: number
-  totalSteps: number
-  completedSteps: string[]
-  lastUpdated?: any
-}
-
-/**
- * POST /api/journey/event
- * Track a student journey event
- */
 export async function POST(request: NextRequest) {
   try {
-    const event: JourneyEvent = await request.json()
+    const event = await request.json()
 
-    // Validation
     if (!event.userId || !event.eventType || !event.title) {
-      return NextResponse.json(
-        { error: "Missing required fields: userId, eventType, title" },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Missing required fields: userId, eventType, title' }, { status: 400 })
     }
 
-    // Save event to Firestore
-    const eventsRef = collection(db, 'users', event.userId, 'journeyEvents')
-    
-    const eventDocRef = await addDoc(eventsRef, {
-      eventType: event.eventType,
-      title: event.title,
-      description: event.description || '',
-      metadata: event.metadata || {},
-      createdAt: serverTimestamp(),
-    })
-
-    console.log("✅ Journey event recorded:", {
-      eventId: eventDocRef.id,
+    const row = await serverInsertUserRecord({
       userId: event.userId,
-      eventType: event.eventType,
-      title: event.title,
+      bucket: EVENTS_BUCKET,
+      keyPrefix: 'event',
+      payload: {
+        eventType: event.eventType,
+        title: event.title,
+        description: event.description || '',
+        metadata: event.metadata || {},
+        createdAt: new Date().toISOString(),
+      },
     })
 
-    return NextResponse.json(
-      {
-        success: true,
-        eventId: eventDocRef.id,
-        message: "Journey event recorded",
-      },
-      { status: 201 }
-    )
+    return NextResponse.json({ success: true, eventId: row.data_key, message: 'Journey event recorded' }, { status: 201 })
   } catch (error) {
-    console.error("❌ Error recording journey event:", error)
-    return NextResponse.json(
-      { error: "Failed to record event" },
-      { status: 500 }
-    )
+    console.error('Error recording journey event:', error)
+    return NextResponse.json({ error: 'Failed to record event' }, { status: 500 })
   }
 }
 
-/**
- * GET /api/journey?userId={userId}
- * Get all journey events for a user
- */
 export async function GET(request: NextRequest) {
   try {
-    const userId = request.nextUrl.searchParams.get("userId")
+    const userId = request.nextUrl.searchParams.get('userId')
 
     if (!userId) {
-      return NextResponse.json(
-        { error: "User ID required" },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'User ID required' }, { status: 400 })
     }
 
-    // Get all journey events
-    const eventsRef = collection(db, 'users', userId, 'journeyEvents')
-    const snapshot = await getDocs(eventsRef)
+    const rows = await serverListUserRecords({ userId, bucket: EVENTS_BUCKET })
+    const events = rows.map((row) => ({ id: row.data_key, ...row.payload }))
 
-    const events = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-      createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
-    }))
-
-    // Calculate progress
     const completedSteps: string[] = []
     const eventTypes = new Set<string>()
 
-    events.forEach((event) => {
+    events.forEach((event: any) => {
       eventTypes.add(event.eventType)
       if (!completedSteps.includes(event.eventType)) {
         completedSteps.push(event.eventType)
       }
     })
 
-    // Get progress document if exists
-    const progressRef = doc(db, 'users', userId, 'journeyProgress', 'current')
-    const progressDoc = await getDoc(progressRef)
-    const progressData = progressDoc.exists() ? progressDoc.data() : {}
+    const progressRow = await serverGetUserRecord({ userId, bucket: PROGRESS_BUCKET, dataKey: PROGRESS_KEY })
 
     return NextResponse.json({
       userId,
       totalEvents: events.length,
-      events: events.sort((a, b) => {
-        const dateA = new Date(a.createdAt).getTime()
-        const dateB = new Date(b.createdAt).getTime()
+      events: events.sort((a: any, b: any) => {
+        const dateA = new Date(a.createdAt || 0).getTime()
+        const dateB = new Date(b.createdAt || 0).getTime()
         return dateB - dateA
       }),
       progress: {
         completedSteps,
         totalStepTypes: eventTypes.size,
-        ...progressData,
+        ...(progressRow?.payload || {}),
       },
       timeline: generateTimeline(events),
     })
   } catch (error) {
-    console.error("❌ Error fetching journey:", error)
-    return NextResponse.json(
-      { error: "Failed to fetch journey" },
-      { status: 500 }
-    )
+    console.error('Error fetching journey:', error)
+    return NextResponse.json({ error: 'Failed to fetch journey' }, { status: 500 })
   }
 }
 
-/**
- * PATCH /api/journey/progress
- * Update student's journey progress
- */
 export async function PATCH(request: NextRequest) {
   try {
     const { userId, currentStep, totalSteps, completedSteps } = await request.json()
 
     if (!userId) {
-      return NextResponse.json(
-        { error: "User ID required" },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'User ID required' }, { status: 400 })
     }
 
-    // Update progress document
-    const progressRef = doc(db, 'users', userId, 'journeyProgress', 'current')
-    
-    await updateDoc(progressRef, {
-      currentStep: currentStep || 0,
-      totalSteps: totalSteps || 5,
-      completedSteps: completedSteps || [],
-      lastUpdated: serverTimestamp(),
-    }).catch(async (error) => {
-      // If document doesn't exist, create it
-      if (error.code === 'not-found') {
-        await setDoc(progressRef, {
-          currentStep: currentStep || 0,
-          totalSteps: totalSteps || 5,
-          completedSteps: completedSteps || [],
-          createdAt: serverTimestamp(),
-          lastUpdated: serverTimestamp(),
-        })
-      }
-    })
-
-    console.log("✅ Journey progress updated:", {
+    await serverUpsertUserRecord({
       userId,
-      currentStep,
-      completedSteps: completedSteps?.length || 0,
+      bucket: PROGRESS_BUCKET,
+      dataKey: PROGRESS_KEY,
+      payload: {
+        currentStep: currentStep || 0,
+        totalSteps: totalSteps || 5,
+        completedSteps: completedSteps || [],
+        lastUpdated: new Date().toISOString(),
+      },
     })
 
-    return NextResponse.json({
-      success: true,
-      message: "Progress updated successfully",
-    })
+    return NextResponse.json({ success: true, message: 'Progress updated successfully' })
   } catch (error) {
-    console.error("❌ Error updating progress:", error)
-    return NextResponse.json(
-      { error: "Failed to update progress" },
-      { status: 500 }
-    )
+    console.error('Error updating progress:', error)
+    return NextResponse.json({ error: 'Failed to update progress' }, { status: 500 })
   }
 }
 
-/**
- * Helper function to generate timeline from events
- */
 function generateTimeline(events: any[]) {
   const timeline: Record<string, any[]> = {
     today: [],
@@ -207,7 +123,7 @@ function generateTimeline(events: any[]) {
   const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000)
 
   events.forEach((event) => {
-    const eventDate = new Date(event.createdAt)
+    const eventDate = new Date(event.createdAt || 0)
     const eventDateOnly = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate())
 
     if (eventDateOnly.getTime() === today.getTime()) {

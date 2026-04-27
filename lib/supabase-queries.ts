@@ -9,7 +9,7 @@ export async function fetchSchools() {
     const { data, error } = await supabase
       .from('schools')
       .select('*')
-      .order('ratings', { ascending: false })
+      .order('rating', { ascending: false })
 
     if (error) {
       console.error('Supabase error:', error.message || error)
@@ -32,7 +32,7 @@ export async function fetchSchoolsByCity(city: string) {
       .from('schools')
       .select('*')
       .ilike('city', `%${city}%`)
-      .order('ratings', { ascending: false })
+      .order('rating', { ascending: false })
 
     if (error) throw error
     return data as School[]
@@ -110,7 +110,7 @@ export async function searchSchools(query: string) {
       .from('schools')
       .select('*')
       .or(`name.ilike.%${query}%,description.ilike.%${query}%,highlights.ilike.%${query}%`)
-      .order('ratings', { ascending: false })
+      .order('rating', { ascending: false })
 
     if (error) throw error
     return data as School[]
@@ -172,7 +172,7 @@ export async function getFeaturedSchools(limit: number = 6) {
     const { data, error } = await supabase
       .from('schools')
       .select('*')
-      .order('ratings', { ascending: false })
+      .order('rating', { ascending: false })
       .limit(limit)
 
     if (error) throw error
@@ -201,7 +201,7 @@ export async function fetchSchoolsByBoard(boardSlug: string) {
       .from('schools')
       .select('*')
       .eq('board_id', boardData.id)
-      .order('ratings', { ascending: false })
+      .order('rating', { ascending: false })
 
     if (error) throw error
     return data as School[]

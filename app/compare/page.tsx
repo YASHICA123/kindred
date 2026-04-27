@@ -5,9 +5,8 @@ import { useState, useEffect, useRef } from "react"
 import { ArrowLeft, BookOpen, Search, AlertCircle, X, ExternalLink, ChevronDown, ArrowDown, Save } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { saveSchoolComparison } from "@/lib/firebase-data"
-import { auth } from "@/lib/firebase"
-import { onAuthStateChanged } from "firebase/auth"
+import { saveSchoolComparison } from "@/lib/supabase-data"
+import { useAuth } from "@/hooks/use-auth"
 
 export default function ComparePage() {
   const [schools, setSchools] = useState<any[]>([])
@@ -16,22 +15,13 @@ export default function ComparePage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedSchools, setSelectedSchools] = useState<any[]>([])
   const [filteredSchools, setFilteredSchools] = useState<any[]>([])
-  const [user, setUser] = useState<any>(null)
   const [saveMessage, setSaveMessage] = useState("")
   const comparisonRef = useRef<HTMLDivElement>(null)
+  const { user } = useAuth()
 
   const scrollToComparison = () => {
     comparisonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
-
-  // Load user on mount
-  useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser)
-    })
-
-    return () => unsubscribeAuth()
-  }, [])
 
   const handleSaveComparison = async () => {
     if (!user) {

@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { saveEnquiry } from "@/lib/firebase-data"
-import { auth } from "@/lib/firebase"
+import { saveEnquiry } from "@/lib/supabase-data"
+import { useAuth } from "@/hooks/use-auth"
 
 const indianCities = [
   "Delhi NCR", "Mumbai", "Bangalore", "Hyderabad", "Chennai",
@@ -45,6 +45,7 @@ export function SmartSearchDialog({ open = true, onOpenChange }: SmartSearchDial
   const [selectedClass, setSelectedClass] = useState("")
   const [selectedBoard, setSelectedBoard] = useState("")
   const [selectedFeeRange, setSelectedFeeRange] = useState("")
+  const { user } = useAuth()
   
   // Enquire form state
   const [parentName, setParentName] = useState("")
@@ -62,7 +63,7 @@ export function SmartSearchDialog({ open = true, onOpenChange }: SmartSearchDial
     e.preventDefault()
     
     // Check if user is authenticated
-    if (!auth.currentUser) {
+    if (!user) {
       alert('Please sign in to submit an enquiry')
       return
     }
@@ -75,7 +76,7 @@ export function SmartSearchDialog({ open = true, onOpenChange }: SmartSearchDial
       if (selectedBoard) params.append("board", selectedBoard)
       if (selectedFeeRange) params.append("fees", selectedFeeRange)
       
-      // Save enquiry to Firebase Firestore
+      // Save enquiry to Supabase
       await saveEnquiry({
         city: selectedCity,
         class: selectedClass,

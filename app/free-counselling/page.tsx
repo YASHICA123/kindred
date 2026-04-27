@@ -1,14 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Calendar, Clock, User, Mail, Phone, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { saveFreeCounsellingBooking } from "@/lib/firebase-data"
-import { onAuthStateChanged } from "firebase/auth"
-import { auth } from "@/lib/firebase"
+import { saveFreeCounsellingBooking } from "@/lib/supabase-data"
 import Link from "next/link"
 
 export default function FreeCounsellingPage() {
@@ -23,16 +21,8 @@ export default function FreeCounsellingPage() {
     preferredTime: "",
   })
   const [submitted, setSubmitted] = useState(false)
-  const [user, setUser] = useState<any>(null)
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState("")
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser)
-    })
-    return () => unsubscribe()
-  }, [])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>

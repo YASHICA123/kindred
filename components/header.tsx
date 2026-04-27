@@ -7,9 +7,7 @@ import { useState, useEffect, useRef } from "react"
 import { Menu, X, ChevronDown, LogOut, Heart, Video } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { AuthDialog } from "@/components/auth-dialog"
-import { auth, db } from "@/lib/firebase"
-import { onAuthStateChanged, signOut } from "firebase/auth"
-import { doc, getDoc } from "firebase/firestore"
+import { supabase } from "@/lib/supabase"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SmartSearchDialog } from "@/components/smart-search-dialog"
+import { useAuth } from "@/hooks/use-auth"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -24,11 +23,10 @@ export function Header() {
   const [authDialogOpen, setAuthDialogOpen] = useState(false)
   const [searchDialogOpen, setSearchDialogOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
-  const [displayName, setDisplayName] = useState<string | null>(null)
-  const [userEmail, setUserEmail] = useState<string | null>(null)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const buttonRef = useRef<HTMLButtonElement>(null)
   const router = useRouter()
+  const { user } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,34 +36,12 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        setUserEmail(currentUser.email)
-        try {
-          const userDoc = await getDoc(doc(db, "users", currentUser.uid))
-          if (userDoc.exists()) {
-            const data = userDoc.data() as { name?: string }
-            setDisplayName(data.name || currentUser.email?.split("@")[0] || "User")
-          } else {
-            setDisplayName(currentUser.email?.split("@")[0] || "User")
-          }
-        } catch (error) {
-          console.error("Error loading user data:", error)
-          setDisplayName(currentUser.email?.split("@")[0] || "User")
-        }
-      } else {
-        setDisplayName(null)
-        setUserEmail(null)
-      }
-    })
-
-    return () => unsubscribe()
-  }, [])
+  const displayName = user?.displayName || user?.email?.split("@")[0] || null
+  const userEmail = user?.email || null
 
   const handleLogout = async () => {
     try {
-      await signOut(auth)
+      await supabase.auth.signOut()
       setUserMenuOpen(false)
       router.push("/")
     } catch (error) {
