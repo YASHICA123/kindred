@@ -5,6 +5,7 @@ import {
   serverInsertUserRecord,
   serverListUserRecords,
 } from '@/lib/server-user-data'
+import { supabaseAdmin } from '@/lib/supabase'
 
 const BUCKET = 'free-counselling-bookings'
 

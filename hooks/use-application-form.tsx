@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react"
-import { saveApplicationForm, updateApplicationForm, getApplicationForm } from "@/lib/supabase-data"
+import { saveApplicationForm, updateApplicationForm, getApplicationForm, saveApplicationToTable } from "@/lib/supabase-data"
 import { useAuth } from "@/hooks/use-auth"
 
 export interface ParentProfile {
@@ -218,7 +218,7 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
 
       console.log('💾 All documents uploaded. Saving to Supabase...')
 
-      // Save application with file URLs (not File objects)
+      // Save application with file URLs (not File objects) — stores in user_data_store
       const savedApp = await saveApplicationForm({
         userId,
         currentStep: state.currentStep,
@@ -231,7 +231,24 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
         submittedApplicationId: state.submittedApplicationId,
       } as any)
 
-      console.log('✅ Application saved:', savedApp.id)
+      console.log('✅ Application saved to user_data_store:', savedApp.id)
+
+      // Also save to structured applications table (all form fields as columns)
+      try {
+        await saveApplicationToTable({
+          userId,
+          applicationStoreId: savedApp.id,
+          parentProfile: state.parentProfile,
+          studentDetails: state.studentDetails,
+          selectedSchools: state.selectedSchools.filter((s) => s.selected),
+          documents: uploadedDocuments,
+        })
+        console.log('✅ Application saved to applications table')
+      } catch (tableError) {
+        // Non-fatal: data is already in user_data_store
+        console.warn('⚠️ Could not save to applications table (table may not exist yet):', tableError)
+      }
+
       console.log('📡 Sending to API...')
 
       // Send to API for additional processing
@@ -367,10 +384,10 @@ export function ApplicationFormProvider({ children }: { children: ReactNode }) {
         setState((prev) => ({
           ...prev,
           currentStep: application.currentStep || 0,
-          parentProfile: application.parentProfile,
-          studentDetails: application.studentDetails,
-          documents: application.documents || [],
-          selectedSchools: application.selectedSchools || [],
+          parentProfile: application.parentProfile as ParentProfile,
+          studentDetails: application.studentDetails as StudentDetails,
+          documents: (application.documents || []) as DocumentFile[],
+          selectedSchools: (application.selectedSchools || []) as SchoolSelection[],
           submittedApplicationId: applicationId,
         }))
       }

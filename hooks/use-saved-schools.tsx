@@ -47,7 +47,7 @@ export function SavedSchoolsProvider({ children }: { children: React.ReactNode }
         schoolName: school.schoolName,
         schoolImage: school.schoolImage || '',
         schoolLocation: school.schoolLocation || '',
-        savedAt: school.savedAt instanceof Object ? new Date(school.savedAt).toISOString() : school.savedAt,
+        savedAt: typeof school.savedAt === 'object' && school.savedAt ? new Date(school.savedAt).toISOString() : school.savedAt,
       }))
       setSavedSchools(schoolsList)
     } catch (error) {

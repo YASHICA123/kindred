@@ -94,10 +94,11 @@ export function DiscoverySection() {
                 </div>
               </div>
 
-              {/* Favorite button */}
+              {/* Favorite button commented out
               <button className="absolute top-4 right-4 p-3 bg-background/20 backdrop-blur-sm rounded-full hover:bg-background/40 transition-colors">
                 <Heart className="h-5 w-5 text-background" />
               </button>
+              */}
             </div>
           </Link>
 
@@ -134,9 +135,9 @@ export function DiscoverySection() {
                       <span className="text-muted-foreground">{school.students} students</span>
                     </div>
                   </div>
-                  <button className="absolute top-4 right-4 p-2 hover:bg-foreground/5 rounded-full transition-colors">
+                  {/* <button className="absolute top-4 right-4 p-2 hover:bg-foreground/5 rounded-full transition-colors">
                     <Heart className="h-4 w-4 text-muted-foreground" />
-                  </button>
+                  </button> */}
                 </div>
               </Link>
             ))}

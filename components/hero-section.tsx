@@ -109,16 +109,3 @@ export function HeroSection() {
     </section>
   )
 }
-            <Link
-              href="/discover"
-              className="absolute -bottom-6 left-1/2 -translate-x-1/2 inline-flex items-center gap-2 px-6 py-4 bg-foreground text-background rounded-full font-medium shadow-lg hover:gap-4 transition-all duration-300 group"
-            >
-              Start your search
-              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}

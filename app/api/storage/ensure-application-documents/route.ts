@@ -10,7 +10,7 @@ export async function POST() {
     return NextResponse.json({ error: listError.message }, { status: 500 })
   }
 
-  const bucketExists = buckets?.some(bucket => bucket.name === BUCKET_NAME)
+  const bucketExists = buckets?.some((bucket: any) => bucket.name === BUCKET_NAME)
 
   if (!bucketExists) {
     const { error: createError } = await supabaseAdmin.storage.createBucket(BUCKET_NAME, {

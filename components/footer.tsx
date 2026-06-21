@@ -1,12 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import { Instagram, Linkedin, Twitter, Sparkles, ArrowUpRight, Compass, BookOpen, MessageSquare, Home, BarChart3 } from "lucide-react"
+import { Instagram, Linkedin, Twitter, Sparkles, ArrowUpRight, Compass, BookOpen, MessageSquare, Home, BarChart3, FileText } from "lucide-react"
 
 const mobileNavButtons = [
   { name: "Discover", href: "/discover", icon: Compass },
-  { name: "Journey", href: "/journey", icon: BookOpen },
-  { name: "Free Counselling", href: "/free-counselling", icon: MessageSquare },
+  { name: "Apply Now", href: "/common-application", icon: FileText },
+  { name: "Counselling", href: "/free-counselling", icon: MessageSquare },
   { name: "Dashboard", href: "/dashboard", icon: Home },
   { name: "Compare", href: "/compare", icon: BarChart3 },
 ]
@@ -20,7 +20,7 @@ const footerLinks = {
   ],
   resources: [
     { name: "Parent Guides", href: "#guides" },
-    { name: "Admission Help", href: "/journey" },
+    { name: "Apply to Schools", href: "/common-application" },
     { name: "Free Counselling", href: "/free-counselling" },
     { name: "FAQs", href: "#faqs" },
   ],

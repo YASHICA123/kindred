@@ -76,7 +76,7 @@ export function SchoolHero() {
 
           {/* Action buttons */}
           <div className="absolute top-4 right-4 flex items-center gap-2">
-            <button
+            {/* <button
               onClick={() => setIsFavorite(!isFavorite)}
               className={`p-3 rounded-full transition-colors ${
                 isFavorite
@@ -85,7 +85,7 @@ export function SchoolHero() {
               }`}
             >
               <Heart className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`} />
-            </button>
+            </button> */}
             <button className="p-3 bg-background/80 backdrop-blur-sm rounded-full hover:bg-background transition-colors">
               <Share2 className="h-5 w-5" />
             </button>

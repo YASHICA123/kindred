@@ -38,9 +38,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { state: stateSlug, city: citySlug } = await params
   const states = await fetchAllStates()
-  const stateData = states.find((s) => s.slug === stateSlug)
+  const stateData = states.find((s: any) => s.slug === stateSlug)
   const cities = await fetchCitiesByState(stateSlug)
-  const cityData = cities.find((c) => c.slug === citySlug)
+  const cityData = cities.find((c: any) => c.slug === citySlug)
 
   const stateName = stateData?.name || stateSlug.replace(/-/g, " ")
   const cityName = cityData?.name || citySlug.replace(/-/g, " ")
@@ -58,9 +58,9 @@ export default async function CitySchoolsPage({ params, searchParams }: Props) {
   const { state: stateSlug, city: citySlug } = await params
   const search = await searchParams
   const states = await fetchAllStates()
-  const stateData = states.find((s) => s.slug === stateSlug)
+  const stateData = states.find((s: any) => s.slug === stateSlug)
   const cities = await fetchCitiesByState(stateSlug)
-  const cityData = cities.find((c) => c.slug === citySlug)
+  const cityData = cities.find((c: any) => c.slug === citySlug)
 
   const stateName = stateData?.name || stateSlug.replace(/-/g, " ")
   const cityName = cityData?.name || citySlug.replace(/-/g, " ")

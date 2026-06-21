@@ -78,6 +78,7 @@ export function SmartSearchDialog({ open = true, onOpenChange }: SmartSearchDial
       
       // Save enquiry to Supabase
       await saveEnquiry({
+        userId: user?.uid || "",
         city: selectedCity,
         class: selectedClass,
         board: selectedBoard,
@@ -86,21 +87,7 @@ export function SmartSearchDialog({ open = true, onOpenChange }: SmartSearchDial
         timestamp: new Date().toISOString()
       })
       
-      // Also keep localStorage as fallback for immediate access
-      const enquiryData = {
-        parentName,
-        parentEmail,
-        parentPhone,
-        childName,
-        preferences: {
-          city: selectedCity,
-          class: selectedClass,
-          board: selectedBoard,
-          feeRange: selectedFeeRange
-        },
-        timestamp: new Date().toISOString()
-      }
-      localStorage.setItem('lastEnquiry', JSON.stringify(enquiryData))
+      // Data is saved to Supabase via saveEnquiry() above
       
       // Redirect to discover page
       const queryString = params.toString()

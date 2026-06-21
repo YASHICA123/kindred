@@ -310,20 +310,6 @@ export function ImmersiveHero() {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                 <div className="absolute inset-0 rounded-2xl ring-1 ring-white/20 group-hover:ring-white/40 transition-all duration-300" />
               </Link>
-
-              {/* Enhanced Secondary CTA - Smart Recommender */}
-              <Link
-                href="/smart-recommender"
-                className="group relative inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl text-base font-semibold text-foreground/80 hover:text-foreground transition-all duration-300 hover:bg-white/40 backdrop-blur-sm border border-white/20 hover:border-white/40"
-              >
-                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/5 group-hover:bg-primary/10 transition-all duration-300 group-hover:scale-110">
-                  <span className="text-lg">✨</span>
-                </span>
-                <span className="relative">
-                  Take AI Quiz
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-                </span>
-              </Link>
             </div>
           </div>
 
@@ -392,22 +378,6 @@ export function ImmersiveHero() {
           <div className="h-24 lg:h-32" />
         </div>
       </section>
-
-      {/* Scroll indicator - Refined */}
-      <div
-        className={`fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-all duration-700 pointer-events-none ${
-          isVisible ? "opacity-100" : "opacity-0"
-        }`}
-        style={{
-          transitionDelay: "800ms",
-          opacity: Math.max(0, 1 - scrollY / 400),
-        }}
-      >
-        <span className="text-xs text-foreground/40 tracking-widest uppercase font-semibold">Scroll to explore</span>
-        <div className="w-5 h-8 rounded-full border-2 border-foreground/30 flex items-start justify-center p-2 hover:border-foreground/50 transition-colors">
-          <div className="w-0.5 h-1.5 rounded-full bg-foreground/40 animate-bounce" />
-        </div>
-      </div>
     </>
   )
 }

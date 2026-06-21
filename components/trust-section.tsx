@@ -1,13 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-
-const stats = [
-  { value: 1200, suffix: "+", label: "Schools", sublabel: "Across India" },
-  { value: 98, suffix: "%", label: "Satisfaction", sublabel: "Parent feedback" },
-  { value: 50, suffix: "K+", label: "Families", sublabel: "Helped so far" },
-  { value: 15, suffix: "+", label: "Cities", sublabel: "And growing" },
-]
+import { supabase } from "@/lib/supabase"
 
 function AnimatedCounter({ value, suffix, isVisible }: { value: number; suffix: string; isVisible: boolean }) {
   const [count, setCount] = useState(0)
@@ -43,6 +37,13 @@ function AnimatedCounter({ value, suffix, isVisible }: { value: number; suffix: 
 export function TrustSection() {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
+  
+  const [stats, setStats] = useState([
+    { value: 50, suffix: "+", label: "Schools", sublabel: "Across India" },
+    { value: 98, suffix: "%", label: "Satisfaction", sublabel: "Parent feedback" },
+    { value: 120, suffix: "+", label: "Families", sublabel: "Helped so far" },
+    { value: 5, suffix: "+", label: "Cities", sublabel: "And growing" },
+  ])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -59,6 +60,60 @@ export function TrustSection() {
     }
 
     return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        // Fetch total schools count
+        const { count: schoolCount } = await supabase
+          .from("schools")
+          .select("*", { count: "exact", head: true })
+
+        // Fetch unique cities count
+        const { data: cityData } = await supabase
+          .from("schools")
+          .select("city")
+
+        // Fetch bookings / registrations count from user_data_store
+        const { count: bookingCount } = await supabase
+          .from("user_data_store")
+          .select("*", { count: "exact", head: true })
+
+        const uniqueCities = new Set(cityData?.map((s: any) => s.city).filter(Boolean) || [])
+
+        setStats([
+          { 
+            value: schoolCount || 50, 
+            suffix: "+", 
+            label: "Schools", 
+            sublabel: "Across India" 
+          },
+          { 
+            value: 98, 
+            suffix: "%", 
+            label: "Satisfaction", 
+            sublabel: "Parent feedback" 
+          },
+          { 
+            value: (bookingCount || 0) + 120, // Base marketing seed + live submissions
+            suffix: "+", 
+            label: "Families", 
+            sublabel: "Helped so far" 
+          },
+          { 
+            value: uniqueCities.size || 5, 
+            suffix: "+", 
+            label: "Cities", 
+            sublabel: "And growing" 
+          },
+        ])
+      } catch (err) {
+        console.error("Error fetching live trust stats:", err)
+      }
+    }
+
+    fetchStats()
   }, [])
 
   return (

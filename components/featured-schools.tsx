@@ -235,12 +235,12 @@ export function FeaturedSchools() {
                         </span>
                       ))}
                     </div>
-                    <button
+                    {/* <button
                       className="p-2 rounded-full hover:bg-primary/5 transition-all duration-200 flex-shrink-0 hover:scale-110 active:scale-95"
                       onClick={(e) => e.preventDefault()}
                     >
                       <Heart className="w-5 h-5 text-gray-300 hover:text-primary transition-colors duration-200" />
-                    </button>
+                    </button> */}
                   </div>
                   
                   {/* School name - Premium typography */}

@@ -2,11 +2,13 @@
 
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
-import { ArrowLeft, BookOpen, Search, AlertCircle, X, ExternalLink, ChevronDown, ArrowDown, Save } from "lucide-react"
+import { BookOpen, Search, AlertCircle, X, ExternalLink, ChevronDown, ArrowDown, Save } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { saveSchoolComparison } from "@/lib/supabase-data"
 import { useAuth } from "@/hooks/use-auth"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 
 export default function ComparePage() {
   const [schools, setSchools] = useState<any[]>([])
@@ -129,18 +131,9 @@ export default function ComparePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/10" style={{ paddingBottom: selectedSchools.length > 0 ? '100px' : '0' }}>
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center">
-          <Link href="/" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </Link>
-        </div>
-      </header>
+      <Header />
 
-      {/* Hero Section */}
-      <section className="py-12 lg:py-16 px-6">
+      <section className="pt-32 pb-12 lg:pt-36 lg:pb-16 px-6">
         <div className="max-w-6xl mx-auto text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-secondary text-primary mb-4">
             <BookOpen className="h-8 w-8" />
@@ -327,8 +320,93 @@ export default function ComparePage() {
               </div>
             )}
 
-            {/* Comparison Table */}
-            <div className="overflow-x-auto bg-white rounded-2xl border shadow-sm">
+            {/* Mobile Comparison Layout (Hidden on desktop) */}
+            <div className="md:hidden space-y-4">
+              {/* Sticky compare header */}
+              <div className="grid grid-cols-2 gap-3 bg-white p-3 rounded-2xl border border-border shadow-sm sticky top-16 z-20">
+                {selectedSchools.map((school) => (
+                  <div key={school.id} className="space-y-2 relative">
+                    <button
+                      onClick={() => removeSchool(school.id)}
+                      className="absolute -top-1.5 -right-1.5 bg-red-100 text-red-600 rounded-full p-1 hover:bg-red-200 transition-colors z-10"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                    <div className="aspect-video w-full rounded-lg overflow-hidden bg-muted">
+                      <img
+                        src={getSchoolImageUrl(school)}
+                        alt={school.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          if (target.src !== '/placeholder.jpg') {
+                            target.src = '/placeholder.jpg'
+                          }
+                        }}
+                      />
+                    </div>
+                    <div className="font-semibold text-[11px] text-foreground line-clamp-2 text-center px-1">
+                      {school.name}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Attribute Cards list */}
+              <div className="space-y-3">
+                {[
+                  { label: "City", key: "city", fallback: "Not specified" },
+                  { label: "Location", key: "location", fallback: "Not specified" },
+                  { label: "Curriculum", key: "curriculum", type: "badge", fallback: "Not specified" },
+                  { label: "Annual Fees", key: "feeRange", altKey: "fee_range", type: "fee", fallback: "Contact school" },
+                  { label: "Grades Offered", key: "grades", altKey: "grade_levels", fallback: "Not specified" },
+                  { label: "Established", key: "established", altKey: "year_established", fallback: "Not specified" },
+                  { label: "Facilities", key: "facilities", type: "list" }
+                ].map((attr) => (
+                  <div key={attr.label} className="bg-card rounded-2xl border border-border p-4 shadow-sm">
+                    <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-2 border-b border-border pb-1">
+                      {attr.label}
+                    </h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      {selectedSchools.map((school) => {
+                        const rawVal = school[attr.key] || (attr.altKey ? school[attr.altKey] : null)
+                        
+                        return (
+                          <div key={school.id} className="text-xs text-foreground font-medium break-words">
+                            {attr.type === "badge" ? (
+                              <span className="inline-block bg-primary/10 text-primary px-2.5 py-1 rounded-full text-[10px] font-semibold">
+                                {rawVal || school.type || attr.fallback}
+                              </span>
+                            ) : attr.type === "fee" ? (
+                              <span className="font-bold text-primary">
+                                {rawVal || attr.fallback}
+                              </span>
+                            ) : attr.type === "list" ? (
+                              <ul className="space-y-1">
+                                {(rawVal || []).slice(0, 5).map((facility: string) => (
+                                  <li key={facility} className="text-[11px] flex items-center gap-1">
+                                    <span className="text-green-500 font-bold">✓</span>
+                                    {facility}
+                                  </li>
+                                ))}
+                                {(!rawVal || rawVal.length === 0) && (
+                                  <li className="text-[11px] text-muted-foreground italic">Not specified</li>
+                                )}
+                              </ul>
+                            ) : (
+                              rawVal || attr.fallback
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop Comparison Table (Hidden on mobile) */}
+            <div className="hidden md:block overflow-x-auto bg-white rounded-2xl border border-border shadow-sm">
               <table className="w-full">
                 <thead>
                   <tr className="border-b bg-secondary/30">
@@ -432,7 +510,7 @@ export default function ComparePage() {
                             </li>
                           ))}
                           {(!school.facilities || school.facilities.length === 0) && (
-                            <li className="text-sm text-muted-foreground">Not specified</li>
+                             <li className="text-sm text-muted-foreground">Not specified</li>
                           )}
                         </ul>
                       </td>
@@ -581,6 +659,8 @@ export default function ComparePage() {
           </div>
         </div>
       )}
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }

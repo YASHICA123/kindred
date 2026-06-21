@@ -43,6 +43,49 @@ export async function POST(request: NextRequest) {
       },
     })
 
+    // Also write to the structured applications table
+    try {
+      const { supabaseAdmin } = await import('@/lib/supabase')
+      const { error: dbError } = await supabaseAdmin
+        .from('applications')
+        .insert({
+          user_id: userId,
+          application_store_id: row.data_key,
+          status: 'submitted',
+          parent_first_name: data.parentProfile?.firstName || '',
+          parent_last_name: data.parentProfile?.lastName || '',
+          parent_email: data.parentProfile?.email || '',
+          parent_phone: data.parentProfile?.phone || '',
+          parent_address: data.parentProfile?.address || '',
+          parent_city: data.parentProfile?.city || '',
+          parent_state: data.parentProfile?.state || '',
+          parent_occupation: data.parentProfile?.occupation || '',
+          parent_income: data.parentProfile?.income || '',
+          student_first_name: data.studentDetails?.firstName || '',
+          student_last_name: data.studentDetails?.lastName || '',
+          student_dob: data.studentDetails?.dateOfBirth || null,
+          student_gender: data.studentDetails?.gender || '',
+          student_current_grade: data.studentDetails?.currentGrade || '',
+          student_current_school: data.studentDetails?.currentSchool || '',
+          student_previous_school: data.studentDetails?.previousSchool || '',
+          student_caste: data.studentDetails?.caste || '',
+          student_religion: data.studentDetails?.religion || '',
+          student_special_needs: data.studentDetails?.specialNeeds || false,
+          student_special_needs_details: data.studentDetails?.specialNeedsDetails || '',
+          selected_schools: (data.selectedSchools || []).filter((s: any) => s.selected),
+          documents: data.documents || [],
+          submitted_at: new Date().toISOString(),
+        })
+
+      if (dbError) {
+        console.error('Error inserting into applications table:', dbError.message)
+      } else {
+        console.log('✅ Application saved to structured applications table')
+      }
+    } catch (dbErr) {
+      console.error('Failed to save to structured applications table:', dbErr)
+    }
+
     return NextResponse.json(
       {
         success: true,

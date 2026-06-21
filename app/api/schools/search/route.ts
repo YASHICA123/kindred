@@ -68,12 +68,27 @@ export async function GET(request: NextRequest) {
         limit,
         offset,
       })
+
+      // Normalize data for frontend parsing
+      fallback.schools = fallback.schools.map((school: any) => ({
+        ...school,
+        image: school.image || school.cover_image,
+        feeRange: school.feeRange || school.fee_range,
+      }))
+
       return NextResponse.json(fallback, {
         headers: {
           "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
         },
       })
     }
+
+    // Normalize data for frontend parsing
+    result.schools = result.schools.map((school: any) => ({
+        ...school,
+        image: school.image || school.cover_image,
+        feeRange: school.feeRange || school.fee_range,
+    }))
 
     return NextResponse.json(result, {
       headers: {

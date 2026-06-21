@@ -2,55 +2,11 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { MessageCircle, Star, Calendar, ArrowRight } from "lucide-react"
+import { MessageCircle, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const counsellors = [
-  {
-    id: 1,
-    name: "Ms. Priya Sharma",
-    expertise: "K-5 Education, Montessori Methods",
-    bio: "10+ years of experience in curriculum design and elementary education",
-    rating: 4.9,
-    reviews: 247,
-    availability: "Mon-Wed, 3-6 PM",
-    sessions: 156,
-  },
-  {
-    id: 2,
-    name: "Mr. Rajesh Kumar",
-    expertise: "Senior Secondary, Engineering Prep",
-    bio: "Specialized in preparing students for competitive exams and IIT entrance",
-    rating: 4.8,
-    reviews: 198,
-    availability: "Tue-Thu, 2-5 PM",
-    sessions: 142,
-  },
-  {
-    id: 3,
-    name: "Dr. Neha Singh",
-    expertise: "Special Needs, Inclusive Education",
-    bio: "PhD in special education with focus on neurodiversity and learning differences",
-    rating: 5.0,
-    reviews: 165,
-    availability: "Wed-Fri, 4-7 PM",
-    sessions: 128,
-  },
-  {
-    id: 4,
-    name: "Ms. Isha Patel",
-    expertise: "International Boards (IB, Cambridge)",
-    bio: "IB Diploma graduate with expertise in global curriculum and college admissions",
-    rating: 4.9,
-    reviews: 213,
-    availability: "Mon-Thu, 3-6 PM",
-    sessions: 169,
-  },
-]
 
 export function CounsellorsSection() {
   const [isVisible, setIsVisible] = useState(false)
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

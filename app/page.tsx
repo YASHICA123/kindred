@@ -5,10 +5,8 @@ import { TrustSection } from "@/components/trust-section"
 import { BrandsExplorer } from "@/components/brands-explorer"
 import { StatesExplorer } from "@/components/states-explorer"
 import { CitiesExplorer } from "@/components/cities-explorer"
-import { CounsellorsSection } from "@/components/counsellors-section"
 import { AgeExplorer } from "@/components/age-explorer"
 import { FeesExplorer } from "@/components/fees-explorer"
-import { GuidanceSection } from "@/components/guidance-section"
 import { Footer } from "@/components/footer"
 
 export default function HomePage() {
@@ -21,10 +19,8 @@ export default function HomePage() {
       <TrustSection />
       <StatesExplorer />
       <CitiesExplorer />
-      <CounsellorsSection />
       <AgeExplorer />
       <FeesExplorer />
-      <GuidanceSection />
       <Footer />
     </main>
   )

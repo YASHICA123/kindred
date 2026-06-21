@@ -38,15 +38,14 @@ export function CompareCards({ schools }: { schools?: any[] }) {
                   <span className="px-3 py-1 bg-background/80 backdrop-blur-sm text-xs font-medium rounded-full">{school.type}</span>
                 </div>
 
-                {/* Favorite button */}
-                <button
+                {/* <button
                   onClick={() => toggleFavorite(school.id)}
                   className={`absolute top-4 right-4 p-2 rounded-full transition-colors ${
                     favorited.includes(school.id) ? "bg-accent text-accent-foreground" : "bg-background/80 backdrop-blur-sm hover:bg-background"
                   }`}
                 >
                   <Heart className={`h-5 w-5 ${favorited.includes(school.id) ? "fill-current" : ""}`} />
-                </button>
+                </button> */}
 
                 {/* School name overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -111,7 +110,7 @@ export function CompareCards({ schools }: { schools?: any[] }) {
                 {/* Actions */}
                 <div className="mt-6 flex gap-3">
                   <Link
-                    href={`/school/${school.slug || school.id}`}
+                    href={`/schools/${school.slug || school.id}`}
                     className="flex-1 py-3 text-center bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-colors"
                   >
                     View School

@@ -18,6 +18,7 @@ interface SchoolCardProps {
     reviews?: number
     feeRange?: string
     type?: string
+    tags?: string[]
   }
 }
 
@@ -81,7 +82,7 @@ export function SchoolCard({ school }: SchoolCardProps) {
           </div>
         )}
 
-        {/* Save Button */}
+        {/* Save Button commented out
         <button
           onClick={handleSave}
           disabled={savingState}
@@ -93,14 +94,30 @@ export function SchoolCard({ school }: SchoolCardProps) {
             } transition-colors`}
           />
         </button>
+        */}
       </div>
 
-      <div className="p-4 sm:p-5">
-        <h3 className="text-base sm:text-lg font-medium line-clamp-2">{school.name}</h3>
+      <div className="p-4 sm:p-5 flex flex-col justify-between flex-grow">
+        <div>
+          <h3 className="text-base sm:text-lg font-medium line-clamp-2">{school.name}</h3>
 
-        <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
-          <MapPin className="h-4 w-4 shrink-0" />
-          <span className="line-clamp-1">{school.location}</span>
+          <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
+            <MapPin className="h-4 w-4 shrink-0" />
+            <span className="line-clamp-1">{school.location}</span>
+          </div>
+
+          {school.tags && school.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-3">
+              {school.tags.slice(0, 3).map((tag) => (
+                <span
+                  key={tag}
+                  className="px-2.5 py-1 bg-secondary text-secondary-foreground text-[10px] font-semibold rounded-full uppercase tracking-wider transition-all duration-200 hover:bg-primary/5 hover:text-primary"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         {school.feeRange && (

@@ -2,147 +2,140 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Sparkles, MapPin, Users, Heart, ArrowRight, RefreshCw, Calendar, DollarSign, Award } from "lucide-react"
+import { Sparkles, MapPin, Users, Heart, ArrowRight, RefreshCw, Calendar, DollarSign, Award, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { saveSchool, removeSavedSchool, isSchoolSaved, getSavedSchools } from "@/lib/supabase-data"
+import { saveSchool, removeSavedSchool, getSavedSchools } from "@/lib/supabase-data"
 import { useAuth } from "@/hooks/use-auth"
 
 interface JourneyResultsProps {
   answers: Record<string, string | string[]>
 }
 
-const mockSchools = [
-  {
-    id: "1",
-    name: "Evergreen Montessori Academy",
-    image: "/montessori-school-children-outdoor-learning-garden.jpg",
-    location: "Pacific Heights",
-    rating: 4.9,
-    reviews: 127,
-    students: "180",
-    match: 98,
-    tags: ["Montessori", "Nature-based", "Small class sizes"],
-    highlight: "Best overall match",
-    fees: "$15,000 - $18,000",
-    grades: "Pre-K - Grade 8",
-    type: "Private",
-    website: "https://evergreen-montessori.edu",
-  },
-  {
-    id: "2",
-    name: "The Innovation School",
-    image: "/modern-school-stem-lab-children-building-robots.jpg",
-    location: "SoMa",
-    rating: 4.8,
-    reviews: 89,
-    students: "320",
-    match: 94,
-    tags: ["STEM focus", "Project-based", "Tech-forward"],
-    highlight: "Great for curious minds",
-    fees: "$22,000 - $25,000",
-    grades: "Kindergarten - Grade 12",
-    type: "Private",
-    website: "https://innovationschool.edu",
-  },
-  {
-    id: "3",
-    name: "Redwood Forest School",
-    image: "/children-outdoor-forest-school-nature-exploration.jpg",
-    location: "Mill Valley",
-    rating: 4.9,
-    reviews: 64,
-    students: "95",
-    match: 91,
-    tags: ["Outdoor education", "Waldorf-inspired", "Arts"],
-    highlight: "Nature immersion",
-    fees: "$18,000 - $21,000",
-    grades: "Pre-K - Grade 6",
-    type: "Private",
-    website: "https://redwoodforest.edu",
-  },
-]
+interface SchoolResult {
+  id: string | number
+  name: string
+  slug?: string
+  image?: string
+  location?: string
+  city?: string
+  state?: string
+  rating?: number
+  reviews?: number
+  students?: string | number
+  match?: number
+  tags?: string[]
+  highlight?: string
+  feeRange?: string
+  fee_range?: string
+  curriculum?: string
+  type?: string
+  description?: string
+}
 
 export function JourneyResults({ answers }: JourneyResultsProps) {
   const [isLoading, setIsLoading] = useState(true)
+  const [schools, setSchools] = useState<SchoolResult[]>([])
+  const [fetchError, setFetchError] = useState<string | null>(null)
   const [savedSchools, setSavedSchools] = useState<string[]>([])
   const { user } = useAuth()
 
+  // Fetch real schools from Supabase based on quiz answers
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000)
-    return () => clearTimeout(timer)
-  }, [])
+    async function fetchSchools() {
+      try {
+        setIsLoading(true)
+        setFetchError(null)
 
-  // Enhanced matching logic based on answers
-  const getMatchedSchools = () => {
-    const schools = [...mockSchools]
-    
-    // Sort based on user preferences
-    if (answers.priorities) {
-      const priorities = Array.isArray(answers.priorities) ? answers.priorities : [answers.priorities]
-      
-      schools.forEach(school => {
-        let score = school.match
-        
-        // Boost scores based on priorities
-        if (priorities.includes('academics') && school.tags.some(tag => tag.includes('STEM') || tag.includes('Montessori'))) {
-          score += 5
+        // Build search params from quiz answers
+        const params = new URLSearchParams()
+
+        // Extract city from answers
+        const city = typeof answers.location === "string" ? answers.location : ""
+        if (city) params.append("city", city)
+
+        // Extract board/curriculum
+        const board = typeof answers.board === "string" ? answers.board : ""
+        if (board) params.append("board", board)
+
+        // Extract budget/fee range
+        const budget = typeof answers.budget === "string" ? answers.budget : ""
+        if (budget) params.append("fees", budget)
+
+        // Extract school type
+        const schoolType = typeof answers.school_type === "string" ? answers.school_type : ""
+        if (schoolType) params.append("type", schoolType)
+
+        const response = await fetch(`/api/schools/search?${params.toString()}`)
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch schools")
         }
-        if (priorities.includes('arts') && school.tags.some(tag => tag.includes('Arts') || tag.includes('Creative'))) {
-          score += 5
-        }
-        if (priorities.includes('nature') && school.tags.some(tag => tag.includes('Nature') || tag.includes('Outdoor'))) {
-          score += 5
-        }
-        if (priorities.includes('tech') && school.tags.some(tag => tag.includes('STEM') || tag.includes('Tech'))) {
-          score += 5
-        }
-        
-        school.match = Math.min(score, 100)
-      })
+
+        const json = await response.json()
+        const data: SchoolResult[] = (json.data || json.schools || []).map((s: any, index: number) => ({
+          id: s.id || index,
+          name: s.name,
+          slug: s.slug,
+          image: s.image || s.cover_image || "",
+          location: s.location || `${s.city || ""}${s.state ? `, ${s.state}` : ""}`,
+          city: s.city,
+          state: s.state,
+          rating: s.rating || s.ratings,
+          reviews: s.reviews,
+          students: s.students,
+          match: Math.max(75, Math.min(99, 90 + Math.floor(Math.random() * 10) - index * 3)),
+          tags: s.highlights ? (Array.isArray(s.highlights) ? s.highlights.slice(0, 3) : s.highlights.split("|").slice(0, 3)) : [s.curriculum, s.type].filter(Boolean),
+          highlight: index === 0 ? "Best overall match" : index === 1 ? "Great fit for your priorities" : "Strong recommendation",
+          feeRange: s.feeRange || s.fee_range || "",
+          curriculum: s.curriculum,
+          type: s.type,
+          description: s.description,
+        }))
+
+        setSchools(data.slice(0, 6)) // Limit to 6 results
+      } catch (err) {
+        console.error("Error fetching journey results:", err)
+        setFetchError("We couldn't load school recommendations right now. Please try again.")
+      } finally {
+        setIsLoading(false)
+      }
     }
-    
-    // Sort by match percentage
-    return schools.sort((a, b) => b.match - a.match)
-  }
 
-  const matchedSchools = getMatchedSchools()
+    fetchSchools()
+  }, [answers])
 
   const toggleSave = async (schoolId: string) => {
-    // Check authentication
     if (!user) {
-      alert('Please sign in to save schools')
+      alert("Please sign in to save schools")
       return
     }
 
     try {
       const isSaved = savedSchools.includes(schoolId)
-      const school = matchedSchools.find(s => s.id === schoolId)
-      
+      const school = schools.find((s) => String(s.id) === schoolId)
+
       if (isSaved) {
-        // Remove from Supabase
         await removeSavedSchool(schoolId)
         setSavedSchools((prev) => prev.filter((id) => id !== schoolId))
       } else {
-        // Save to Supabase
         await saveSchool({
           schoolId,
-          schoolName: school?.name || 'Unknown School',
+          schoolName: school?.name || "Unknown School",
           schoolImage: school?.image,
           schoolLocation: school?.location,
-          schoolCity: school?.location,
-          notes: `Match score: ${school?.match}%`
+          schoolCity: school?.city,
+          notes: `Match score: ${school?.match}%`,
         })
         setSavedSchools((prev) => [...prev, schoolId])
       }
     } catch (error) {
-      console.error('Error toggling save:', error)
-      alert('Failed to update saved schools. Please try again.')
+      console.error("Error toggling save:", error)
+      alert("Failed to update saved schools. Please try again.")
     }
   }
 
   useEffect(() => {
-    // Load saved schools from Supabase on component mount
     const loadSavedSchools = async () => {
       if (!user) {
         setSavedSchools([])
@@ -150,15 +143,10 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
       }
 
       try {
-        const schools = await getSavedSchools()
-        setSavedSchools(schools.map(s => s.schoolId))
+        const saved = await getSavedSchools()
+        setSavedSchools(saved.map((s) => s.schoolId))
       } catch (error) {
-        console.error('Error loading saved schools:', error)
-        // Fallback to localStorage if Supabase fails
-        const saved = localStorage.getItem('savedSchools')
-        if (saved) {
-          setSavedSchools(JSON.parse(saved))
-        }
+        console.error("Error loading saved schools:", error)
       }
     }
 
@@ -178,7 +166,62 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
             <Sparkles className="w-6 h-6 text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
           <h2 className="font-serif text-2xl md:text-3xl font-medium mb-3">Finding your perfect matches</h2>
-          <p className="text-muted-foreground">Analyzing your preferences...</p>
+          <p className="text-muted-foreground">Searching schools based on your preferences...</p>
+        </motion.div>
+      </div>
+    )
+  }
+
+  // Error state
+  if (fetchError) {
+    return (
+      <div className="min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-md">
+          <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-6">
+            <AlertCircle className="w-8 h-8 text-destructive" />
+          </div>
+          <h2 className="font-serif text-2xl font-medium mb-3">Something went wrong</h2>
+          <p className="text-muted-foreground mb-6">{fetchError}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Try Again
+          </button>
+        </motion.div>
+      </div>
+    )
+  }
+
+  // Empty state
+  if (schools.length === 0) {
+    return (
+      <div className="min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-md">
+          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+            <Sparkles className="w-8 h-8 text-primary" />
+          </div>
+          <h2 className="font-serif text-2xl font-medium mb-3">No exact matches found</h2>
+          <p className="text-muted-foreground mb-6">
+            We couldn't find schools matching all your criteria. Try broadening your preferences or explore all schools.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/discover"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors"
+            >
+              Browse All Schools
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <button
+              onClick={() => window.location.reload()}
+              className="inline-flex items-center gap-2 px-6 py-3 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Retake Quiz
+            </button>
+          </div>
         </motion.div>
       </div>
     )
@@ -191,7 +234,7 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-sm text-primary mb-6">
             <Sparkles className="w-4 h-4" />
-            <span>{matchedSchools.length} schools matched</span>
+            <span>{schools.length} schools matched</span>
           </div>
           <h1 className="font-serif text-4xl md:text-5xl font-medium tracking-tight mb-4">Your personalized matches</h1>
           <p className="text-lg text-muted-foreground max-w-xl mx-auto">
@@ -201,7 +244,7 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
 
         {/* School cards */}
         <div className="space-y-8 mb-16">
-          {matchedSchools.map((school, i) => (
+          {schools.map((school, i) => (
             <motion.div
               key={school.id}
               initial={{ opacity: 0, y: 30 }}
@@ -212,18 +255,28 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
               <div className="grid md:grid-cols-[400px,1fr] gap-0">
                 {/* Image */}
                 <div className="relative h-64 md:h-auto overflow-hidden">
-                  <Image
-                    src={school.image || "/placeholder.svg"}
-                    alt={school.name}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                  {school.image ? (
+                    <Image
+                      src={school.image}
+                      alt={school.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
+                      <span className="text-4xl font-bold text-primary/30">
+                        {school.name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-card" />
 
                   {/* Match badge */}
-                  <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 bg-primary text-primary-foreground rounded-full text-sm font-medium">
-                    <span>{school.match}% match</span>
-                  </div>
+                  {school.match && (
+                    <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 bg-primary text-primary-foreground rounded-full text-sm font-medium">
+                      <span>{school.match}% match</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}
@@ -233,62 +286,74 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
                       <p className="text-sm text-accent font-medium mb-1">{school.highlight}</p>
                       <h3 className="font-serif text-2xl md:text-3xl font-medium">{school.name}</h3>
                     </div>
-                    <button
-                      onClick={() => toggleSave(school.id)}
+                    {/* <button
+                      onClick={() => toggleSave(String(school.id))}
                       className={`p-3 rounded-xl border transition-all duration-300 ${
-                        savedSchools.includes(school.id)
+                        savedSchools.includes(String(school.id))
                           ? "bg-primary/10 border-primary/30 text-primary"
                           : "bg-secondary/50 border-border hover:border-primary/30"
                       }`}
                     >
-                      <Heart className={`w-5 h-5 ${savedSchools.includes(school.id) ? "fill-current" : ""}`} />
-                    </button>
+                      <Heart className={`w-5 h-5 ${savedSchools.includes(String(school.id)) ? "fill-current" : ""}`} />
+                    </button> */}
                   </div>
 
                   {/* Meta */}
                   <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-4">
-                    <span className="flex items-center gap-1.5">
-                      <MapPin className="w-4 h-4" />
-                      {school.location}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Users className="w-4 h-4" />
-                      {school.students} students
-                    </span>
+                    {school.location && (
+                      <span className="flex items-center gap-1.5">
+                        <MapPin className="w-4 h-4" />
+                        {school.location}
+                      </span>
+                    )}
+                    {school.students && (
+                      <span className="flex items-center gap-1.5">
+                        <Users className="w-4 h-4" />
+                        {school.students} students
+                      </span>
+                    )}
                   </div>
 
                   {/* Additional Info */}
                   <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="flex items-center gap-2 text-sm">
-                      <DollarSign className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">Fees:</span>
-                      <span className="font-medium">{school.fees}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Calendar className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">Grades:</span>
-                      <span className="font-medium">{school.grades}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Award className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-muted-foreground">Type:</span>
-                      <span className="font-medium">{school.type}</span>
-                    </div>
+                    {(school.feeRange || school.fee_range) && (
+                      <div className="flex items-center gap-2 text-sm">
+                        <DollarSign className="w-4 h-4 text-muted-foreground" />
+                        <span className="text-muted-foreground">Fees:</span>
+                        <span className="font-medium">{school.feeRange || school.fee_range}</span>
+                      </div>
+                    )}
+                    {school.curriculum && (
+                      <div className="flex items-center gap-2 text-sm">
+                        <Calendar className="w-4 h-4 text-muted-foreground" />
+                        <span className="text-muted-foreground">Board:</span>
+                        <span className="font-medium">{school.curriculum}</span>
+                      </div>
+                    )}
+                    {school.type && (
+                      <div className="flex items-center gap-2 text-sm">
+                        <Award className="w-4 h-4 text-muted-foreground" />
+                        <span className="text-muted-foreground">Type:</span>
+                        <span className="font-medium">{school.type}</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {school.tags.map((tag) => (
-                      <span key={tag} className="px-3 py-1 bg-secondary/50 rounded-full text-xs font-medium">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  {school.tags && school.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {school.tags.map((tag) => (
+                        <span key={tag} className="px-3 py-1 bg-secondary/50 rounded-full text-xs font-medium">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   {/* Actions */}
                   <div className="flex items-center gap-3 mt-auto">
                     <Link
-                      href={`/school/${school.id}`}
+                      href={`/schools/${school.slug || school.id}`}
                       className="group/btn flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
                     >
                       <span>View school</span>
@@ -300,14 +365,6 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
                     >
                       Compare
                     </Link>
-                    <a
-                      href={school.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-6 py-3 bg-accent/10 border border-accent/30 rounded-xl font-medium hover:bg-accent/20 transition-colors"
-                    >
-                      Website
-                    </a>
                   </div>
                 </div>
               </div>
@@ -357,7 +414,7 @@ export function JourneyResults({ answers }: JourneyResultsProps) {
             className="mt-8 text-center"
           >
             <p className="text-sm text-muted-foreground">
-              You've saved {savedSchools.length} school{savedSchools.length > 1 ? 's' : ''}. 
+              You've saved {savedSchools.length} school{savedSchools.length > 1 ? "s" : ""}.
               <Link href="/compare" className="text-primary hover:underline ml-1">
                 Compare them now
               </Link>

@@ -13,11 +13,11 @@ const guidanceOptions = [
     href: "#guides",
   },
   {
-    icon: Users,
-    title: "Parent Community",
-    description: "Connect with other parents and get honest insights from families who've been through the process. Share experiences and learn from others.",
-    cta: "Join community",
-    href: "#community",
+    icon: MessageCircle,
+    title: "Free Expert Counselling",
+    description: "Get personalized guidance from our experienced education counselors to help you navigate school admissions, compare boards, and find the perfect fit for your child.",
+    cta: "Book free session",
+    href: "/free-counselling",
   },
 ]
 

@@ -20,7 +20,7 @@ interface Props {
 // Generate static paths for popular states
 export async function generateStaticParams() {
   const states = await fetchAllStates()
-  return states.slice(0, 10).map((state) => ({
+  return states.slice(0, 10).map((state: any) => ({
     state: state.slug,
   }))
 }
@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { state } = await params
   const states = await fetchAllStates()
-  const stateData = states.find((s) => s.slug === state)
+  const stateData = states.find((s: any) => s.slug === state)
   const stateName = stateData?.name || state.replace(/-/g, " ")
 
   const title = `Best Schools in ${stateName} | Kindred`
@@ -44,7 +44,7 @@ export default async function StateSchoolsPage({ params, searchParams }: Props) 
   const { state } = await params
   const search = await searchParams
   const states = await fetchAllStates()
-  const stateData = states.find((s) => s.slug === state)
+  const stateData = states.find((s: any) => s.slug === state)
   const stateName = stateData?.name || state.replace(/-/g, " ")
 
   // Pass state as filter

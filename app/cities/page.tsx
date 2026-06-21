@@ -28,8 +28,8 @@ export default async function CitiesPage() {
   // Fetch states and collect all cities with school counts
   const states = await fetchStatesWithSchoolCount()
   const topStates = states
-    .filter((s) => s.schoolCount > 0)
-    .sort((a, b) => b.schoolCount - a.schoolCount)
+    .filter((s: any) => s.schoolCount > 0)
+    .sort((a: any, b: any) => b.schoolCount - a.schoolCount)
     .slice(0, 10)
 
   const allCities: { name: string; slug: string; count: number; stateName: string; stateSlug: string }[] = []

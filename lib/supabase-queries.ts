@@ -67,37 +67,36 @@ export async function fetchSchoolBySlug(slug: string) {
  */
 export async function fetchSchoolDetailBySlug(slug: string) {
   try {
-    const { data, error } = await supabase
+    // 1. Fetch basic school details
+    const { data: school, error: schoolError } = await supabase
       .from('schools')
-      .select(`
-        *,
-        fees:school_fees(*),
-        gallery:school_gallery(*),
-        reviews:school_reviews(*),
-        faqs:school_faqs(*),
-        admissions:school_admissions(*)
-      `)
+      .select('*')
       .eq('slug', slug)
       .single()
 
-    if (error) throw error
-    return data as any
-  } catch (error) {
-    console.warn(`Detail query failed for slug ${slug}, falling back to basic query:`, error)
-    // Fallback: fetch school without related tables (they may not exist yet)
-    try {
-      const { data, error: basicError } = await supabase
-        .from('schools')
-        .select('*')
-        .eq('slug', slug)
-        .single()
+    if (schoolError) throw schoolError
+    if (!school) return null
 
-      if (basicError) throw basicError
-      return data as any
-    } catch (fallbackError) {
-      console.error(`Error fetching school with slug ${slug}:`, fallbackError)
-      throw fallbackError
+    // 2. Fetch all related tables in parallel
+    const [feesResult, galleryResult, reviewsResult, faqsResult, admissionsResult] = await Promise.all([
+      supabase.from('school_fees').select('*').eq('school_id', school.id),
+      supabase.from('school_gallery').select('*').eq('school_id', school.id),
+      supabase.from('school_reviews').select('*').eq('school_id', school.id),
+      supabase.from('school_faqs').select('*').eq('school_id', school.id),
+      supabase.from('school_admissions').select('*').eq('school_id', school.id),
+    ])
+
+    return {
+      ...school,
+      fees: feesResult.data || [],
+      gallery: galleryResult.data || [],
+      reviews: reviewsResult.data || [],
+      faqs: faqsResult.data || [],
+      admissions: admissionsResult.data || [],
     }
+  } catch (error) {
+    console.error(`Error fetching school detail with slug ${slug}:`, error)
+    throw error
   }
 }
 
@@ -223,7 +222,7 @@ export async function getUniqueCities() {
 
     if (error) throw error
 
-    const uniqueCities = Array.from(new Set(data?.map((d) => d.city).filter(Boolean)))
+    const uniqueCities = Array.from(new Set(data?.map((d: any) => d.city).filter(Boolean)))
     return uniqueCities as string[]
   } catch (error) {
     console.error('Error fetching cities:', error)
@@ -242,7 +241,7 @@ export async function getUniqueBoards() {
       .order('name')
 
     if (error) throw error
-    return (data || []).map((b) => b.name) as string[]
+    return (data || []).map((b: any) => b.name) as string[]
   } catch (error) {
     console.error('Error fetching boards:', error)
     throw error
@@ -274,7 +273,7 @@ export async function fetchBoardsWithSchoolCount() {
       }
     }
 
-    return (boards || []).map((board) => ({
+    return (boards || []).map((board: any) => ({
       ...board,
       schoolCount: countMap[board.id] || 0,
     }))
@@ -562,7 +561,7 @@ export async function getSchoolsStatistics() {
       .select('board_name, type')
 
     const boardCounts = (schoolsData || []).reduce(
-      (acc, school) => {
+      (acc: any, school: any) => {
         const board = school.board_name || 'Unknown'
         acc[board] = (acc[board] || 0) + 1
         return acc
@@ -571,7 +570,7 @@ export async function getSchoolsStatistics() {
     )
 
     const typeCounts = (schoolsData || []).reduce(
-      (acc, school) => {
+      (acc: any, school: any) => {
         const type = school.type || 'Unknown'
         acc[type] = (acc[type] || 0) + 1
         return acc
@@ -653,7 +652,7 @@ export async function fetchStatesWithSchoolCount() {
       }
     }
 
-    return (states || []).map((state) => ({
+    return (states || []).map((state: any) => ({
       ...state,
       schoolCount: countMap[state.id] || 0,
     }))
@@ -700,7 +699,7 @@ export async function fetchCitiesWithSchoolCount(stateSlug: string) {
 
     return {
       state: stateData,
-      cities: (cities || []).map((city) => ({
+      cities: (cities || []).map((city: any) => ({
         ...city,
         schoolCount: countMap[city.id] || 0,
       })),
@@ -722,8 +721,8 @@ export async function fetchFilterOptions() {
       supabase.from('states').select('id, name, slug').order('name'),
     ])
 
-    const boards = (boardsRes.data || []).map((b) => b.name)
-    const types = Array.from(new Set((typesRes.data || []).map((d) => d.type).filter(Boolean)))
+    const boards = (boardsRes.data || []).map((b: any) => b.name)
+    const types = Array.from(new Set((typesRes.data || []).map((d: any) => d.type).filter(Boolean)))
     const states = statesRes.data || []
 
     return { boards, types, states }
@@ -778,7 +777,7 @@ export async function fetchAgeGroupsWithSchoolCount() {
       countMap[row.age_group_id] = (countMap[row.age_group_id] || 0) + 1
     }
 
-    return (ageGroups || []).map((ag) => ({
+    return (ageGroups || []).map((ag: any) => ({
       ...ag,
       schoolCount: countMap[ag.id] || 0,
     }))
@@ -810,7 +809,7 @@ export async function fetchSchoolsByAgeGroupSlug(ageGroupSlug: string) {
 
     if (jError) throw jError
 
-    const schoolIds = (junctionData || []).map((row) => row.school_id)
+    const schoolIds = (junctionData || []).map((row: any) => row.school_id)
     if (schoolIds.length === 0) return { ageGroup, schools: [] }
 
     // Get school details from the search view
@@ -841,7 +840,7 @@ export async function fetchAgeGroupsForSchool(schoolId: string): Promise<AgeGrou
 
     if (jError) throw jError
 
-    const ageGroupIds = (junctionData || []).map((row) => row.age_group_id)
+    const ageGroupIds = (junctionData || []).map((row: any) => row.age_group_id)
     if (ageGroupIds.length === 0) return []
 
     const { data, error } = await supabase
@@ -905,7 +904,7 @@ export async function fetchFeeRangesWithSchoolCount() {
       }
     }
 
-    return (feeRanges || []).map((fr) => ({
+    return (feeRanges || []).map((fr: any) => ({
       ...fr,
       schoolCount: countMap[fr.id] || 0,
     }))
@@ -979,7 +978,7 @@ export async function fetchSchoolTypesWithSchoolCount() {
       countMap[row.school_type_id] = (countMap[row.school_type_id] || 0) + 1
     }
 
-    return (types || []).map((t) => ({
+    return (types || []).map((t: any) => ({
       ...t,
       schoolCount: countMap[t.id] || 0,
     }))
@@ -1009,7 +1008,7 @@ export async function fetchSchoolsBySchoolTypeSlug(typeSlug: string) {
 
     if (jError) throw jError
 
-    const schoolIds = (junctionData || []).map((row) => row.school_id)
+    const schoolIds = (junctionData || []).map((row: any) => row.school_id)
     if (schoolIds.length === 0) return { schoolType, schools: [] }
 
     const { data: schools, error: sError } = await supabase
@@ -1039,7 +1038,7 @@ export async function fetchSchoolTypesForSchool(schoolId: number): Promise<Schoo
 
     if (jError) throw jError
 
-    const typeIds = (junctionData || []).map((row) => row.school_type_id)
+    const typeIds = (junctionData || []).map((row: any) => row.school_type_id)
     if (typeIds.length === 0) return []
 
     const { data, error } = await supabase

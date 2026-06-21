@@ -149,7 +149,7 @@ export default function DiscoverClient() {
 
   return (
     <div className="flex flex-col lg:flex-row gap-8">
-      <aside className="lg:w-72 flex-shrink-0">
+      <aside className="hidden lg:block lg:w-72 flex-shrink-0">
         <div className="sticky top-24">
           <DiscoverFilters
             selectedFilters={selectedFilters}

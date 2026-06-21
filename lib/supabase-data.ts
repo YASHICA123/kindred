@@ -24,13 +24,12 @@ const BUCKETS = {
 } as const
 
 async function getCurrentUserId() {
-  const { data, error } = await supabase.auth.getUser()
-
-  if (error) {
-    throw error
+  try {
+    const { data } = await supabase.auth.getUser()
+    return data.user?.id ?? null
+  } catch {
+    return null
   }
-
-  return data.user?.id ?? null
 }
 
 function ensureUserId(userId: string | null, message: string) {
@@ -166,8 +165,8 @@ export async function getSavedSchools(): Promise<SavedSchoolData[]> {
   })
 
   return rows.map((row) => ({
-    id: row.data_key,
     ...(row.payload as SavedSchoolData),
+    id: row.data_key,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   }))
@@ -702,6 +701,24 @@ export async function saveFreeCounsellingBooking(bookingData: Omit<CounsellingBo
     },
   })
 
+  // Replicate to school_enquiries table for centralized tracking
+  try {
+    await saveSchoolEnquiry({
+      schoolName: bookingData.currentSchool || 'General Counselling',
+      enquiryType: 'general',
+      parentName: bookingData.name,
+      parentEmail: bookingData.email,
+      parentPhone: bookingData.phone,
+      childClass: bookingData.childAge ? `Age ${bookingData.childAge}` : undefined,
+      visitDate: bookingData.preferredDate && bookingData.preferredTime 
+        ? `${bookingData.preferredDate} ${bookingData.preferredTime}` 
+        : undefined,
+      message: `Counselling Booking. Concerns: ${bookingData.concerns || 'None'}`,
+    })
+  } catch (err) {
+    console.error("Error replicating counselling booking to school_enquiries:", err)
+  }
+
   return {
     id: row.data_key,
     ...row.payload,
@@ -727,6 +744,156 @@ export async function getFreeCounsellingBookings(): Promise<CounsellingBookingDa
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   }))
+}
+
+// ============================================================================
+// SCHOOL VISITS (Recently Visited Schools)
+// ============================================================================
+
+export async function saveSchoolVisit(schoolData: {
+  schoolId: number
+  schoolSlug: string
+  schoolName: string
+}) {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null // Guest — don't track
+
+  const { data, error } = await supabase
+    .from('school_visits')
+    .upsert(
+      {
+        user_id: user.id,
+        school_id: schoolData.schoolId,
+        school_slug: schoolData.schoolSlug,
+        school_name: schoolData.schoolName,
+        visited_at: new Date().toISOString(),
+      },
+      { onConflict: 'user_id,school_id' }
+    )
+    .select()
+    .single()
+
+  if (error) {
+    console.warn('Error saving school visit:', error.message)
+    return null
+  }
+  return data
+}
+
+export async function getRecentSchoolVisits(limit = 10) {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return []
+
+  const { data, error } = await supabase
+    .from('school_visits')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('visited_at', { ascending: false })
+    .limit(limit)
+
+  if (error) {
+    console.warn('Error fetching recent visits:', error.message)
+    return []
+  }
+  return data || []
+}
+
+// ============================================================================
+// SCHOOL ENQUIRIES (Apply Now / Callback / Visit from school detail page)
+// ============================================================================
+
+export interface SchoolEnquiryData {
+  schoolId?: number
+  schoolName: string
+  schoolSlug?: string
+  enquiryType: 'apply' | 'callback' | 'visit' | 'general'
+  parentName: string
+  parentEmail?: string
+  parentPhone: string
+  childClass?: string
+  visitDate?: string
+  message?: string
+}
+
+export async function saveSchoolEnquiry(data: SchoolEnquiryData) {
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const { data: row, error } = await supabase
+    .from('school_enquiries')
+    .insert({
+      user_id: user?.id || null,
+      school_id: data.schoolId || null,
+      school_name: data.schoolName,
+      school_slug: data.schoolSlug || null,
+      enquiry_type: data.enquiryType,
+      parent_name: data.parentName,
+      parent_email: data.parentEmail || null,
+      parent_phone: data.parentPhone,
+      child_class: data.childClass || null,
+      visit_date: data.visitDate || null,
+      message: data.message || null,
+      status: 'new',
+    })
+    .select()
+    .single()
+
+  if (error) throw error
+  return row
+}
+
+// ============================================================================
+// APPLICATIONS (Structured table — full form data)
+// ============================================================================
+
+export async function saveApplicationToTable(params: {
+  userId: string
+  applicationStoreId?: string
+  parentProfile: Record<string, any>
+  studentDetails: Record<string, any>
+  selectedSchools: Record<string, any>[]
+  documents: Record<string, any>[]
+}) {
+  const { data, error } = await supabase
+    .from('applications')
+    .insert({
+      user_id: params.userId,
+      application_store_id: params.applicationStoreId || null,
+      status: 'submitted',
+      // Parent
+      parent_first_name:  params.parentProfile.firstName,
+      parent_last_name:   params.parentProfile.lastName,
+      parent_email:       params.parentProfile.email,
+      parent_phone:       params.parentProfile.phone,
+      parent_address:     params.parentProfile.address,
+      parent_city:        params.parentProfile.city,
+      parent_state:       params.parentProfile.state,
+      parent_occupation:  params.parentProfile.occupation,
+      parent_income:      params.parentProfile.income,
+      // Student
+      student_first_name:          params.studentDetails.firstName,
+      student_last_name:           params.studentDetails.lastName,
+      student_dob:                 params.studentDetails.dateOfBirth,
+      student_gender:              params.studentDetails.gender,
+      student_current_grade:       params.studentDetails.currentGrade,
+      student_current_school:      params.studentDetails.currentSchool,
+      student_previous_school:     params.studentDetails.previousSchool,
+      student_caste:               params.studentDetails.caste,
+      student_religion:            params.studentDetails.religion,
+      student_special_needs:       params.studentDetails.specialNeeds,
+      student_special_needs_details: params.studentDetails.specialNeedsDetails,
+      // JSON
+      selected_schools: params.selectedSchools,
+      documents:        params.documents,
+      submitted_at:     new Date().toISOString(),
+    })
+    .select()
+    .single()
+
+  if (error) {
+    console.warn('Error saving application to table:', error.message)
+    throw error
+  }
+  return data
 }
 
 export default {
@@ -757,4 +924,8 @@ export default {
   getDiscoverFilters,
   saveFreeCounsellingBooking,
   getFreeCounsellingBookings,
+  saveSchoolVisit,
+  getRecentSchoolVisits,
+  saveSchoolEnquiry,
+  saveApplicationToTable,
 }

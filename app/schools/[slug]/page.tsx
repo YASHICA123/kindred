@@ -88,7 +88,38 @@ export default async function SchoolPage({ params }: PageProps) {
       notFound()
     }
 
-    return <SchoolDetail school={school} />
+    // Map database fields to the component expectations
+    const mappedSchool = {
+      ...school,
+      image: school.image || school.cover_image,
+      feeRange: school.feeRange || school.fee_range,
+      rating: school.rating || school.ratings,
+      reviewsList: (school.reviews || [])
+        .sort((a: any, b: any) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
+        .map((r: any) => ({
+          id: r.id,
+          author: r.author,
+          rating: Number(r.rating) || 5,
+          title: r.title || "Parent Review",
+          body: r.body,
+          createdAt: r.created_at
+            ? new Date(r.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })
+            : 'Recent'
+        })),
+      gallery: (school.gallery || []).map((img: any) => ({
+        id: img.id,
+        imageUrl: img.image_url || img.imageUrl || "",
+        caption: img.caption,
+        category: img.category || "Campus"
+      })),
+      contact: school.contact || {
+        phone: school.contact_phone,
+        email: school.contact_email,
+        website: school.contact_website
+      }
+    }
+
+    return <SchoolDetail school={mappedSchool} />
   } catch (error) {
     console.error('Error loading school:', error)
     notFound()

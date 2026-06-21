@@ -8,6 +8,8 @@ import { DocumentUpload } from "@/components/common-application/document-upload"
 import { MultiSchoolSelection } from "@/components/common-application/multi-school-selection"
 import { ReviewSubmit } from "@/components/common-application/review-submit"
 import { SubmissionConfirmation } from "@/components/common-application/submission-confirmation"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 
 function ApplicationFormContent() {
   const { state } = useApplicationForm()
@@ -32,7 +34,10 @@ function ApplicationFormContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-24 lg:pt-28">
+      {/* Header */}
+      <Header />
+
       <div className="container max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -48,11 +53,14 @@ function ApplicationFormContent() {
           <div className="bg-white rounded-lg shadow-sm p-6 md:p-8">{renderStep()}</div>
         </div>
 
-        {/* Footer */}
-        <div className="mt-8 text-center text-sm text-gray-600">
+        {/* Footer info */}
+        <div className="mt-8 text-center text-sm text-gray-600 mb-12">
           <p>Need help? Contact our support team at support@kindred.com</p>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }

@@ -17,7 +17,14 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const schools = await fetchSchoolsByStateSlug(stateSlug)
+    let schools = await fetchSchoolsByStateSlug(stateSlug)
+
+    // Normalize for frontend
+    schools = schools.map((school: any) => ({
+      ...school,
+      image: school.cover_image || school.image,
+      feeRange: school.fee_range || school.feeRange,
+    }))
 
     return NextResponse.json(
       { schools, total: schools.length },
