@@ -11,10 +11,16 @@ function generateId() {
 
 const newDecisions = [
   {
-    question: "Why did we add a fixed action footer at the bottom of the desktop web view on the school detail page?",
-    answer: "To provide persistent CTA visibility and enhance conversions on desktop/web, we expanded the sticky bottom bar to render on all viewports. On desktop, it showcases the school thumbnail, name, location, and fees on the left, and the three primary action buttons on the right.",
-    tags: ["ui", "refactor"],
-    files: ["components/school-detail.tsx"]
+    question: "Why did we optimize the school detail page layouts (visit form grid, scrollbars, header offset, and scholarships/highlights) for mobile?",
+    answer: "To ensure a seamless, high-fidelity experience on mobile viewports: we converted the visit form to a responsive grid that stacks vertically, replaced scrollbar-none with scrollbar-hide to hide default browser scrollbars in the sub-navigation and gallery, added a top padding offset to prevent elements from sliding under the fixed header, filtered out empty database records from the scholarships section, and dynamically adjusted grid row spans for title-only highlights.",
+    tags: ["ui", "mobile-optimization", "bug"],
+    files: [
+      "components/school-detail.tsx",
+      "components/school-detail/school-subnav.tsx",
+      "components/school-detail/school-gallery.tsx",
+      "components/school-detail/school-fees.tsx",
+      "components/school-detail/school-why.tsx"
+    ]
   }
 ]
 
