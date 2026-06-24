@@ -29,7 +29,7 @@ export default function SchoolSubnav({
 
   return (
     <div className="sticky top-[64px] z-30 bg-white/92 backdrop-blur-md border-b border-[#e9edf3] mt-[18px]">
-      <div className="max-w-[1200px] mx-auto px-6 flex gap-[26px] overflow-x-auto scrollbar-none">
+      <div className="max-w-[1200px] mx-auto px-6 flex gap-[26px] overflow-x-auto scrollbar-hide">
         {sections.map(({ id, label }) => {
           const active = activeSection === id
           return (

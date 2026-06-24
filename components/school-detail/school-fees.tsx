@@ -12,7 +12,7 @@ export default function SchoolFees({ school, onOpenCallback }: SchoolFeesProps) 
   const feesToRender = school.fees || []
   
   const scholarshipsList = school.scholarships && school.scholarships.length > 0
-    ? school.scholarships
+    ? school.scholarships.filter(sc => sc && (sc.title || sc.description))
     : []
 
   return (

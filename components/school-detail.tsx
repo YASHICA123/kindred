@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { ArrowLeft, Clock, AlertCircle, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Header } from "@/components/header"
@@ -402,7 +403,7 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
     <div className="min-h-screen bg-slate-50/50 flex flex-col font-sans">
       <Header />
 
-      <main className="flex-1 w-full pb-24">
+      <main className="flex-1 w-full pt-20 lg:pt-24 pb-24">
         <div className="max-w-[1200px] mx-auto px-6 pt-6">
           {/* Back Link */}
           <div className="mb-4">
@@ -496,16 +497,13 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
             <section 
               ref={sectionRefs.visit}
               id="visit" 
-              className="scroll-mt-[120px]"
+              className="scroll-mt-[120px] rounded-2xl p-5 md:p-[30px] text-white"
               style={{
-                borderRadius: "16px",
-                padding: "30px 30px",
                 background: "linear-gradient(135deg, var(--primary) 0%, #1e3a8a 60%, #3b82f6 100%)",
-                boxShadow: "0 14px 34px -16px rgba(0,82,204,.5)",
-                color: "#fff"
+                boxShadow: "0 14px 34px -16px rgba(0,82,204,.5)"
               }}
             >
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "28px", alignItems: "center" }} className="max-lg:grid-cols-1">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 items-center">
                 <div>
                   <div style={{ fontSize: "12px", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#93c5fd", marginBottom: "10px" }}>
                     Visit the campus
@@ -591,26 +589,55 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
 
       <Footer hideMobileNav={true} />
 
-      {/* MOBILE STICKY BOTTOM ACTION BAR */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200/80 p-3 z-40 flex items-center justify-between gap-3 shadow-[0_-4px_16px_rgba(15,27,51,0.08)]">
-        <button 
-          onClick={() => setIsApplyModalOpen(true)}
-          className="flex-1 h-12 text-[15px] font-bold rounded-[14px] transition-all border-none cursor-pointer flex items-center justify-center bg-primary hover:bg-primary/95 text-white shadow-[0_4px_12px_rgba(0,82,204,0.15)]"
-        >
-          Apply Now
-        </button>
-        <button 
-          onClick={() => scrollToSection("visit")}
-          className="flex-1 h-12 text-[15px] font-bold rounded-[14px] transition-all border-none cursor-pointer flex items-center justify-center bg-secondary hover:bg-secondary/95 text-white shadow-[0_4px_12px_rgba(34,197,94,0.15)]"
-        >
-          Schedule Visit
-        </button>
-        <button 
-          onClick={() => setIsCallbackModalOpen(true)}
-          className="flex-1 h-12 text-[15px] font-bold rounded-[14px] transition-all border border-[#dfe4ec] cursor-pointer flex items-center justify-center bg-white hover:bg-slate-50 text-primary"
-        >
-          Get Callback
-        </button>
+      {/* FIXED BOTTOM ACTION BAR (MOBILE & DESKTOP WEB) */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200/80 p-3 lg:py-4 z-40 shadow-[0_-4px_20px_rgba(15,27,51,0.08)]">
+        <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-4 px-2 sm:px-6">
+          
+          {/* Desktop Left Side: School Info */}
+          <div className="hidden lg:flex items-center gap-3">
+            {school.logoUrl || school.logo_url ? (
+              <div className="relative w-11 h-11 rounded-xl overflow-hidden border border-slate-100 shrink-0">
+                <Image 
+                  src={school.logoUrl || school.logo_url || ""} 
+                  alt={school.name} 
+                  fill 
+                  className="object-cover"
+                />
+              </div>
+            ) : null}
+            <div>
+              <div className="font-extrabold text-[#0f1b33] text-[15px] leading-tight">
+                {school.name}
+              </div>
+              <div className="text-[12px] text-[#5b6b86] font-medium mt-0.5">
+                📍 {school.city}, {school.state} {school.feeRange ? `• ${school.feeRange}` : ""}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side / Buttons (Mobile & Desktop) */}
+          <div className="flex-1 lg:flex-initial flex items-center gap-3 min-w-0">
+            <button 
+              onClick={() => setIsApplyModalOpen(true)}
+              className="flex-1 lg:w-[150px] lg:flex-initial h-12 text-[15px] font-bold rounded-[14px] transition-all border-none cursor-pointer flex items-center justify-center bg-primary hover:bg-primary/95 text-white shadow-[0_4px_12px_rgba(0,82,204,0.15)]"
+            >
+              Apply Now
+            </button>
+            <button 
+              onClick={() => scrollToSection("visit")}
+              className="flex-1 lg:w-[160px] lg:flex-initial h-12 text-[15px] font-bold rounded-[14px] transition-all border-none cursor-pointer flex items-center justify-center bg-secondary hover:bg-secondary/95 text-white shadow-[0_4px_12px_rgba(34,197,94,0.15)]"
+            >
+              Schedule Visit
+            </button>
+            <button 
+              onClick={() => setIsCallbackModalOpen(true)}
+              className="flex-1 lg:w-[150px] lg:flex-initial h-12 text-[15px] font-bold rounded-[14px] transition-all border border-[#dfe4ec] cursor-pointer flex items-center justify-center bg-white hover:bg-slate-50 text-primary"
+            >
+              Get Callback
+            </button>
+          </div>
+
+        </div>
       </div>
 
       {/* MODAL MANAGER */}

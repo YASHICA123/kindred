@@ -77,7 +77,7 @@ export default function SchoolWhy({ school }: SchoolWhyProps) {
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: "15px",
-                  gridRow: "span 2",
+                  gridRow: hl.description ? "span 2" : "span 1",
                   flexShrink: 0
                 }}
               >

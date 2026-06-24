@@ -11,10 +11,10 @@ function generateId() {
 
 const newDecisions = [
   {
-    question: "Why did we redesign the mobile bottom sticky bar styles and hide the global navigation bar on the school detail page?",
-    answer: "To match the reference design, we updated the bottom action bar with specific colors/labels: Apply Now (primary blue), Schedule Visit (secondary green), and Get Callback (white with blue outline). We also introduced a hideMobileNav prop to the Footer component to prevent the global mobile menu bar from overlaying and blocking the page-specific action buttons.",
-    tags: ["ui", "mobile-optimization"],
-    files: ["components/school-detail.tsx", "components/footer.tsx"]
+    question: "Why did we add a fixed action footer at the bottom of the desktop web view on the school detail page?",
+    answer: "To provide persistent CTA visibility and enhance conversions on desktop/web, we expanded the sticky bottom bar to render on all viewports. On desktop, it showcases the school thumbnail, name, location, and fees on the left, and the three primary action buttons on the right.",
+    tags: ["ui", "refactor"],
+    files: ["components/school-detail.tsx"]
   }
 ]
 

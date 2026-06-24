@@ -152,7 +152,7 @@ export default function SchoolGallery({
       </div>
 
       {/* Thumbnails List */}
-      <div style={{ display: "flex", gap: "8px", marginTop: "8px", overflowX: "auto", paddingBottom: "4px" }}>
+      <div className="scrollbar-hide" style={{ display: "flex", gap: "8px", marginTop: "8px", overflowX: "auto", paddingBottom: "4px" }}>
         {filteredImages.map((img, idx) => {
           const isSelected = activeIndex === idx
           const url = img.imageUrl || img.image_url || ""
