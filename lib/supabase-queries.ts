@@ -78,12 +78,13 @@ export async function fetchSchoolDetailBySlug(slug: string) {
     if (!school) return null
 
     // 2. Fetch all related tables in parallel
-    const [feesResult, galleryResult, reviewsResult, faqsResult, admissionsResult] = await Promise.all([
+    const [feesResult, galleryResult, reviewsResult, faqsResult, admissionsResult, schoolTypesResult] = await Promise.all([
       supabase.from('school_fees').select('*').eq('school_id', school.id),
       supabase.from('school_gallery').select('*').eq('school_id', school.id),
       supabase.from('school_reviews').select('*').eq('school_id', school.id),
       supabase.from('school_faqs').select('*').eq('school_id', school.id),
       supabase.from('school_admissions').select('*').eq('school_id', school.id),
+      supabase.from('school_school_types').select('school_types(name, slug)').eq('school_id', school.id),
     ])
 
     return {
@@ -93,6 +94,7 @@ export async function fetchSchoolDetailBySlug(slug: string) {
       reviews: reviewsResult.data || [],
       faqs: faqsResult.data || [],
       admissions: admissionsResult.data || [],
+      school_types: schoolTypesResult.data ? schoolTypesResult.data.map((r: any) => r.school_types).filter(Boolean) : [],
     }
   } catch (error) {
     console.error(`Error fetching school detail with slug ${slug}:`, error)

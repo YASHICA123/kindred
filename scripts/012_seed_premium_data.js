@@ -129,9 +129,23 @@ async function seed() {
       { school_id: school.id, image_url: "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=800", caption: "Basketball Championship Tournament", category: "Sports" },
       { school_id: school.id, image_url: "https://images.unsplash.com/photo-1503676993299-9cd2063a830d?auto=format&fit=crop&q=80&w=800", caption: "Modern Library & Collaborative Space", category: "Campus" }
     ]
-    const { error: galleryError } = await supabase.from('school_gallery').insert(galleryRows)
-    if (galleryError) console.error('❌ Error seeding gallery:', galleryError.message)
-    else console.log('✅ Gallery seeded successfully!')
+    let { error: galleryError } = await supabase.from('school_gallery').insert(galleryRows)
+    if (galleryError) {
+      if (galleryError.message.includes('category') || (galleryError.details && galleryError.details.includes('category'))) {
+        console.log('⚠️  Category column not found in school_gallery schema cache. Retrying insert without category field...')
+        const cleanRows = galleryRows.map(({ category, ...rest }) => rest)
+        const { error: retryError } = await supabase.from('school_gallery').insert(cleanRows)
+        if (retryError) {
+          console.error('❌ Error seeding gallery (retry):', retryError.message)
+        } else {
+          console.log('✅ Gallery seeded successfully (without category)!')
+        }
+      } else {
+        console.error('❌ Error seeding gallery:', galleryError.message)
+      }
+    } else {
+      console.log('✅ Gallery seeded successfully!')
+    }
 
     // 4. Clear & Seed FAQs
     console.log('🔄 Seeding school FAQs...')

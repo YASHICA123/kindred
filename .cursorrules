@@ -5,18 +5,18 @@
 This project uses Continuity to keep repo-local decisions and session context available through MCP and generated instruction files. Prefer MCP when connected; otherwise fall back to the repo files.
 
 ## Project Context
-- **Total Decisions:** 6
-- **Known Topics:** bug, ui, why, auth, how, cleanup, oauth, typescript, database
+- **Total Decisions:** 25
+- **Known Topics:** ui, bug, why, cleanup, database, refactor, how, auth, typescript, mobile-optimization, oauth, discover, dashboard
 
 ## Current State
 **Branch:** main
 
 **Recent Commits:**
+- `946148e mobile optimisation`
 - `aea5d7e create`
 - `8bb65e2 fix: school detail pages, save feature, mobile optimization, and city/state images`
 - `573bb5d Remove Expert Counsellors section from free counselling page`
 - `595d476 Remove favicon and icon metadata completely`
-- `9dee4ac Fix filter schema mismatch: remove Board/Grade Level, add Curriculum filter, fix facility filtering and search bar`
 
 **Working Tree:**
 - M .cursorrules
@@ -24,16 +24,16 @@ This project uses Continuity to keep repo-local decisions and session context av
 - M AGENTS.md
 - M CLAUDE.md
 - M GEMINI.md
-- M app/api/applications/route.ts
-- M app/api/free-counselling-booking/route.ts
-- M app/api/schools/by-city/route.ts
-- M app/api/schools/by-state/route.ts
-- M app/api/schools/search/route.ts
-- M app/api/storage/ensure-application-documents/route.ts
-- M app/api/top-schools/route.ts
-- M app/cities/page.tsx
-- M app/compare/page.tsx
-- M app/dashboard/page.tsx
+- M components/school-detail.tsx
+- M components/search-schools-results.tsx
+- M lib/supabase-queries.ts
+- M scripts/012_seed_premium_data.js
+- ?? components/school-detail/
+- ?? scratch/add-category-column.mjs
+- ?? scratch/check-all-gallery.mjs
+- ?? scratch/check-data.mjs
+- ?? scratch/check-doon.mjs
+- ?? scratch/inspect-gallery-schema.mjs
 
 ## Session Context
 
@@ -156,27 +156,43 @@ Describe how this repository prefers to work with AI assistants.
 
 
 ## Recent Decisions
-1. **decision-1d669710** (20/6/2026) [bug, database]
-   - Q: Why did we remove the mock data on the school detail page and how is it rendered now?
-   - A: To comply with the user request to show only real database data from Supabase without any mock fallbacks. Overview, Why Choose Us, and FAQ now load directly from their respective Supabase table columns (schools.highlights, school.description, and school_faqs), rendering a clean informational message or hiding sections when data is not available.
+1. **decision-24c475a1** (24/6/2026) [cleanup, database]
+   - Q: Why did we remove the remaining mock data fallbacks from SchoolOverview and SchoolReviews?
+   - A: We replaced the remaining mock defaults in the school overview facts (such as class-wise fees, student-teacher ratio, campus size, and transport) and parent reviews (review count, names, and body text) with clean database-driven properties and standard empty state messages to satisfy the strict rule of using only real Supabase data.
 
-2. **decision-f8d7c6b5** (19/6/2026) [bug, ui]
-   - Q: Why did we map school.reviews to reviewsList on the school detail page?
-   - A: To ensure that reviews successfully saved to Supabase (via the school_reviews table) are loaded and displayed in the testimonials list when the school detail page reloads, rather than presenting mock/empty lists.
+2. **decision-de8ab1fb** (23/6/2026) [ui, mobile-optimization]
+   - Q: Why did we redesign the mobile bottom sticky bar in components/school-detail.tsx?
+   - A: To match the reference design, we replaced the previous mobile bottom bar layout (which showed annual fees and only two action buttons) with an equal-width three-button layout containing Apply (red), Visit (primary blue), and Callback (light blue-grey) buttons.
 
-3. **decision-d9e87f6a** (19/6/2026) [bug, ui]
-   - Q: Why did we replace shortlisted schools with recently visited schools and add structured tables for form submissions?
-   - A: To meet the user requirement of showing browser-independent recently visited schools instead of mock shortlists, and ensuring all application and school detail page form submissions are strictly saved in database tables.
+3. **decision-d32e2c84** (23/6/2026) [ui, bug]
+   - Q: Why did we update the Quick Facts grid layout in school-overview.tsx to use Tailwind classes?
+   - A: The inline style gridTemplateColumns: 'repeat(2, 1fr)' took priority over the Tailwind sm:grid-cols-5 class, keeping the grid vertical (2 columns) on desktop. Using Tailwind classes directly allows it to become horizontal (5 columns) on desktop.
 
-4. **decision-0ddbd85c** (19/6/2026) [bug, typescript]
-   - Q: Fixed final implicit any compilation warnings in partner page and trust section
-   - A: Added explicit any type annotations to unique cities map callback parameters to guarantee 100% build-stable compile status.
+4. **decision-5cfb41e5** (23/6/2026) [bug, typescript]
+   - Q: Why did we fix the SchoolSidebar props mismatch in school-detail.tsx?
+   - A: Next.js compilation failed because SchoolSidebar expects callback actions (onOpenApply, onOpenVisit, onOpenCallback) instead of onShowToast, so we passed the correct action handlers.
 
-5. **decision-e475c3c5** (19/6/2026) [cleanup, ui]
+5. **decision-844f9096** (23/6/2026) [bug, database]
+   - Q: Why did we add fallbacks and empty states to SchoolWhy, SchoolFacilities, SchoolAdmissions, SchoolGallery, and School...
+   - A: Since these sections are now always rendered, we provide clean, database-driven fallback/empty states (such as class-wise fee structure or seat availability not yet registered) to ensure a polished UI when data is missing from Supabase.
+
+6. **decision-4fed0fab** (23/6/2026) [refactor, ui]
+   - Q: Why did we remove the conditional rendering checks for school detail subsections in SchoolDetail?
+   - A: So all 9 sections (Overview, About, Admissions, Fees, Why this school, Gallery, Facilities, Reviews, FAQs) are rendered in the DOM, allowing intersection scroll tracking and navigation clicks to target them.
+
+7. **decision-e3eb123a** (23/6/2026) [database, bug]
+   - Q: Why did we query school_school_types in fetchSchoolDetailBySlug and how is it mapped?
+   - A: To dynamically resolve the gender status (Co-educational, Boys Only, Girls Only) and school type (Day School, Boarding) from the database junction table school_school_types rather than relying on the legacy school.type string property, which incorrectly displayed the boarding type in place of co-ed status.
+
+8. **decision-5b6dbc9b** (23/6/2026) [how, refactor]
+   - Q: Why did we refactor the monolithic SchoolDetail component into modular sub-components?
+   - A: To increase maintainability and improve page structure. Extracting SchoolHeader, SchoolSubnav, SchoolOverview, SchoolWhy, SchoolFees, SchoolAdmissions, SchoolFacilities, SchoolGallery, SchoolReviews, SchoolFaqs, SchoolSidebar, and SchoolModals allows for isolated UI testability and cleaner code structure.
+
+9. **decision-e475c3c5** (19/6/2026) [cleanup, ui]
    - Q: Why was the shortlisting of school feature removed/commented out from the UI?
    - A: To satisfy the user request to disable the school shortlisting feature and hide all favorite/save (Heart) actions and lists across the application (including school cards, detail pages, compare widgets, search/journey results, header dropdown, and dashboard).
 
-6. **decision-7bbdc1ff** (19/6/2026) [auth, bug]
+10. **decision-7bbdc1ff** (19/6/2026) [auth, bug]
    - Q: Why was Google OAuth login failing and how was it fixed?
    - A: Google OAuth was failing because the click handler immediately redirected the browser to /dashboard client-side using window.location.href after calling signInWithOAuth, which aborted the Google OAuth redirection from Supabase. We removed the redundant client-side redirect so the Supabase redirect works correctly.
 
@@ -198,6 +214,6 @@ Describe how this repository prefers to work with AI assistants.
 
 ---
 
-*Auto-generated by Continuity CLI | Updated: 2026-06-20*
+*Auto-generated by Continuity CLI | Updated: 2026-06-24*
 
 <!-- END CONTINUITY AUTO-GENERATED CONTENT -->

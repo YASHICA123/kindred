@@ -42,7 +42,11 @@ const socialLinks = [
   { icon: Linkedin, href: "#", label: "LinkedIn" },
 ]
 
-export function Footer() {
+interface FooterProps {
+  hideMobileNav?: boolean
+}
+
+export function Footer({ hideMobileNav = false }: FooterProps) {
   return (
     <footer className="relative overflow-hidden border-t border-border/30">
       {/* Ambient glow */}
@@ -157,23 +161,25 @@ export function Footer() {
       </div>
 
       {/* Mobile Fixed Footer Navigation */}
-      <div className="fixed bottom-0 inset-x-0 z-50 md:hidden border-t border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="grid grid-cols-5 gap-1 px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
-          {mobileNavButtons.map((button) => {
-            const Icon = button.icon
-            return (
-              <Link
-                key={button.name}
-                href={button.href}
-                className="flex flex-col items-center justify-center gap-1.5 rounded-lg px-1 py-2 text-muted-foreground transition-colors hover:text-foreground active:scale-95"
-              >
-                <Icon className="h-5 w-5" />
-                <span className="text-[10px] font-medium leading-none text-center">{button.name}</span>
-              </Link>
-            )
-          })}
+      {!hideMobileNav && (
+        <div className="fixed bottom-0 inset-x-0 z-50 md:hidden border-t border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+          <div className="grid grid-cols-5 gap-1 px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+            {mobileNavButtons.map((button) => {
+              const Icon = button.icon
+              return (
+                <Link
+                  key={button.name}
+                  href={button.href}
+                  className="flex flex-col items-center justify-center gap-1.5 rounded-lg px-1 py-2 text-muted-foreground transition-colors hover:text-foreground active:scale-95"
+                >
+                  <Icon className="h-5 w-5" />
+                  <span className="text-[10px] font-medium leading-none text-center">{button.name}</span>
+                </Link>
+              )
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </footer>
   )
 }

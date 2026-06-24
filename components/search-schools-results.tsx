@@ -194,15 +194,16 @@ export function SearchSchoolsResults({ searchParams }: { searchParams: SearchPar
 }
 
 function SchoolResultCard({ school }: { school: SchoolResult }) {
+  const imageUrl = school.image || (school as any).cover_image
   return (
     <Link href={`/schools/${school.slug}`}>
       <div className="group bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:border-primary hover:shadow-lg transition-all duration-300">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
           {/* Image */}
           <div className="md:col-span-1 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-800 dark:to-slate-700 aspect-square md:aspect-auto relative overflow-hidden">
-            {school.image ? (
+            {imageUrl ? (
               <img
-                src={school.image}
+                src={imageUrl}
                 alt={school.name}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
