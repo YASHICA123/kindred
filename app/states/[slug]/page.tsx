@@ -5,6 +5,7 @@ import { fetchCitiesWithSchoolCount, fetchAllStates } from "@/lib/supabase-queri
 import Link from "next/link"
 import { MapPin, ArrowUpRight, ChevronRight } from "lucide-react"
 import { notFound } from "next/navigation"
+import { BreadcrumbTrail } from "@/components/breadcrumbs"
 
 interface CityWithCount {
   id: string
@@ -54,12 +55,13 @@ export default async function StateDetailPage({ params }: Props) {
       <section className="pt-32 pb-16 bg-gradient-to-b from-secondary/30 to-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-            <Link href="/states" className="hover:text-primary transition-colors">
-              All States
-            </Link>
-            <ChevronRight className="h-4 w-4" />
-            <span className="font-semibold text-foreground">{state.name}</span>
+          <div className="mb-6">
+            <BreadcrumbTrail
+              items={[
+                { label: "States", href: "/states" },
+                { label: state.name }
+              ]}
+            />
           </div>
 
           <div className="flex items-center gap-2 mb-4">

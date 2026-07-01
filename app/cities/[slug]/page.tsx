@@ -2,7 +2,8 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { fetchSchoolsByCitySlug } from "@/lib/supabase-queries"
 import Link from "next/link"
-import { MapPin, ArrowUpRight } from "lucide-react"
+import { MapPin, ArrowUpRight, Star, BookOpen } from "lucide-react"
+import { BreadcrumbTrail } from "@/components/breadcrumbs"
 
 const cities = [
   { name: "Delhi NCR", slug: "delhi-ncr", description: "Explore premium schools in Delhi NCR with CBSE, ICSE, and IB boards" },
@@ -59,6 +60,16 @@ export default async function CityPage({ params }: PageProps) {
       {/* Hero Section */}
       <section className="pt-32 pb-16 bg-gradient-to-b from-secondary/30 to-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          {/* Breadcrumb */}
+          <div className="mb-6">
+            <BreadcrumbTrail
+              items={[
+                { label: "Cities", href: "/cities" },
+                { label: cityName }
+              ]}
+            />
+          </div>
+
           <div className="flex items-center gap-2 mb-4">
             <MapPin className="h-5 w-5 text-primary" />
             <span className="text-sm font-medium text-primary">City Guide</span>
@@ -118,29 +129,54 @@ export default async function CityPage({ params }: PageProps) {
                   <Link
                     key={school.id}
                     href={`/schools/${school.slug || school.id}`}
-                    className="group block bg-card rounded-2xl overflow-hidden border hover:shadow-lg transition-all duration-300"
+                    className="group flex flex-col h-full bg-card rounded-2xl border overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300"
                   >
-                    <div className="aspect-[16/10] overflow-hidden relative bg-muted">
-                      {school.cover_image && (
+                    <div className="relative aspect-[16/9] overflow-hidden bg-muted flex-shrink-0">
+                      {school.cover_image ? (
                         <img
                           src={school.cover_image}
                           alt={school.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                          <BookOpen className="h-12 w-12 text-primary/30" />
+                        </div>
                       )}
                     </div>
-                    <div className="p-5">
-                      <h3 className="text-lg font-semibold group-hover:text-primary transition-colors">
-                        {school.name}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mt-2">
-                        {school.city_name}{school.state_name ? `, ${school.state_name}` : ''}
-                      </p>
-                      {school.board && (
-                        <p className="text-xs text-primary mt-3 font-medium">
-                          {school.board}
-                        </p>
-                      )}
+
+                    <div className="p-5 flex flex-col flex-grow justify-between">
+                      <div>
+                        <div className="flex items-start justify-between mb-2">
+                          <h3 className="font-semibold text-lg group-hover:text-primary transition-colors line-clamp-2">
+                            {school.name}
+                          </h3>
+                          <ArrowUpRight className="h-4 w-4 text-primary/40 group-hover:text-primary flex-shrink-0 ml-2 mt-1 transition-colors" />
+                        </div>
+
+                        <div className="flex items-center gap-3 text-sm text-muted-foreground mb-4">
+                          {school.city_name && (
+                            <span className="flex items-center gap-1">
+                              <MapPin className="h-3.5 w-3.5" />
+                              {school.city_name}{school.state_name ? `, ${school.state_name}` : ""}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 flex-wrap mt-auto pt-3 border-t border-slate-100 dark:border-slate-800">
+                        {!!school.rating && school.rating > 0 && (
+                          <span className="flex items-center gap-1 text-sm font-semibold">
+                            <Star className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />
+                            {Number(school.rating).toFixed(1)}
+                          </span>
+                        )}
+                        {school.board && (
+                          <span className="text-xs px-2.5 py-0.5 bg-primary/10 rounded-full text-primary font-medium">
+                            {school.board}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </Link>
                 ))}

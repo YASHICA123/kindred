@@ -1,6 +1,9 @@
 import { Metadata } from "next"
 import { Suspense } from "react"
 import { SearchSchoolsResults } from "@/components/search-schools-results"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
+import { BreadcrumbTrail } from "@/components/breadcrumbs"
 
 interface SearchParams {
   q?: string
@@ -33,7 +36,13 @@ export default async function SchoolsPage({ searchParams }: Props) {
 
   return (
     <main className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+      <Header />
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-16">
+        {/* Breadcrumb */}
+        <div className="mb-6">
+          <BreadcrumbTrail items={[{ label: "Schools" }]} />
+        </div>
+
         {/* Page Header */}
         <div className="mb-12">
           <h1 className="font-serif text-4xl lg:text-5xl font-bold mb-3">
@@ -51,6 +60,7 @@ export default async function SchoolsPage({ searchParams }: Props) {
           <SearchSchoolsResults searchParams={params} />
         </Suspense>
       </div>
+      <Footer />
     </main>
   )
 }

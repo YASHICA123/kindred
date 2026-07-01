@@ -238,7 +238,7 @@ function SchoolResultCard({ school }: { school: SchoolResult }) {
                 </div>
 
                 {/* Rating */}
-                {school.rating && (
+                {!!school.rating && school.rating > 0 && (
                   <div className="flex items-center gap-2 bg-amber-50 dark:bg-amber-900/20 px-3 py-2 rounded-lg">
                     <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                     <span className="font-semibold text-amber-900 dark:text-amber-200">

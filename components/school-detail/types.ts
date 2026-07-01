@@ -71,6 +71,9 @@ export interface SchoolDetailData {
   fees_min?: number
   fees_max?: number
   class_range?: string
+  classRange?: string
+  logoUrl?: string
+  logo_url?: string
 }
 
 export type SectionId = "overview" | "about" | "why-us" | "fees" | "facilities" | "admissions" | "visit" | "gallery" | "reviews" | "faqs"

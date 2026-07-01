@@ -2,6 +2,9 @@ import { Metadata } from "next"
 import { Suspense } from "react"
 import { SearchSchoolsResults } from "@/components/search-schools-results"
 import { fetchAllStates, fetchCitiesByState } from "@/lib/supabase-queries"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
+import { BreadcrumbTrail } from "@/components/breadcrumbs"
 
 interface SearchParams {
   q?: string
@@ -74,12 +77,17 @@ export default async function CitySchoolsPage({ params, searchParams }: Props) {
 
   return (
     <main className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+      <Header />
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-16">
         {/* Breadcrumb */}
-        <div className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
-          <span>{stateName}</span>
-          <span>/</span>
-          <span className="font-semibold text-foreground">{cityName}</span>
+        <div className="mb-6">
+          <BreadcrumbTrail
+            items={[
+              { label: "Schools", href: "/discover" },
+              { label: stateName, href: `/states/${stateSlug}` },
+              { label: cityName }
+            ]}
+          />
         </div>
 
         {/* Page Header */}
@@ -99,6 +107,7 @@ export default async function CitySchoolsPage({ params, searchParams }: Props) {
           <SearchSchoolsResults searchParams={enhancedParams as any} />
         </Suspense>
       </div>
+      <Footer />
     </main>
   )
 }

@@ -10,18 +10,18 @@
 This project uses Continuity to keep repo-local decisions and session context available through MCP and generated instruction files. Prefer MCP when connected; otherwise fall back to the repo files.
 
 ## Project Context
-- **Total Decisions:** 25
-- **Known Topics:** ui, bug, why, cleanup, database, refactor, how, auth, typescript, mobile-optimization, oauth, discover, dashboard
+- **Total Decisions:** 44
+- **Known Topics:** ui, why, bug, database, cleanup, refactor, seo, mobile-optimization, how, auth, typescript, oauth, discover, dashboard, react
 
 ## Current State
 **Branch:** main
 
 **Recent Commits:**
+- `a99fb1d mobile optimisation`
+- `b359a55 mobile optimisation`
+- `10e91a3 mobile optimisation`
 - `946148e mobile optimisation`
 - `aea5d7e create`
-- `8bb65e2 fix: school detail pages, save feature, mobile optimization, and city/state images`
-- `573bb5d Remove Expert Counsellors section from free counselling page`
-- `595d476 Remove favicon and icon metadata completely`
 
 **Working Tree:**
 - M .cursorrules
@@ -29,16 +29,16 @@ This project uses Continuity to keep repo-local decisions and session context av
 - M AGENTS.md
 - M CLAUDE.md
 - M GEMINI.md
-- M components/school-detail.tsx
-- M components/search-schools-results.tsx
-- M lib/supabase-queries.ts
-- M scripts/012_seed_premium_data.js
-- ?? components/school-detail/
-- ?? scratch/add-category-column.mjs
-- ?? scratch/check-all-gallery.mjs
-- ?? scratch/check-data.mjs
-- ?? scratch/check-doon.mjs
-- ?? scratch/inspect-gallery-schema.mjs
+- M app/age-groups/[slug]/page.tsx
+- M app/boards/[slug]/page.tsx
+- M app/cities/[slug]/page.tsx
+- M app/fees/[slug]/page.tsx
+- M app/layout.tsx
+- M app/school-types/[slug]/page.tsx
+- M app/schools/[slug]/page.tsx
+- M app/schools/page.tsx
+- M app/schools/state/[state]/[city]/page.tsx
+- M app/schools/state/[state]/page.tsx
 
 ## Session Context
 
@@ -161,41 +161,41 @@ Describe how this repository prefers to work with AI assistants.
 
 
 ## Recent Decisions
-1. **decision-24c475a1** (24/6/2026) [cleanup, database]
+1. **decision-2a3c043c** (29/6/2026) [seo, ui]
+   - Q: Why did we replace custom breadcrumbs on the school types page with BreadcrumbTrail?
+   - A: To ensure consistent visual presentation and support correct metadata schemas, matching the unified pattern used across other category landing pages.
+
+2. **decision-058c935d** (29/6/2026) [bug, react]
+   - Q: Why did we change school.rating conditional rendering check in school card components?
+   - A: Using {school.rating && ...} inside React evaluates to 0 when rating is 0, rendering a literal '0' text in the DOM. We updated this to {!!school.rating && school.rating > 0 && ...} to prevent 0 from displaying.
+
+3. **decision-dabb5780** (29/6/2026) [refactor, ui]
+   - Q: Why did we standardize the card layout across the category and filter landing pages?
+   - A: We converted the custom school cards to a unified flexbox structure (h-full with mt-auto tag sections) to ensure cards have matching heights and layout symmetry, resolving alignment issues caused by varying title lengths and optional metadata.
+
+4. **decision-26efa2f9** (29/6/2026) [cleanup, ui]
+   - Q: Why did we integrate Header, Footer, and BreadcrumbTrail into the schools search and filter list pages?
+   - A: To restore the global navigation navbar and footer on those pages which were previously completely missing, and to replace custom or static breadcrumbs with the unified BreadcrumbTrail component.
+
+5. **decision-88e6530a** (29/6/2026) [why]
+   - Q: Why did we remove the Home item from the breadcrumbs list on the school details page?
+   - A: The BreadcrumbTrail component already automatically prepends Home as the first breadcrumb link, so including it in the page's items array caused it to render twice.
+
+6. **decision-3eb39f0c** (29/6/2026) [ui, why]
+   - Q: Why does the Schools breadcrumb item link to /discover instead of /schools?
+   - A: To match the site's primary discovery search interface (/discover), ensuring users returning to the search state from any listing or detail page land on the feature-rich discover hub.
+
+7. **decision-a21fbfb6** (29/6/2026) [database, seo]
+   - Q: Why did we update fetchSchoolDetailBySlug to join states and cities?
+   - A: To dynamically resolve hierarchical parent relationships for schools, allowing correct breadcrumb paths and schema generation without hardcoded fallbacks.
+
+8. **decision-24c475a1** (24/6/2026) [cleanup, database]
    - Q: Why did we remove the remaining mock data fallbacks from SchoolOverview and SchoolReviews?
    - A: We replaced the remaining mock defaults in the school overview facts (such as class-wise fees, student-teacher ratio, campus size, and transport) and parent reviews (review count, names, and body text) with clean database-driven properties and standard empty state messages to satisfy the strict rule of using only real Supabase data.
 
-2. **decision-de8ab1fb** (23/6/2026) [ui, mobile-optimization]
-   - Q: Why did we redesign the mobile bottom sticky bar in components/school-detail.tsx?
-   - A: To match the reference design, we replaced the previous mobile bottom bar layout (which showed annual fees and only two action buttons) with an equal-width three-button layout containing Apply (red), Visit (primary blue), and Callback (light blue-grey) buttons.
-
-3. **decision-d32e2c84** (23/6/2026) [ui, bug]
-   - Q: Why did we update the Quick Facts grid layout in school-overview.tsx to use Tailwind classes?
-   - A: The inline style gridTemplateColumns: 'repeat(2, 1fr)' took priority over the Tailwind sm:grid-cols-5 class, keeping the grid vertical (2 columns) on desktop. Using Tailwind classes directly allows it to become horizontal (5 columns) on desktop.
-
-4. **decision-5cfb41e5** (23/6/2026) [bug, typescript]
-   - Q: Why did we fix the SchoolSidebar props mismatch in school-detail.tsx?
-   - A: Next.js compilation failed because SchoolSidebar expects callback actions (onOpenApply, onOpenVisit, onOpenCallback) instead of onShowToast, so we passed the correct action handlers.
-
-5. **decision-844f9096** (23/6/2026) [bug, database]
-   - Q: Why did we add fallbacks and empty states to SchoolWhy, SchoolFacilities, SchoolAdmissions, SchoolGallery, and School...
-   - A: Since these sections are now always rendered, we provide clean, database-driven fallback/empty states (such as class-wise fee structure or seat availability not yet registered) to ensure a polished UI when data is missing from Supabase.
-
-6. **decision-4fed0fab** (23/6/2026) [refactor, ui]
-   - Q: Why did we remove the conditional rendering checks for school detail subsections in SchoolDetail?
-   - A: So all 9 sections (Overview, About, Admissions, Fees, Why this school, Gallery, Facilities, Reviews, FAQs) are rendered in the DOM, allowing intersection scroll tracking and navigation clicks to target them.
-
-7. **decision-e3eb123a** (23/6/2026) [database, bug]
-   - Q: Why did we query school_school_types in fetchSchoolDetailBySlug and how is it mapped?
-   - A: To dynamically resolve the gender status (Co-educational, Boys Only, Girls Only) and school type (Day School, Boarding) from the database junction table school_school_types rather than relying on the legacy school.type string property, which incorrectly displayed the boarding type in place of co-ed status.
-
-8. **decision-5b6dbc9b** (23/6/2026) [how, refactor]
+9. **decision-5b6dbc9b** (23/6/2026) [how, refactor]
    - Q: Why did we refactor the monolithic SchoolDetail component into modular sub-components?
    - A: To increase maintainability and improve page structure. Extracting SchoolHeader, SchoolSubnav, SchoolOverview, SchoolWhy, SchoolFees, SchoolAdmissions, SchoolFacilities, SchoolGallery, SchoolReviews, SchoolFaqs, SchoolSidebar, and SchoolModals allows for isolated UI testability and cleaner code structure.
-
-9. **decision-e475c3c5** (19/6/2026) [cleanup, ui]
-   - Q: Why was the shortlisting of school feature removed/commented out from the UI?
-   - A: To satisfy the user request to disable the school shortlisting feature and hide all favorite/save (Heart) actions and lists across the application (including school cards, detail pages, compare widgets, search/journey results, header dropdown, and dashboard).
 
 10. **decision-7bbdc1ff** (19/6/2026) [auth, bug]
    - Q: Why was Google OAuth login failing and how was it fixed?
@@ -219,6 +219,6 @@ Describe how this repository prefers to work with AI assistants.
 
 ---
 
-*Auto-generated by Continuity CLI | Updated: 2026-06-24*
+*Auto-generated by Continuity CLI | Updated: 2026-06-29*
 
 <!-- END CONTINUITY AUTO-GENERATED CONTENT -->

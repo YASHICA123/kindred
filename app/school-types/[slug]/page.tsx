@@ -5,6 +5,7 @@ import { fetchSchoolsBySchoolTypeSlug, fetchAllSchoolTypes } from "@/lib/supabas
 import Link from "next/link"
 import { Zap, ArrowUpRight, ChevronRight, MapPin, Star, BookOpen } from "lucide-react"
 import { notFound } from "next/navigation"
+import { BreadcrumbTrail } from "@/components/breadcrumbs"
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -43,12 +44,14 @@ export default async function SchoolTypeDetailPage({ params }: Props) {
 
       <section className="pt-32 pb-16 bg-gradient-to-b from-secondary/30 to-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-            <Link href="/school-types" className="hover:text-primary transition-colors">
-              All School Types
-            </Link>
-            <ChevronRight className="h-4 w-4" />
-            <span className="font-semibold text-foreground">{schoolType.name}</span>
+          {/* Breadcrumb */}
+          <div className="mb-6">
+            <BreadcrumbTrail
+              items={[
+                { label: "School Types", href: "/school-types" },
+                { label: schoolType.name }
+              ]}
+            />
           </div>
 
           <div className="flex items-center gap-2 mb-4">
@@ -78,9 +81,9 @@ export default async function SchoolTypeDetailPage({ params }: Props) {
                 <Link
                   key={school.slug}
                   href={`/schools/${school.slug}`}
-                  className="group block bg-card rounded-2xl border overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300"
+                  className="group flex flex-col h-full bg-card rounded-2xl border overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300"
                 >
-                  <div className="relative aspect-[16/9] overflow-hidden bg-muted">
+                  <div className="relative aspect-[16/9] overflow-hidden bg-muted flex-shrink-0">
                     {school.cover_image ? (
                       <img
                         src={school.cover_image}
@@ -94,34 +97,38 @@ export default async function SchoolTypeDetailPage({ params }: Props) {
                     )}
                   </div>
 
-                  <div className="p-5">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-semibold text-lg group-hover:text-primary transition-colors line-clamp-1">
-                        {school.name}
-                      </h3>
-                      <ArrowUpRight className="h-4 w-4 text-primary/40 group-hover:text-primary flex-shrink-0 ml-2 transition-colors" />
+                  <div className="p-5 flex flex-col flex-grow justify-between">
+                    <div>
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="font-semibold text-lg group-hover:text-primary transition-colors line-clamp-2">
+                          {school.name}
+                        </h3>
+                        <ArrowUpRight className="h-4 w-4 text-primary/40 group-hover:text-primary flex-shrink-0 ml-2 mt-1 transition-colors" />
+                      </div>
+
+                      <div className="flex items-center gap-3 text-sm text-muted-foreground mb-4">
+                        {school.city_name && (
+                          <span className="flex items-center gap-1">
+                            <MapPin className="h-3.5 w-3.5" />
+                            {school.city_name}{school.state_name ? `, ${school.state_name}` : ""}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3">
-                      {school.city_name && (
-                        <span className="flex items-center gap-1">
-                          <MapPin className="h-3.5 w-3.5" />
-                          {school.city_name}{school.state_name ? `, ${school.state_name}` : ""}
-                        </span>
-                      )}
-                      {school.rating && (
-                        <span className="flex items-center gap-1">
-                          <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                    <div className="flex items-center gap-2 flex-wrap mt-auto pt-3 border-t border-slate-100 dark:border-slate-800">
+                      {!!school.rating && school.rating > 0 && (
+                        <span className="flex items-center gap-1 text-sm font-semibold">
+                          <Star className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />
                           {Number(school.rating).toFixed(1)}
                         </span>
                       )}
+                      {school.board && (
+                        <span className="text-xs px-2.5 py-0.5 bg-primary/10 rounded-full text-primary font-medium">
+                          {school.board}
+                        </span>
+                      )}
                     </div>
-
-                    {school.board_name && (
-                      <span className="inline-block px-2 py-0.5 text-xs bg-primary/10 text-primary rounded-full">
-                        {school.board_name}
-                      </span>
-                    )}
                   </div>
                 </Link>
               ))}

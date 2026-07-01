@@ -67,10 +67,10 @@ export async function fetchSchoolBySlug(slug: string) {
  */
 export async function fetchSchoolDetailBySlug(slug: string) {
   try {
-    // 1. Fetch basic school details
+    // 1. Fetch basic school details with state and city metadata
     const { data: school, error: schoolError } = await supabase
       .from('schools')
-      .select('*')
+      .select('*, cities(name, slug), states(name, slug)')
       .eq('slug', slug)
       .single()
 

@@ -41,23 +41,6 @@ export default function SchoolHeader({
 
   return (
     <div className="w-full">
-      {/* Breadcrumb & Save */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div className="flex items-center gap-1.5 text-[13px] text-[#8a96aa] font-semibold">
-          <Link href="/schools" className="hover:text-primary transition-colors">
-            Schools
-          </Link>
-          <span>›</span>
-          <span className="hover:text-primary transition-colors">
-            {school.city || "Gurugram"}
-          </span>
-          <span>›</span>
-          <span className="text-[#0f1b33]">
-            {school.name}
-          </span>
-        </div>
-      </div>
-
       {/* Hero Banner Section */}
       <div className="bg-white rounded-[18px] overflow-hidden border border-[#e9edf3] shadow-[0_1px_2px_rgba(15,27,51,0.06),0_14px_34px_-18px_rgba(15,27,51,0.18)]">
         

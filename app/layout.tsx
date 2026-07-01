@@ -6,13 +6,19 @@ import { AuthProvider } from "@/components/providers/auth-provider"
 import { SavedSchoolsProvider } from "@/hooks/use-saved-schools"
 import "./globals.css"
 
-const _dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" })
-const _fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" })
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" })
+const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" })
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kindred.school'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Kindred - Where Every Child Belongs",
   description:
     "An emotionally intelligent guide to discovering the perfect school. Find where your child truly belongs through thoughtful insights and meaningful connections.",
+  alternates: {
+    canonical: '/',
+  },
 }
 
 export default function RootLayout({
@@ -21,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${dmSans.variable} ${fraunces.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico?v=3" />
       </head>

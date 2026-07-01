@@ -13,6 +13,7 @@ import {
   saveSchoolEnquiry,
   saveSchoolVisit 
 } from "@/lib/supabase-data"
+import { BreadcrumbTrail } from "@/components/breadcrumbs"
 
 import SchoolHeader from "./school-detail/school-header"
 import SchoolSubnav from "./school-detail/school-subnav"
@@ -26,81 +27,14 @@ import SchoolReviews from "./school-detail/school-reviews"
 import SchoolFaqs from "./school-detail/school-faqs"
 import SchoolSidebar from "./school-detail/school-sidebar"
 import SchoolModals from "./school-detail/school-modals"
-import { SectionId } from "./school-detail/types"
+import { SectionId, SchoolDetailData } from "./school-detail/types"
 
 interface SchoolDetailProps {
-  school: {
-    id: number
-    slug: string
-    name: string
-    location: string
-    city: string
-    state: string
-    type: string
-    curriculum: string
-    rating: number
-    reviews: number
-    students: number
-    feeRange: string
-    established: string
-    image: string
-    description?: string
-    highlights?: string[]
-    facilities?: string[]
-    contact?: {
-      phone?: string
-      email?: string
-      website?: string
-    }
-    fees?: {
-      id: number
-      level?: string
-      tuitionFee?: string
-      registrationFee?: string
-      developmentFee?: string
-      transportFee?: string
-      mealFee?: string
-      totalFee?: string
-      notes?: string
-    }[]
-    gallery?: {
-      id: number
-      imageUrl?: string
-      image_url?: string
-      caption?: string
-      category?: string
-    }[]
-    reviewsList?: {
-      id: number
-      author?: string
-      rating?: number
-      title?: string
-      body?: string
-      createdAt?: string
-    }[]
-    faqs?: {
-      id: number
-      question: string
-      answer: string
-    }[]
-    admissions?: {
-      id: number
-      title?: string
-      description?: string
-      deadline?: string
-      url?: string
-    }[]
-    seat_availability?: Record<string, string>
-    admission_process?: { step: number; title: string; description: string }[]
-    documents_required?: string[]
-    highlights_structured?: { title: string; description: string; icon: string }[]
-    scholarships?: { title: string; description: string }[]
-    withdrawal_policy?: string
-    awards?: { title: string; year: string; details: string }[]
-  }
+  school: SchoolDetailData
+  breadcrumbs?: { label: string; href?: string }[]
 }
 
-export default function SchoolDetail({ school }: SchoolDetailProps) {
+export default function SchoolDetail({ school, breadcrumbs }: SchoolDetailProps) {
   // Local reviews to support instant display on submission
   const [localReviews, setLocalReviews] = useState<any[]>(school.reviewsList || [])
 
@@ -405,6 +339,13 @@ export default function SchoolDetail({ school }: SchoolDetailProps) {
 
       <main className="flex-1 w-full pt-20 lg:pt-24 pb-24">
         <div className="max-w-[1200px] mx-auto px-6 pt-6">
+          {/* Breadcrumbs */}
+          {breadcrumbs && (
+            <div className="mb-4">
+              <BreadcrumbTrail items={breadcrumbs} />
+            </div>
+          )}
+
           {/* Back Link */}
           <div className="mb-4">
             <Link 
